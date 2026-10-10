@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Rozha+One&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#E4DACB}a{color:#46014A}a:hover{color:#2A0530}</style>
+</helmet>
+<section id="board" style="padding:56px;background:#E4DACB;color:#46014A;font-family:'IBM Plex Mono',monospace;min-width:max-content">
+  <div style="border-bottom:3px solid #46014A;padding-bottom:12px;margin-bottom:40px">
+    <div style="font-family:'Rozha One',serif;font-size:56px;line-height:1">InvestMitra: key screens &amp; states</div>
+    <div style="margin-top:8px;font-size:14px">Each frame is the live prototype (<a href="InvestMitra.dc.html">InvestMitra.dc.html</a>) at that size, pinned to a screen and state. Today is Sat 10 Oct 2026, so the market's closed in every frame.</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+    <div id="1a" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1a</span>Landing · desktop</div>
+      <div style="width:1280px;height:2500px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="landing" embedded="true" hint-size="1280px,2500px" style="width:1280px;height:2500px;display:block"></dc-import></div>
+    </div>
+    <div id="1b" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1b</span>Landing · mobile</div>
+      <div style="width:390px;height:4200px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="landing" embedded="true" hint-size="390px,4200px" style="width:390px;height:4200px;display:block"></dc-import></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:56px">
+      <div id="1c" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1c</span>Sign up · mobile</div>
+        <div style="width:390px;height:1000px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="auth" embedded="true" hint-size="390px,1000px" style="width:390px;height:1000px;display:block"></dc-import></div>
+      </div>
+      <div id="1d" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1d</span>Markets · loading shimmer · mobile</div>
+        <div style="width:390px;height:844px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="markets" demo="loading" embedded="true" hint-size="390px,844px" style="width:390px;height:844px;display:block"></dc-import></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start;margin-top:72px">
+    <div id="1e" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1e</span>Markets · stale + not on the wire · desktop</div>
+      <div style="width:1280px;height:1100px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="markets" embedded="true" hint-size="1280px,1100px" style="width:1280px;height:1100px;display:block"></dc-import></div>
+    </div>
+    <div id="1f" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1f</span>Markets · wire down (error) · mobile</div>
+      <div style="width:390px;height:844px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="markets" demo="error" embedded="true" hint-size="390px,844px" style="width:390px;height:844px;display:block"></dc-import></div>
+    </div>
+    <div id="1g" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1g</span>Markets · ink edition · mobile</div>
+      <div style="width:390px;height:844px;border:1px solid #46014A;overflow:hidden;background:#2A0530"><dc-import name="InvestMitra" screen="markets" theme="dark" embedded="true" hint-size="390px,844px" style="width:390px;height:844px;display:block"></dc-import></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start;margin-top:72px">
+    <div id="1h" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1h</span>Trade slip · insufficient cash · desktop</div>
+      <div style="width:1280px;height:900px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="markets" demo="insufficient" embedded="true" hint-size="1280px,900px" style="width:1280px;height:900px;display:block"></dc-import></div>
+    </div>
+    <div id="1i" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1i</span>Trade slip · mobile</div>
+      <div style="width:390px;height:900px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="markets" demo="insufficient" embedded="true" hint-size="390px,900px" style="width:390px;height:900px;display:block"></dc-import></div>
+    </div>
+    <div id="1j" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1j</span>My Book · empty · mobile</div>
+      <div style="width:390px;height:900px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="book" demo="empty" embedded="true" hint-size="390px,900px" style="width:390px;height:900px;display:block"></dc-import></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start;margin-top:72px">
+    <div id="1k" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1k</span>My Book · advisor · desktop</div>
+      <div style="width:1280px;height:820px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="book" role="advisor" embedded="true" hint-size="1280px,820px" style="width:1280px;height:820px;display:block"></dc-import></div>
+    </div>
+    <div id="1l" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1l</span>Watchlist · target hit · mobile</div>
+      <div style="width:390px;height:844px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="watchlist" embedded="true" hint-size="390px,844px" style="width:390px;height:844px;display:block"></dc-import></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start;margin-top:72px">
+    <div id="1m" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1m</span>Portfolio page · desktop</div>
+      <div style="width:1280px;height:1500px;border:1px solid #46014A;overflow:hidden;background:#F5EDE0"><dc-import name="InvestMitra" screen="portfolio" embedded="true" hint-size="1280px,1500px" style="width:1280px;height:1500px;display:block"></dc-import></div>
+    </div>
+    <div id="1n" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px"><span style="padding:2px 8px;background:#46014A;color:#F5EDE0;font-weight:600">1n</span>Price Desk · desktop · ink edition</div>
+      <div style="width:1280px;height:1100px;border:1px solid #46014A;overflow:hidden;background:#2A0530"><dc-import name="InvestMitra" screen="desk" theme="dark" embedded="true" hint-size="1280px,1100px" style="width:1280px;height:1100px;display:block"></dc-import></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

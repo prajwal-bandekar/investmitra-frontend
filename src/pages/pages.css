@@ -1,0 +1,72 @@
+/* ---------- Order slip ---------- */
+.slip__head { display: flex; justify-content: space-between; gap: 12px; padding: 10px 18px; border-bottom: 2px dashed var(--ink);
+  font-size: 13px; letter-spacing: .02em; }
+.slip__body { padding: 18px 18px 20px; }
+.slip__stock { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.slip__ticker { font-size: 26px; font-weight: 600; line-height: 1.1; }
+.slip__hidden { margin: 6px 0 0; font-size: 13px; font-style: italic; color: var(--ink2); }
+.slip__qtyrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; margin-top: 16px; }
+.slip__stepper { display: flex; align-items: stretch; min-width: 0; border-bottom: 1.5px solid var(--ink); }
+.slip__stepper button { width: 44px; min-height: 48px; border: none; background: transparent; cursor: pointer;
+  font-family: var(--mono); font-size: 22px; }
+.slip__stepper input { flex: 1; width: 0; min-width: 0; border: none; background: transparent; text-align: center;
+  font-family: var(--mono); font-size: 24px; font-weight: 500; outline: none; }
+.slip__stepper input:focus { background: var(--hover); }
+.slip__line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 16px;
+  padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+.slip__totals { display: grid; gap: 6px; margin-top: 10px; font-size: 15px; }
+.slip__newfolio { display: grid; gap: 10px; margin-top: 16px; padding: 14px; border: 1.5px dashed var(--ink); background: var(--paper2); }
+.slip__newfolio strong { font-size: 18px; }
+.slip__newfolio-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.slip__totals > div { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.slip__total { padding-top: 6px; border-top: 2px solid var(--ink); }
+.slip__total span:first-child { font-family: var(--serif); font-size: 16px; font-weight: 700; }
+.slip__total span:last-child { font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+.slip__actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; }
+.slip__done { padding: 30px 18px 22px; text-align: center; }
+.slip__done .display { margin: 22px 0 0; font-size: 24px; line-height: 1.15; text-wrap: balance; }
+.slip__done .muted { margin: 6px 0 20px; font-size: 15px; }
+
+/* ---------- Markets ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; margin: 18px 0 14px; }
+.filters .field:first-child { flex: 1 1 280px; }
+.filters .field:last-child { flex: 0 1 260px; }
+.pager { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-family: var(--mono); font-size: 14px; }
+.fineprint { margin: 12px 0 0; font-size: 15px; color: var(--ink2); max-width: 70ch; }
+
+/* ---------- My Book ---------- */
+.book { display: flex; flex-wrap: wrap; gap: 28px 40px; margin-top: 8px; }
+.book__list { flex: 2 1 480px; min-width: 0; }
+.folio { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; align-items: end; width: 100%;
+  padding: 18px 4px; border: none; border-bottom: 1px solid var(--ink); background: transparent; color: var(--ink);
+  text-align: left; cursor: pointer; text-decoration: none; }
+.folio:hover { background: var(--hover); }
+.folio__meta { display: flex; gap: 4px 10px; flex-wrap: wrap; font-size: 15px; color: var(--ink2); }
+.folio__name { margin-top: 6px; font-family: var(--display); font-size: clamp(24px, 3vw, 32px); line-height: 1.05; }
+.folio__value { text-align: right; font-family: var(--mono); }
+.folio__value .kicker { font-size: 14px; }
+.folio__value .v { font-size: clamp(17px, 2vw, 22px); font-weight: 500; }
+.newfolio { flex: 1 1 280px; align-self: flex-start; min-width: 0; padding: 18px 18px 22px; border: 1.5px solid var(--ink);
+  background: var(--paper2); margin-top: 18px; display: grid; gap: 16px; }
+.newfolio__title { margin-top: -12px; font-family: var(--display); font-size: 28px; line-height: 1.05; }
+
+/* ---------- Portfolio ---------- */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0 20px; margin-top: 18px;
+  border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.summary > div { padding: 12px 0 14px; border-bottom: 1px solid var(--rule); }
+.summary .v { margin-top: 4px; font-family: var(--mono); font-size: clamp(18px, 2.1vw, 24px); font-weight: 500; letter-spacing: -.02em; }
+
+/* ---------- Price Desk ---------- */
+.desk { display: flex; flex-wrap: wrap; gap: 24px 48px; margin-top: 22px; padding-bottom: 28px; border-bottom: 1px solid var(--ink); }
+.desk__quota { flex: 1 1 340px; min-width: 0; }
+.desk__big { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; }
+.desk__big .mono { font-size: clamp(56px, 8vw, 88px); font-weight: 500; line-height: .9; letter-spacing: -.04em; }
+.desk__big .display { font-size: clamp(22px, 2.8vw, 30px); line-height: 1.1; }
+.desk__bars { display: flex; gap: 4px; margin-top: 16px; flex-wrap: wrap; }
+.desk__bars span { width: 10px; height: 30px; border: 1.5px solid var(--ink); }
+.desk__bars span.on { background: var(--ink); }
+.desk__next { flex: 1 1 300px; min-width: 0; align-self: flex-start; padding: 18px; border: 1.5px solid var(--ink); background: var(--paper2); }
+
+/* Watchlist: TARGET HIT lands with a thump the first time the row is seen */
+.thump { animation: im-stamp .45s cubic-bezier(.2, .8, .3, 1) both; }
+.waiting { color: var(--ink2); font-size: 15px; }

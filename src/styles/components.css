@@ -1,0 +1,207 @@
+/* Shared building blocks. Pages compose these classes; they rarely need their own CSS. */
+
+.mono { font-family: var(--mono); }
+.display { font-family: var(--display); font-weight: 400; }
+.muted { color: var(--ink2); }
+.italic { font-style: italic; }
+.gain { color: var(--gain); }
+.loss { color: var(--loss); }
+.flat { color: var(--ink2); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Small-caps section label: "MARKETS · 17 NAMES" */
+.kicker {
+  font-family: var(--serif);
+  font-size: 15px; font-weight: 600; letter-spacing: .01em;
+  color: var(--ink2);
+}
+
+/* Double rule under mastheads */
+.double-rule { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); height: 3px; }
+
+/* ---------- Stamps ---------- */
+.stamp {
+  --stamp-bg: var(--paper);
+  display: inline-block;
+  padding: 2px 7px;
+  border: 2px solid currentColor; border-radius: 3px;
+  box-shadow: inset 0 0 0 1.5px var(--stamp-bg), inset 0 0 0 2.5px currentColor;
+  font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  line-height: 1.35; white-space: nowrap;
+  transform: rotate(var(--r, -3deg));
+}
+.stamp--loss { color: var(--loss); }
+.stamp--gain { color: var(--gain); }
+.stamp--filled { --stamp-bg: var(--accent); background: var(--accent); color: var(--on-accent); }
+.stamp--on-paper2 { --stamp-bg: var(--paper2); }
+.stamp--lg { padding: 4px 10px; border-width: 2.5px; border-radius: 4px; font-size: 13px; letter-spacing: .16em;
+  box-shadow: inset 0 0 0 2px var(--stamp-bg), inset 0 0 0 3.5px currentColor; --r: -4deg; }
+.stamp--sm { padding: 1px 6px; font-size: 10px; --r: -4deg; }
+/* legacy */
+.stamp--slam { padding: 8px 22px; border-width: 4px; border-radius: 6px; font-size: 34px; letter-spacing: .2em;
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 5px currentColor;
+  animation: im-stamp .5s cubic-bezier(.2, .8, .3, 1) both; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 0 16px;
+  border: 1.5px solid var(--ink); background: transparent; color: var(--ink);
+  font-family: var(--mono); font-size: 13.5px; font-weight: 600; letter-spacing: .03em;
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+}
+.btn:hover { background: var(--hover); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn--ink { background: var(--ink); color: var(--paper); }
+.btn--ink:hover { background: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
+.btn--on { background: var(--accent); color: var(--on-accent); }
+.btn--on:hover { background: var(--accent); }
+.btn--lg { min-height: 52px; padding: 0 24px; border-width: 2px; font-size: 14px; letter-spacing: .14em; }
+/* Primary: accent with a hard offset shadow */
+.btn--primary { background: var(--accent); color: var(--on-accent); box-shadow: 4px 4px 0 var(--ink); }
+.btn--primary:hover { background: var(--accent); }
+.btn--primary:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+/* Rubber-stamp submit */
+.btn--stamp {
+  min-height: 52px; padding: 0 22px; border: 3px solid var(--ink); border-radius: 4px;
+  box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0 4.5px var(--on-accent);
+  background: var(--accent); color: var(--on-accent); font-size: 15px; letter-spacing: .04em;
+  transform: rotate(-2deg); transition: transform .12s;
+}
+.btn--stamp:hover:not(:disabled) { background: var(--accent); transform: rotate(0); }
+.btn--stamp-outline {
+  min-height: 48px; padding: 0 20px; border: 2.5px solid var(--ink); border-radius: 4px;
+  box-shadow: inset 0 0 0 2px var(--paper2), inset 0 0 0 3.5px var(--ink);
+  font-size: 14px; letter-spacing: .04em; transform: rotate(-2deg);
+}
+.btn--stamp-outline:hover { background: var(--accent); color: var(--on-accent); }
+/* Underlined text link styled as a button */
+.btn--link {
+  min-height: 44px; padding: 0 6px; border: none; background: none;
+  font-weight: 400; letter-spacing: .04em; text-transform: none;
+  text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px;
+}
+.btn--link:hover { background: none; text-decoration-thickness: 2px; }
+
+/* ---------- Form fields: underlined, like a printed form ---------- */
+.field { display: grid; gap: 2px; min-width: 0; }
+.field__label {
+  display: flex; gap: 10px; align-items: baseline;
+  font-size: 14.5px; font-weight: 600; color: var(--ink2);
+}
+.field__label--strong { font-size: 15px; color: var(--ink); }
+.field__input {
+  min-height: 44px; width: 100%; min-width: 0;
+  border: none; border-bottom: 1.5px solid var(--ink); border-radius: 0;
+  background: transparent; padding: 6px 2px; font-size: 16px; outline: none;
+}
+.field__input:focus { background: var(--hover); border-bottom-width: 3px; }
+.field__input--mono { font-family: var(--mono); }
+.field__input--lg { font-size: 19px; }
+.field__error { color: var(--loss); font-size: 14px; margin-top: 4px; }
+select.field__input { cursor: pointer; }
+
+/* ---------- Page header ---------- */
+.page-head { border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
+.page-head h1 { margin: 8px 0 0; font-family: var(--display); font-weight: 400;
+  font-size: clamp(36px, 5.4vw, 60px); line-height: 1; letter-spacing: -.015em; text-wrap: balance; }
+.page-head p { margin: 12px 0 0; max-width: 62ch; font-size: 18px; color: var(--ink2); text-wrap: pretty; }
+
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-top: 36px; padding-bottom: 8px; }
+.section-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1; }
+
+/* ---------- Ledger tables ---------- */
+.table-wrap { overflow-x: auto; border-top: 1px solid var(--ink); }
+.ledger { width: 100%; border-collapse: collapse; }
+.ledger th {
+  padding: 10px 12px; text-align: left; white-space: nowrap;
+  font-size: 14px; font-weight: 600; color: var(--ink2);
+  border-bottom: 2px solid var(--ink);
+}
+.ledger td { padding: 12px; border-bottom: 1px solid var(--rule); vertical-align: top; text-align: left; }
+.ledger tbody tr:hover { background: var(--hover); }
+.ledger .num { text-align: right; font-family: var(--mono); font-size: 15.5px; white-space: nowrap; }
+.ledger .sticky { position: sticky; left: 0; z-index: 1; background: var(--paper); }
+.ledger th.sticky { z-index: 2; }
+.ledger .ticker { font-family: var(--mono); font-weight: 600; font-size: 15px; }
+.ledger .sub { font-size: 15px; color: var(--ink2); line-height: 1.25; }
+.ledger .asof { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 4px;
+  font-size: 13px; color: var(--ink2); }
+.ledger .actions { padding: 8px 12px; }
+.ledger .actions > div { display: flex; gap: 6px; justify-content: flex-end; }
+
+/* ---------- State blocks: empty / error ---------- */
+.state { display: grid; gap: 8px; justify-items: start; padding: 28px 0; border-top: 1px solid var(--ink); }
+.state__title { margin: 6px 0 0; max-width: 24ch; font-family: var(--display); font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.08; text-wrap: balance; }
+.state p { margin: 0; color: var(--ink2); max-width: 54ch; font-size: 17px; }
+.state--plain { border-top: none; padding-top: 36px; }
+
+/* ---------- Ticker tape ---------- */
+.tape { display: flex; align-items: stretch; border-bottom: 1px solid var(--ink); background: var(--paper2);
+  font-family: var(--mono); font-size: 13px; line-height: 34px; overflow: hidden; }
+.tape__label { flex: none; padding: 0 12px; background: var(--ink); color: var(--paper);
+  font-weight: 600; font-size: 12px; letter-spacing: .06em; }
+.tape__track { flex: 1; min-width: 0; overflow: hidden; }
+.tape__run { display: flex; width: max-content; animation: im-tape 80s linear infinite; }
+.tape__run:hover { animation-play-state: paused; }
+.tape__item { display: inline-flex; align-items: baseline; gap: 8px; padding: 0 18px;
+  border-right: 1px solid var(--rule); white-space: nowrap; }
+
+/* ---------- Loading shimmer: a ticker tape, not a spinner ---------- */
+.shimmer { border-top: 1px solid var(--ink); margin-top: 12px; }
+.shimmer__tape { overflow: hidden; border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 12px;
+  letter-spacing: .14em; line-height: 34px; color: var(--ink2); }
+.shimmer__tape > div { display: flex; width: max-content; animation: im-tape 14s linear infinite; white-space: nowrap; }
+.shimmer__row { display: grid; grid-template-columns: minmax(70px, 1.4fr) repeat(4, minmax(30px, 1fr)); gap: 16px;
+  align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--rule); }
+.shimmer__bar { display: block; height: 14px;
+  background: linear-gradient(90deg, var(--hover) 0, var(--rule) 50%, var(--hover) 100%);
+  background-size: 480px 100%; animation: im-shim 1.3s linear infinite; }
+
+/* ---------- Toast ---------- */
+.toast-wrap { position: fixed; left: 16px; right: 16px; bottom: 24px; z-index: 30;
+  display: flex; justify-content: center; pointer-events: none; }
+.toast { max-width: 520px; padding: 12px 16px; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 13px; line-height: 1.45; box-shadow: 4px 4px 0 var(--accent); }
+@media (max-width: 879px) { .toast-wrap--app { bottom: 76px; } }
+
+/* ---------- Dialog (order slip) ---------- */
+.scrim { position: fixed; inset: 0; z-index: 20; background: var(--scrim);
+  display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
+.slip { width: 100%; max-width: 460px; max-height: 100%; overflow-y: auto;
+  background-color: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 rgba(0, 0, 0, .28); }
+
+/* Segmented toggle (BUY / SELL, sign-up / log-in) */
+.segmented { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--ink); }
+.segmented button { min-height: 48px; border: none; background: transparent; color: var(--ink); cursor: pointer;
+  font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .04em; }
+.segmented button + button { border-left: 1.5px solid var(--ink); }
+.segmented button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.error-box { margin-top: 14px; padding: 10px 12px; border: 1.5px solid var(--loss); color: var(--loss); }
+.error-box strong { display: block; font-size: 16px; }
+.error-box span { font-size: 14px; }
+
+/* ---------- Beginner help: first-run hint, glossary, jargon tooltips ---------- */
+.hint { display: grid; gap: 6px; margin-top: 18px; padding: 16px 18px; border: 1.5px solid var(--ink); border-left-width: 6px;
+  border-left-color: var(--accent); background: var(--paper2); }
+.hint strong { font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1.1; }
+.hint p { margin: 0; max-width: 60ch; }
+.hint__actions { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 6px; }
+.term { text-decoration: underline dotted var(--ink2); text-underline-offset: 4px; cursor: help; }
+.glossary { margin-top: 14px; font-size: 16px; }
+.glossary summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--ink2); font-weight: 600; }
+.glossary dl { margin: 0 0 8px; display: grid; gap: 8px 20px; grid-template-columns: max-content 1fr; max-width: 70ch; }
+.glossary dt { font-weight: 700; }
+.glossary dd { margin: 0; color: var(--ink2); }
+@media (max-width: 560px) { .glossary dl { grid-template-columns: 1fr; gap: 0; } .glossary dd { margin-bottom: 8px; } }
+
+/* Small screens: drop the secondary columns instead of forcing a sideways scroll */
+@media (max-width: 720px) {
+  .ledger .hide-sm { display: none; }
+  .ledger th, .ledger td { padding-left: 8px; padding-right: 8px; }
+  .ledger .actions > div { flex-wrap: wrap; }
+  .ledger { min-width: 0 !important; }
+}

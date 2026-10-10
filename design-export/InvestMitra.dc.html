@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Rozha+One&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+:root{--paper:#F5EDE0;--paper2:#EDE2CF;--ink:#46014A;--ink2:#673A69;--rule:rgba(70,1,74,.22);--hover:rgba(70,1,74,.05);--accent:#E8A317;--on-accent:#2A0530;--gain:#0A6634;--loss:#A12E1A;--scrim:rgba(42,5,48,.55)}
+[data-im="dark"]{--paper:#2A0530;--paper2:#360B3D;--ink:#F5EDE0;--ink2:#D8C5D4;--rule:rgba(245,237,224,.2);--hover:rgba(245,237,224,.06);--gain:#72D89E;--loss:#FF907A;--scrim:rgba(10,0,12,.72);color-scheme:dark}
+[data-im]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .4 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html,body{margin:0;background:#F5EDE0}
+a{color:inherit;text-decoration-color:#E8A317;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+input,select,button,textarea{font:inherit;color:inherit}
+input::placeholder{color:var(--ink2);opacity:.8}
+@keyframes im-tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes im-shim{from{background-position:-480px 0}to{background-position:480px 0}}
+@keyframes im-stamp{0%{transform:scale(1.8) rotate(-14deg);opacity:0}60%{transform:scale(.94) rotate(-5deg);opacity:1}100%{transform:scale(1) rotate(-6deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0s!important;animation-iteration-count:1!important}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-im="{{ theme }}" style="container-type:inline-size;position:relative;height:{{ rootH }};display:flex;flex-direction:column;overflow:hidden;background-color:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased">
+
+<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+  <div style="max-width:1240px;margin:0 auto;padding:0 16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em">
+      <span>Saturday, 10 October 2026 · Mumbai</span>
+      <span>Vol. 1 · Free edition · ₹0.00</span>
+      <button onClick="{{ goLogin }}" style="min-height:44px;padding:0;border:none;background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px">Log in →</button>
+    </div>
+    <header style="text-align:center;padding:16px 0 12px">
+      <div style="font-family:'Rozha One',serif;font-size:clamp(58px,14.5cqi,176px);line-height:.92;letter-spacing:-.02em">InvestMitra</div>
+      <div style="display:flex;justify-content:center;gap:4px 14px;flex-wrap:wrap;margin-top:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">
+        <span>The paper-trading daily</span><span aria-hidden="true">·</span><span>NIFTY 500 edition</span><span aria-hidden="true">·</span><span>All money pretend, all lessons real</span>
+      </div>
+    </header>
+    <div style="border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);height:3px"></div>
+  </div>
+  <div style="max-width:1240px;margin:0 auto">{{ tape }}</div>
+  <div style="max-width:1240px;margin:0 auto;padding:0 16px">
+
+    <section style="display:flex;flex-wrap:wrap;gap:32px 56px;padding:32px 0 44px;border-bottom:1px solid var(--ink)">
+      <div style="flex:2 1 460px;min-width:0">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Lead story · Page 1</div>
+        <h1 style="margin:12px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(46px,8.6cqi,116px);line-height:.94;letter-spacing:-.025em;text-wrap:balance">Managing portfolios, made easy.</h1>
+        <p style="margin:20px 0 0;max-width:32ch;font-size:clamp(19px,2.3cqi,27px);line-height:1.35;text-wrap:pretty">Practise on the NIFTY 500 with ₹10,00,000 that isn't yours. Lose it here, not out there.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:28px">
+          <button onClick="{{ goSignup }}" style="min-height:52px;padding:0 24px;border:2px solid var(--ink);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;box-shadow:4px 4px 0 var(--ink)" style-active="transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)">Open your book</button>
+          <button onClick="{{ goLogin }}" style="min-height:52px;padding:0 24px;border:2px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer" style-hover="background:var(--hover)">Log in</button>
+        </div>
+        <p style="margin:18px 0 0;font-size:15px;font-style:italic;color:var(--ink2)">By our Markets Desk. Free forever, because there's nothing to charge for.</p>
+      </div>
+      <aside style="flex:1 1 280px;min-width:0;border-top:3px solid var(--ink);padding-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Market report</span>
+          <span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(-3deg);white-space:nowrap;color:var(--loss)">Market closed</span>
+        </div>
+        <p style="margin:14px 0 4px;font-family:'Rozha One',serif;font-size:30px;line-height:1.05">Dalal Street is asleep.</p>
+        <p style="margin:0;font-size:16px">Prices from Friday's close, 9 October 2026.</p>
+        <div style="margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);padding-bottom:6px">Friday's movers</div>
+        <sc-for list="{{ movers }}" as="m" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule)">
+            <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px">{{ m.t }}</b></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;text-align:right">{{ m.close }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;text-align:right;min-width:84px;color:{{ m.tone }}">{{ m.chg }}</span>
+          </div>
+        </sc-for>
+        <p style="margin:10px 0 0;font-size:13px;color:var(--ink2);font-style:italic">Daily closes via our morning wire. Nothing here is live, and that's the point.</p>
+      </aside>
+    </section>
+
+    <section style="padding:36px 0 44px;border-bottom:1px solid var(--ink)">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--rule)">
+        <h2 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(32px,4.2cqi,46px);line-height:1">How it works</h2>
+        <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Three columns · No jargon</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 40px">
+        <article style="padding-top:22px">
+          <div style="display:flex;align-items:flex-end;gap:12px"><span style="font-family:'Rozha One',serif;font-size:80px;line-height:.8">1</span><span style="flex:1;height:8px;background:var(--accent);margin-bottom:6px"></span></div>
+          <h3 style="margin:16px 0 6px;font-family:'Rozha One',serif;font-weight:400;font-size:28px;line-height:1.05">Open your book.</h3>
+          <p style="margin:0;font-size:17px;text-wrap:pretty">Sign up and we credit ₹10,00,000 of pretend money. Learners get a book of their own; advisors can open folios for clients.</p>
+        </article>
+        <article style="padding-top:22px">
+          <div style="display:flex;align-items:flex-end;gap:12px"><span style="font-family:'Rozha One',serif;font-size:80px;line-height:.8">2</span><span style="flex:1;height:8px;background:var(--accent);margin-bottom:6px"></span></div>
+          <h3 style="margin:16px 0 6px;font-family:'Rozha One',serif;font-weight:400;font-size:28px;line-height:1.05">Read the wire.</h3>
+          <p style="margin:0;font-size:17px;text-wrap:pretty">Every evening we pull closing prices for the NIFTY 500. Old ones get a STALE stamp, so you always know how fresh your numbers are.</p>
+        </article>
+        <article style="padding-top:22px">
+          <div style="display:flex;align-items:flex-end;gap:12px"><span style="font-family:'Rozha One',serif;font-size:80px;line-height:.8">3</span><span style="flex:1;height:8px;background:var(--accent);margin-bottom:6px"></span></div>
+          <h3 style="margin:16px 0 6px;font-family:'Rozha One',serif;font-weight:400;font-size:28px;line-height:1.05">Trade, lose, learn.</h3>
+          <p style="margin:0;font-size:17px;text-wrap:pretty">Buy and sell at the close. Every trade goes in the ledger with its realised P&amp;L. Bad calls cost nothing here, so make them here.</p>
+        </article>
+      </div>
+    </section>
+
+    <section style="padding:36px 0 44px;border-bottom:1px solid var(--ink)">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--rule)">
+        <h2 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(32px,4.2cqi,46px);line-height:1">Letters to the Editor</h2>
+        <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">The editor endorses none of this</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:24px">
+        <article style="position:relative;display:flex;flex-direction:column;gap:16px;padding:22px 20px 18px;border:1px solid var(--ink);background:var(--paper2)">
+          <span style="position:absolute;top:16px;right:14px;display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper2),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(4deg);white-space:nowrap;color:var(--ink)">Unsolicited</span>
+          <div style="display:flex;gap:14px;align-items:center;padding-right:100px">
+            <image-slot id="letter-avatar-1" shape="circle" placeholder="Photo" style="width:60px;height:60px;flex:none"></image-slot>
+            <div style="min-width:0"><div style="font-weight:700;font-size:18px;line-height:1.2">Erlich Bachman</div><div style="font-size:14px;font-style:italic;color:var(--ink2);line-height:1.3">Chief Evangelist Officer at Pied Piper, Ex Aviato</div></div>
+          </div>
+          <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">“Review quote goes here: about 60 words, dropped in from the live reviews.”</blockquote>
+          <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--rule);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)">Letter No. 01 · Edited for length</div>
+        </article>
+        <article style="position:relative;display:flex;flex-direction:column;gap:16px;padding:22px 20px 18px;border:1px solid var(--ink);background:var(--paper2)">
+          <span style="position:absolute;top:16px;right:14px;display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper2),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(-4deg);white-space:nowrap;color:var(--loss)">Not advice</span>
+          <div style="display:flex;gap:14px;align-items:center;padding-right:100px">
+            <image-slot id="letter-avatar-2" shape="circle" placeholder="Photo" style="width:60px;height:60px;flex:none"></image-slot>
+            <div style="min-width:0"><div style="font-weight:700;font-size:18px;line-height:1.2">Gavin Belson</div><div style="font-size:14px;font-style:italic;color:var(--ink2);line-height:1.3">Investor, Ex CEO Hooli</div></div>
+          </div>
+          <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">“Review quote goes here: about 60 words, dropped in from the live reviews.”</blockquote>
+          <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--rule);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)">Letter No. 02 · Edited for tone</div>
+        </article>
+        <article style="position:relative;display:flex;flex-direction:column;gap:16px;padding:22px 20px 18px;border:1px solid var(--ink);background:var(--paper2)">
+          <span style="position:absolute;top:16px;right:14px;display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper2),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(3deg);white-space:nowrap;color:var(--gain)">Unverified</span>
+          <div style="display:flex;gap:14px;align-items:center;padding-right:100px">
+            <image-slot id="letter-avatar-3" shape="circle" placeholder="Photo" style="width:60px;height:60px;flex:none"></image-slot>
+            <div style="min-width:0"><div style="font-weight:700;font-size:18px;line-height:1.2">Russ Hanneman</div><div style="font-size:14px;font-style:italic;color:var(--ink2);line-height:1.3">Member of the three comma club and Investor</div></div>
+          </div>
+          <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">“Review quote goes here: about 60 words, dropped in from the live reviews.”</blockquote>
+          <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--rule);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)">Letter No. 03 · Edited for volume</div>
+        </article>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between;padding:40px 0">
+      <p style="margin:0;max-width:16ch;font-family:'Rozha One',serif;font-size:clamp(30px,4.6cqi,54px);line-height:1;text-wrap:balance">Ready to lose money that isn't yours?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px">
+        <button onClick="{{ goSignup }}" style="min-height:52px;padding:0 24px;border:2px solid var(--ink);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;box-shadow:4px 4px 0 var(--ink)" style-active="transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)">Open your book</button>
+        <button onClick="{{ goLogin }}" style="min-height:52px;padding:0 24px;border:2px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer" style-hover="background:var(--hover)">Log in</button>
+      </div>
+    </section>
+    <footer style="border-top:3px double var(--ink);padding:14px 0 36px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;color:var(--ink2)">InvestMitra is a paper-trading simulator. No real money, no real shares, not SEBI-registered, not advice. Prices are daily closes from Alpha Vantage and can be stale. Printed nowhere, read everywhere.</footer>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAuth }}">
+<div ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+  <div style="max-width:1240px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px double var(--ink)">
+    <button onClick="{{ goLanding }}" style="min-height:56px;padding:0;border:none;background:none;cursor:pointer;font-family:'Rozha One',serif;font-size:30px;line-height:1">InvestMitra</button>
+    <button onClick="{{ goLanding }}" style="min-height:44px;padding:0;border:none;background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px">← Front page</button>
+  </div>
+  <div style="max-width:600px;margin:0 auto;padding:28px 16px 64px">
+    <form onSubmit="{{ onAuth }}" noValidate="{{ true }}" style="border:2px solid var(--ink);background:var(--paper);box-shadow:6px 6px 0 var(--ink)">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase">
+        <span>Form IM-1 · {{ formKind }}</span><span>No. 000417</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink)">
+        <button type="button" onClick="{{ toSignup }}" aria-pressed="{{ isSignup }}" style="min-height:48px;border:none;border-right:1px solid var(--ink);background:{{ suBg }};color:{{ suFg }};cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">New application</button>
+        <button type="button" onClick="{{ toLogin }}" aria-pressed="{{ isLogin }}" style="min-height:48px;border:none;background:{{ liBg }};color:{{ liFg }};cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">Existing holder</button>
+      </div>
+      <div style="padding:22px 20px 26px">
+        <h1 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(30px,6cqi,42px);line-height:1.02;text-wrap:balance">{{ authTitle }}</h1>
+        <p style="margin:8px 0 0;font-size:16px;color:var(--ink2);text-wrap:pretty">{{ authDek }}</p>
+
+        <sc-if value="{{ isSignup }}">
+          <label style="display:grid;gap:2px;margin-top:22px">
+            <span style="display:flex;gap:10px;align-items:baseline;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase"><span style="font-family:'IBM Plex Mono',monospace">01</span>Full name, as on the certificate</span>
+            <input value="{{ aName }}" onChange="{{ onAName }}" placeholder="Ananya Rao" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:8px 2px;font-size:19px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px">
+            <sc-if value="{{ errName }}"><span role="alert" style="color:var(--loss);font-size:14px;margin-top:4px">✕ {{ errNameMsg }}</span></sc-if>
+          </label>
+        </sc-if>
+        <label style="display:grid;gap:2px;margin-top:22px">
+          <span style="display:flex;gap:10px;align-items:baseline;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase"><span style="font-family:'IBM Plex Mono',monospace">{{ emailNo }}</span>Email</span>
+          <input type="email" value="{{ aEmail }}" onChange="{{ onAEmail }}" placeholder="you@college.ac.in" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:8px 2px;font-family:'IBM Plex Mono',monospace;font-size:17px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px">
+          <sc-if value="{{ errEmail }}"><span role="alert" style="color:var(--loss);font-size:14px;margin-top:4px">✕ {{ errEmailMsg }}</span></sc-if>
+        </label>
+        <label style="display:grid;gap:2px;margin-top:22px">
+          <span style="display:flex;gap:10px;align-items:baseline;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase"><span style="font-family:'IBM Plex Mono',monospace">{{ passNo }}</span>Password</span>
+          <input type="password" value="{{ aPass }}" onChange="{{ onAPass }}" placeholder="Six characters or more" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:8px 2px;font-family:'IBM Plex Mono',monospace;font-size:17px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px">
+          <sc-if value="{{ errPass }}"><span role="alert" style="color:var(--loss);font-size:14px;margin-top:4px">✕ {{ errPassMsg }}</span></sc-if>
+        </label>
+        <sc-if value="{{ isSignup }}">
+          <fieldset style="border:none;padding:0;margin:24px 0 0;min-width:0">
+            <legend style="display:flex;gap:10px;align-items:baseline;padding:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase"><span style="font-family:'IBM Plex Mono',monospace">04</span>I'm here as (tick one)</legend>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px">
+              <button type="button" onClick="{{ pickLearner }}" aria-pressed="{{ isLearnerPick }}" style="flex:1 1 200px;display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 14px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;text-align:left;font-size:17px" style-hover="background:var(--hover)"><span style="width:24px;height:24px;flex:none;display:grid;place-items:center;border:1.5px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:16px">{{ learnerMark }}</span>I'm here to learn</button>
+              <button type="button" onClick="{{ pickAdvisor }}" aria-pressed="{{ isAdvisorPick }}" style="flex:1 1 200px;display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 14px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;text-align:left;font-size:17px" style-hover="background:var(--hover)"><span style="width:24px;height:24px;flex:none;display:grid;place-items:center;border:1.5px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:16px">{{ advisorMark }}</span>I'm an advisor</button>
+            </div>
+          </fieldset>
+        </sc-if>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:30px;padding-top:18px;border-top:1px dashed var(--ink)">
+          <p style="margin:0;max-width:30ch;font-size:14px;font-style:italic;color:var(--ink2)">{{ authFine }}</p>
+          <button type="submit" style="min-height:54px;padding:0 24px;border:3px solid var(--ink);border-radius:4px;box-shadow:inset 0 0 0 3px var(--accent),inset 0 0 0 4.5px var(--on-accent);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-2deg);cursor:pointer" style-hover="transform:rotate(0deg)">{{ submitLabel }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}">
+<div style="flex:1;min-height:0;display:flex">
+  <sc-if value="{{ wide }}">
+    <nav aria-label="Main" style="width:264px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--ink);overflow-y:auto;padding:20px 20px 16px">
+      <button onClick="{{ goLanding }}" style="align-self:flex-start;padding:0;border:none;background:none;cursor:pointer;font-family:'Rozha One',serif;font-size:36px;line-height:1">InvestMitra</button>
+      <div style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ink2)">Vol. 1 · Sat 10 Oct 2026</div>
+      <div style="border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);height:3px;margin:16px 0 18px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <span style="font-size:19px;font-weight:600;line-height:1.2;min-width:0">{{ userName }}</span>
+        <span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(-3deg);white-space:nowrap">{{ roleStamp }}</span>
+      </div>
+      <div style="margin-top:22px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Cash in hand</div>
+      <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:27px;font-weight:500;letter-spacing:-.03em;line-height:1.1">{{ cashStr }}</div>
+      <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink2)">of ₹10,00,000.00 issued</div>
+      <div style="display:flex;flex-direction:column;margin-top:24px;border-top:2px solid var(--ink)">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+          <button onClick="{{ n.go }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:12px;min-height:50px;padding:0 10px;border:none;border-bottom:1px solid var(--rule);background:{{ n.bg }};color:{{ n.fg }};cursor:pointer;font-size:18px;text-align:left" style-hover="text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">{{ n.num }}</span>{{ n.label }}</button>
+        </sc-for>
+      </div>
+      <div style="margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+        <button onClick="{{ toggleTheme }}" style="min-height:44px;width:100%;padding:0 14px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer" style-hover="background:var(--hover)">{{ themeLabel }}</button>
+        <button onClick="{{ logout }}" style="min-height:44px;padding:0;border:none;background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px">Log out</button>
+      </div>
+    </nav>
+  </sc-if>
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrow }}">
+      <header style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 16px;border-bottom:3px double var(--ink)">
+        <div style="min-width:0">
+          <button onClick="{{ goLanding }}" style="padding:0;border:none;background:none;cursor:pointer;font-family:'Rozha One',serif;font-size:26px;line-height:1.1">InvestMitra</button>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap"><span style="overflow:hidden;text-overflow:ellipsis">{{ userName }}</span><span style="display:inline-block;padding:1px 5px;border:1.5px solid currentColor;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;transform:rotate(-3deg)">{{ roleStamp }}</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="text-align:right"><div style="font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Cash</div><div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:500;letter-spacing:-.02em">{{ cashStr }}</div></div>
+          <button onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" style="width:44px;height:44px;flex:none;border:1.5px solid var(--ink);background:transparent;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em">{{ themeShort }}</button>
+        </div>
+      </header>
+    </sc-if>
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;padding:7px 16px;background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.4">
+      <span style="font-weight:600;letter-spacing:.14em">MARKET CLOSED</span><span>Dalal Street is asleep. Prices from Friday's close, 9 Oct 2026.</span>
+    </div>
+    {{ tape }}
+    <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+      <div style="max-width:1180px;margin:0 auto;padding:24px 16px 56px">
+
+        <sc-if value="{{ isMarkets }}">
+          <div style="border-bottom:3px solid var(--ink);padding-bottom:14px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Markets · {{ marketCount }}</div>
+            <h1 style="margin:8px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(36px,5.4cqi,60px);line-height:1;letter-spacing:-.015em;text-wrap:balance">The NIFTY 500, by close.</h1>
+            <p style="margin:10px 0 0;max-width:62ch;font-size:17px;color:var(--ink2);text-wrap:pretty">Search a name, pick a sector, trade at the last close. Anything older than Friday wears a STALE stamp.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;margin:18px 0 14px">
+            <label style="flex:1 1 280px;display:grid;gap:2px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Search ticker or company</span><input type="search" value="{{ q }}" onChange="{{ onQ }}" placeholder="e.g. RELIANCE, Infosys" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-family:'IBM Plex Mono',monospace;font-size:16px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px"></label>
+            <label style="flex:0 1 240px;display:grid;gap:2px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Sector</span>
+              <select value="{{ sector }}" onChange="{{ onSector }}" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-size:16px;cursor:pointer;outline:none">
+                <sc-for list="{{ sectors }}" as="s"><option value="{{ s }}">{{ s }}</option></sc-for>
+              </select>
+            </label>
+          </div>
+          <sc-if value="{{ isLoading }}">{{ shimmer }}</sc-if>
+          <sc-if value="{{ isError }}">
+            <div role="alert" style="display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;padding:28px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)">
+              <span style="display:inline-block;padding:4px 10px;border:2.5px solid currentColor;border-radius:4px;box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);color:var(--loss)">Wire down</span>
+              <div style="flex:1 1 260px"><p style="margin:0;font-family:'Rozha One',serif;font-size:28px;line-height:1.1">The wire's gone quiet.</p><p style="margin:4px 0 0;color:var(--ink2)">Alpha Vantage isn't picking up. Your book is safe; we just can't show prices right now.</p></div>
+              <button onClick="{{ retry }}" style="min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer" style-hover="background:var(--hover)">Try the wire again</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ marketsNone }}">
+            <div style="padding:36px 0;border-top:1px solid var(--ink);display:grid;gap:8px;justify-items:start">
+              <p style="margin:0;font-family:'Rozha One',serif;font-size:28px;line-height:1.1">No stock by that name on the NIFTY 500.</p>
+              <p style="margin:0;color:var(--ink2)">Check the spelling, not your luck. Or clear the sector filter.</p>
+              <button onClick="{{ clearSearch }}" style="margin-top:8px;min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Clear search</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ marketsOk }}">
+            <div style="overflow-x:auto;border-top:1px solid var(--ink)">
+              <table style="width:100%;min-width:1100px;border-collapse:collapse">
+                <thead><tr>
+                  <th style="position:sticky;left:0;z-index:2;background:var(--paper);padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Stock</th>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Sector</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Last close</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Day chg</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">You hold</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Avg buy</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Unrealised ₹</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">%</th>
+                  <th style="padding:10px 12px;border-bottom:2px solid var(--ink)"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                    <tr style-hover="background:var(--hover)">
+                      <td style="position:sticky;left:0;z-index:1;background:var(--paper);padding:12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;min-width:170px;max-width:220px">
+                        <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px">{{ r.t }}</div>
+                        <div style="font-size:14px;color:var(--ink2);line-height:1.25">{{ r.n }}</div>
+                      </td>
+                      <td style="padding:12px;text-align:left;font-size:15px;border-bottom:1px solid var(--rule);vertical-align:top;white-space:nowrap">{{ r.s }}</td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">
+                        <sc-if value="{{ r.onWire }}">
+                          <div style="font-size:16px;font-weight:500">{{ r.close }}</div>
+                          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:4px;font-size:11.5px;color:var(--ink2)">
+                            <sc-if value="{{ r.stale }}"><span style="display:inline-block;padding:1px 6px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-4deg);color:var(--loss)">Stale</span></sc-if>
+                            <span>{{ r.asOf }}</span>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ r.offWire }}"><span style="font-family:'Source Serif 4',serif;font-style:italic;font-size:15px;color:var(--ink2)">not on the wire</span></sc-if>
+                      </td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top;color:{{ r.chgTone }}">{{ r.chg }}</td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ r.hold }}</td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ r.avg }}</td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top;color:{{ r.unTone }}">{{ r.un }}</td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top;color:{{ r.unTone }}">{{ r.unp }}</td>
+                      <td style="padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top">
+                        <div style="display:flex;gap:6px;justify-content:flex-end">
+                          <sc-if value="{{ r.onWire }}"><button onClick="{{ r.onTrade }}" style="min-height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap">Trade</button></sc-if>
+                          <button onClick="{{ r.onWatch }}" aria-pressed="{{ r.watching }}" style="min-height:44px;padding:0 12px;border:1.5px solid var(--ink);background:{{ r.watchBg }};color:{{ r.watchFg }};font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap">{{ r.watchLabel }}</button>
+                          <button onClick="{{ r.onFetch }}" disabled="{{ r.fetching }}" style="min-height:44px;padding:0 8px;border:none;background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;cursor:pointer;white-space:nowrap">{{ r.fetchLabel }}</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin:12px 0 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink2)">Fetch price spends one wire from today's Alpha Vantage quota ({{ quotaLeft }} left).</p>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isBook }}">
+          <div style="border-bottom:3px solid var(--ink);padding-bottom:14px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">My Book · {{ folioCount }}</div>
+            <h1 style="margin:8px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(36px,5.4cqi,60px);line-height:1;letter-spacing:-.015em">Your book.</h1>
+            <p style="margin:10px 0 0;max-width:62ch;font-size:17px;color:var(--ink2);text-wrap:pretty">{{ bookDek }}</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:28px 40px;margin-top:8px">
+            <div style="flex:2 1 480px;min-width:0">
+              <sc-if value="{{ isLoading }}">{{ shimmer }}</sc-if>
+              <sc-if value="{{ isError }}">
+                <div role="alert" style="display:grid;gap:8px;justify-items:start;padding:28px 0;border-bottom:1px solid var(--rule)">
+                  <span style="display:inline-block;padding:4px 10px;border:2.5px solid currentColor;border-radius:4px;box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);color:var(--loss)">Ledger jammed</span>
+                  <p style="margin:6px 0 0;font-family:'Rozha One',serif;font-size:28px;line-height:1.1">We couldn't open your book.</p>
+                  <p style="margin:0;color:var(--ink2)">The pages are fine; the server isn't. Give it a second.</p>
+                  <button onClick="{{ retry }}" style="margin-top:6px;min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Try again</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ bookEmpty }}">
+                <div style="display:grid;gap:10px;justify-items:start;padding:36px 0">
+                  <span style="display:inline-block;padding:2px 8px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-3deg)">Blank page</span>
+                  <p style="margin:4px 0 0;max-width:20ch;font-family:'Rozha One',serif;font-size:clamp(28px,3.6cqi,40px);line-height:1.05;text-wrap:balance">Your book is empty. Even Rakesh started somewhere.</p>
+                  <p style="margin:0;color:var(--ink2);max-width:46ch">Open your first folio with the form. Then go spend some money that isn't yours.</p>
+                </div>
+              </sc-if>
+              <sc-if value="{{ bookOk }}">
+                <sc-for list="{{ folios }}" as="f" hint-placeholder-count="2">
+                  <button onClick="{{ f.open }}" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 20px;align-items:end;width:100%;padding:18px 4px;border:none;border-bottom:1px solid var(--ink);background:transparent;color:var(--ink);text-align:left;cursor:pointer" style-hover="background:var(--hover)">
+                    <div style="min-width:0">
+                      <div style="display:flex;gap:4px 10px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)"><span>{{ f.folio }}</span><span aria-hidden="true">·</span><span>{{ f.owner }}</span></div>
+                      <div style="margin-top:6px;font-family:'Rozha One',serif;font-size:clamp(24px,3cqi,32px);line-height:1.05">{{ f.name }}</div>
+                      <div style="margin-top:10px"><span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-2deg);white-space:nowrap">{{ f.lock }}</span></div>
+                    </div>
+                    <div style="text-align:right;font-family:'IBM Plex Mono',monospace">
+                      <div style="font-family:'Source Serif 4',serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Value</div>
+                      <div style="font-size:clamp(17px,2cqi,22px);font-weight:500">{{ f.value }}</div>
+                      <div style="margin-top:2px;font-size:14px;color:{{ f.tone }}">{{ f.pnl }}</div>
+                    </div>
+                  </button>
+                </sc-for>
+              </sc-if>
+            </div>
+            <form onSubmit="{{ onCreate }}" style="flex:1 1 280px;align-self:flex-start;min-width:0;padding:18px 18px 22px;border:1.5px solid var(--ink);background:var(--paper2);margin-top:18px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">New folio</div>
+              <div style="margin-top:4px;font-family:'Rozha One',serif;font-size:28px;line-height:1.05">Open a fresh page.</div>
+              <label style="display:grid;gap:2px;margin-top:18px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Folio name</span><input value="{{ nfName }}" onChange="{{ onNfName }}" placeholder="e.g. Pharma, but sensibly" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-size:17px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px"></label>
+              <label style="display:grid;gap:2px;margin-top:16px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Sector lock (optional)</span>
+                <select value="{{ nfLock }}" onChange="{{ onNfLock }}" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-size:16px;cursor:pointer;outline:none">
+                  <sc-for list="{{ lockOpts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+                </select>
+              </label>
+              <sc-if value="{{ isAdvisor }}">
+                <label style="display:grid;gap:2px;margin-top:16px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Client ID (advisors)</span><input value="{{ nfClient }}" onChange="{{ onNfClient }}" placeholder="IM-2040" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-family:'IBM Plex Mono',monospace;font-size:16px;outline:none;text-transform:uppercase" style-focus="background:var(--hover);border-bottom-width:3px"></label>
+              </sc-if>
+              <sc-if value="{{ hasNfErr }}"><p role="alert" style="margin:12px 0 0;color:var(--loss);font-size:14px">✕ {{ nfErr }}</p></sc-if>
+              <button type="submit" style="margin-top:22px;min-height:48px;padding:0 20px;border:2.5px solid var(--ink);border-radius:4px;box-shadow:inset 0 0 0 2px var(--paper2),inset 0 0 0 3.5px var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-2deg);cursor:pointer" style-hover="background:var(--accent);color:var(--on-accent)">Open folio</button>
+            </form>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isPortfolio }}">
+          <button onClick="{{ goBook }}" style="min-height:44px;padding:0;border:none;background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px">← My Book</button>
+          <sc-if value="{{ noCur }}">
+            <p style="margin:16px 0 0;font-family:'Rozha One',serif;font-size:32px;line-height:1.05">Your book is empty. Even Rakesh started somewhere.</p>
+          </sc-if>
+          <sc-if value="{{ hasCur }}">
+            <div style="margin-top:6px">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)">{{ pHead }}</div>
+              <h1 style="margin:6px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(36px,5.4cqi,60px);line-height:1;letter-spacing:-.015em;text-wrap:balance">{{ pName }}</h1>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 20px;margin-top:18px;border-top:3px solid var(--ink);border-bottom:1px solid var(--ink)">
+              <sc-for list="{{ summary }}" as="x" hint-placeholder-count="5">
+                <div style="padding:12px 0 14px;border-bottom:1px solid var(--rule)">
+                  <div style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">{{ x.l }}</div>
+                  <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:clamp(18px,2.1cqi,24px);font-weight:500;letter-spacing:-.02em;color:{{ x.tone }}">{{ x.v }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:36px;padding-bottom:8px">
+              <h2 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:32px;line-height:1">Holdings</h2>
+              <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">{{ holdCount }} · Valued at last close</span>
+            </div>
+            <sc-if value="{{ isLoading }}">{{ shimmer }}</sc-if>
+            <sc-if value="{{ isError }}"><p role="alert" style="margin:0;padding:24px 0;border-top:1px solid var(--ink);color:var(--loss)">✕ Couldn't load holdings. The ledger's stuck; <button onClick="{{ retry }}" style="padding:0;border:none;background:none;color:inherit;cursor:pointer;text-decoration:underline">try again</button>.</p></sc-if>
+            <sc-if value="{{ holdEmpty }}">
+              <div style="display:grid;gap:10px;justify-items:start;padding:28px 0;border-top:1px solid var(--ink)">
+                <p style="margin:0;max-width:22ch;font-family:'Rozha One',serif;font-size:30px;line-height:1.05">Your book is empty. Even Rakesh started somewhere.</p>
+                <button onClick="{{ goMarkets }}" style="min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Go to Markets</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ holdOk }}">
+              <div style="overflow-x:auto;border-top:1px solid var(--ink)">
+                <table style="width:100%;min-width:980px;border-collapse:collapse">
+                  <thead><tr>
+                    <th style="position:sticky;left:0;z-index:2;background:var(--paper);padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Stock</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Qty</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Avg buy</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Last close</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Invested</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Value</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Unrealised ₹</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">%</th>
+                    <th style="padding:10px 12px;border-bottom:2px solid var(--ink)"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th>
+                  </tr></thead>
+                  <tbody>
+                    <sc-for list="{{ holdRows }}" as="h" hint-placeholder-count="3">
+                      <tr style-hover="background:var(--hover)">
+                        <td style="position:sticky;left:0;z-index:1;background:var(--paper);padding:12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;min-width:160px"><div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px">{{ h.t }}</div><div style="font-size:14px;color:var(--ink2);line-height:1.25">{{ h.n }}</div></td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ h.qty }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ h.avg }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top"><div>{{ h.close }}</div><div style="margin-top:4px;font-size:11.5px;color:var(--ink2)">{{ h.asOf }}</div></td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ h.inv }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ h.val }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top;color:{{ h.tone }}">{{ h.un }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top;color:{{ h.tone }}">{{ h.unp }}</td>
+                        <td style="padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top"><div style="display:flex;gap:6px;justify-content:flex-end">
+                          <button onClick="{{ h.onSell }}" style="min-height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Sell</button>
+                          <button onClick="{{ h.onBuy }}" style="min-height:44px;padding:0 12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Buy more</button>
+                        </div></td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:40px;padding-bottom:8px">
+              <h2 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:32px;line-height:1">Trade history</h2>
+              <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">{{ tradeCount }} · Newest first</span>
+            </div>
+            <sc-if value="{{ isLoading }}">{{ shimmer }}</sc-if>
+            <sc-if value="{{ trEmpty }}"><p style="margin:0;padding:24px 0;border-top:1px solid var(--ink);font-size:17px;font-style:italic;color:var(--ink2)">No trades yet. The ledger is clean, and so is your conscience.</p></sc-if>
+            <sc-if value="{{ trOk }}">
+              <div style="overflow-x:auto;border-top:1px solid var(--ink)">
+                <table style="width:100%;min-width:760px;border-collapse:collapse">
+                  <thead><tr>
+                    <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Date</th>
+                    <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Entry</th>
+                    <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Stock</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Qty</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Price</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Amount</th>
+                    <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Realised</th>
+                  </tr></thead>
+                  <tbody>
+                    <sc-for list="{{ tradeRows }}" as="x" hint-placeholder-count="4">
+                      <tr>
+                        <td style="padding:12px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:14px;border-bottom:1px solid var(--rule);white-space:nowrap">{{ x.d }}</td>
+                        <td style="padding:10px 12px;border-bottom:1px solid var(--rule)"><span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(-3deg);white-space:nowrap;color:{{ x.fg }};background:{{ x.bg }}">{{ x.stamp }}</span></td>
+                        <td style="padding:12px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;border-bottom:1px solid var(--rule);white-space:nowrap">{{ x.t }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap">{{ x.q }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap">{{ x.px }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap">{{ x.amt }}</td>
+                        <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;color:{{ x.rTone }}">{{ x.real }}</td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+            </sc-if>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isWatch }}">
+          <div style="border-bottom:3px solid var(--ink);padding-bottom:14px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Watchlist · {{ watchCount }}</div>
+            <h1 style="margin:8px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(36px,5.4cqi,60px);line-height:1;letter-spacing:-.015em">Waiting for a dip.</h1>
+            <p style="margin:10px 0 0;max-width:62ch;font-size:17px;color:var(--ink2);text-wrap:pretty">Set a target price. When a close lands at or below it, we stamp it TARGET HIT.</p>
+          </div>
+          <sc-if value="{{ isLoading }}">{{ shimmer }}</sc-if>
+          <sc-if value="{{ isError }}">
+            <div role="alert" style="display:grid;gap:8px;justify-items:start;padding:28px 0;border-bottom:1px solid var(--rule)">
+              <span style="display:inline-block;padding:4px 10px;border:2.5px solid currentColor;border-radius:4px;box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);color:var(--loss)">Wire down</span>
+              <p style="margin:6px 0 0;font-family:'Rozha One',serif;font-size:28px;line-height:1.1">Can't check your targets right now.</p>
+              <p style="margin:0;color:var(--ink2)">Your watchlist is saved. The prices just aren't coming through.</p>
+              <button onClick="{{ retry }}" style="margin-top:6px;min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Try again</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ wEmpty }}">
+            <div style="display:grid;gap:10px;justify-items:start;padding:36px 0">
+              <p style="margin:0;max-width:22ch;font-family:'Rozha One',serif;font-size:clamp(28px,3.6cqi,40px);line-height:1.05">Nothing on your watchlist.</p>
+              <p style="margin:0;color:var(--ink2);max-width:46ch">Window-shopping is free. Go to Markets and hit Watch on anything you fancy.</p>
+              <button onClick="{{ goMarkets }}" style="margin-top:6px;min-height:44px;padding:0 16px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Go to Markets</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ wOk }}">
+            <div style="overflow-x:auto;margin-top:18px;border-top:1px solid var(--ink)">
+              <table style="width:100%;min-width:860px;border-collapse:collapse">
+                <thead><tr>
+                  <th style="position:sticky;left:0;z-index:2;background:var(--paper);padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Stock</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Last close</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Target ₹</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Gap</th>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Status</th>
+                  <th style="padding:10px 12px;border-bottom:2px solid var(--ink)"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ wrows }}" as="w" hint-placeholder-count="4">
+                    <tr style-hover="background:var(--hover)">
+                      <td style="position:sticky;left:0;z-index:1;background:var(--paper);padding:12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:middle;min-width:150px"><div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px">{{ w.t }}</div><div style="font-size:14px;color:var(--ink2);line-height:1.25">{{ w.n }}</div></td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:middle"><div style="font-size:16px;font-weight:500">{{ w.close }}</div><div style="margin-top:3px;font-size:11.5px;color:var(--ink2)">{{ w.asOf }}</div></td>
+                      <td style="padding:8px 12px;text-align:right;border-bottom:1px solid var(--rule);vertical-align:middle"><input value="{{ w.v }}" onChange="{{ w.onT }}" aria-label="{{ w.label }}" style="width:120px;min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:4px 2px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;outline:none" style-focus="background:var(--hover);border-bottom-width:3px"></td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:14px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:middle">{{ w.gap }}</td>
+                      <td style="padding:12px;border-bottom:1px solid var(--rule);vertical-align:middle;white-space:nowrap">
+                        <sc-if value="{{ w.hit }}"><span style="display:inline-block;padding:3px 9px;border:2px solid var(--on-accent);border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--accent),inset 0 0 0 2.5px var(--on-accent);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-4deg)">Target hit</span></sc-if>
+                        <sc-if value="{{ w.waiting }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)">Waiting</span></sc-if>
+                      </td>
+                      <td style="padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:middle"><div style="display:flex;gap:6px;justify-content:flex-end">
+                        <sc-if value="{{ w.canTrade }}"><button onClick="{{ w.onTrade }}" style="min-height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">Trade</button></sc-if>
+                        <button onClick="{{ w.onRemove }}" style="min-height:44px;padding:0 8px;border:none;background:transparent;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;cursor:pointer">Remove</button>
+                      </div></td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isDesk }}">
+          <div style="border-bottom:3px solid var(--ink);padding-bottom:14px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Price Desk · Admin · Wire service</div>
+            <h1 style="margin:8px 0 0;font-family:'Rozha One',serif;font-weight:400;font-size:clamp(36px,5.4cqi,60px);line-height:1;letter-spacing:-.015em">The morning wire.</h1>
+            <p style="margin:10px 0 0;max-width:62ch;font-size:17px;color:var(--ink2);text-wrap:pretty">Alpha Vantage gives us 24 calls a day on the free tier. Every tracked stock costs one. Spend them like they're yours.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:22px;padding-bottom:28px;border-bottom:1px solid var(--ink)">
+            <div style="flex:1 1 340px;min-width:0">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Today's quota</div>
+              <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-top:6px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(56px,8cqi,88px);font-weight:500;line-height:.9;letter-spacing:-.04em">{{ quotaLeft }}</span>
+                <span style="font-family:'Rozha One',serif;font-size:clamp(22px,2.8cqi,30px);line-height:1.1">of 24 wires left today</span>
+              </div>
+              <div aria-hidden="true" style="display:flex;gap:4px;margin-top:16px;flex-wrap:wrap">
+                <sc-for list="{{ bars }}" as="b" hint-placeholder-count="24"><span style="width:10px;height:30px;border:1.5px solid var(--ink);background:{{ b.bg }}"></span></sc-for>
+              </div>
+              <p style="margin:10px 0 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink2)">Filled = left, hollow = spent. Resets 05:30 IST (midnight UTC).</p>
+            </div>
+            <div style="flex:1 1 300px;min-width:0;align-self:flex-start;padding:18px;border:1.5px solid var(--ink);background:var(--paper2)">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Next run</div>
+              <p style="margin:6px 0 0;font-size:17px">Fetches {{ trackedCount }} tracked names, one wire each.</p>
+              <sc-if value="{{ wireShort }}"><p style="margin:6px 0 0;font-size:15px;color:var(--loss)">✕ Not enough wires for a full run. It'll file PARTIAL.</p></sc-if>
+              <button onClick="{{ runWire }}" disabled="{{ running }}" style="margin-top:18px;min-height:52px;padding:0 22px;border:3px solid var(--ink);border-radius:4px;box-shadow:inset 0 0 0 3px var(--accent),inset 0 0 0 4.5px var(--on-accent);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-2deg);cursor:pointer;opacity:{{ runOpacity }}" style-hover="transform:rotate(0deg)">{{ runLabel }}</button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px;padding-bottom:8px">
+            <h2 style="margin:0;font-family:'Rozha One',serif;font-weight:400;font-size:32px;line-height:1">Wire log</h2>
+            <span style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Last {{ logCount }} runs</span>
+          </div>
+          <sc-if value="{{ deskShim }}">{{ shimmer }}</sc-if>
+          <sc-if value="{{ isError }}"><p role="alert" style="margin:0;padding:24px 0;border-top:1px solid var(--ink);color:var(--loss)">✕ The log won't load. Ironic, for a wire service. <button onClick="{{ retry }}" style="padding:0;border:none;background:none;color:inherit;cursor:pointer;text-decoration:underline">Try again</button>.</p></sc-if>
+          <sc-if value="{{ isOk }}">
+            <div style="overflow-x:auto;border-top:1px solid var(--ink)">
+              <table style="width:100%;min-width:820px;border-collapse:collapse">
+                <thead><tr>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">When</th>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Run</th>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Status</th>
+                  <th style="padding:10px 12px;text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Calls</th>
+                  <th style="padding:10px 12px;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--ink);white-space:nowrap">Notes</th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ logRows }}" as="l" hint-placeholder-count="5">
+                    <tr>
+                      <td style="padding:12px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:14px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ l.w }}</td>
+                      <td style="padding:12px;text-align:left;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ l.run }}</td>
+                      <td style="padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top"><span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--paper),inset 0 0 0 2.5px currentColor;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;transform:rotate(-3deg);white-space:nowrap;color:{{ l.fg }};background:{{ l.bg }}">{{ l.st }}</span></td>
+                      <td style="padding:12px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:15px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:top">{{ l.calls }}</td>
+                      <td style="padding:12px;text-align:left;font-size:15px;border-bottom:1px solid var(--rule);vertical-align:top;min-width:280px;text-wrap:pretty">{{ l.note }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </sc-if>
+        </sc-if>
+
+      </div>
+    </main>
+    <sc-if value="{{ narrow }}">
+      <nav aria-label="Main" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--ink);background:var(--paper)">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+          <button onClick="{{ n.go }}" aria-current="{{ n.current }}" style="min-height:58px;padding:4px 2px;border:none;border-right:1px solid var(--rule);background:{{ n.bg }};color:{{ n.fg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:13.5px;font-weight:600"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500">{{ n.num }}</span>{{ n.short }}</button>
+        </sc-for>
+      </nav>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ slipOpen }}">
+  <div role="dialog" aria-modal="true" aria-label="Order slip" onClick="{{ onScrim }}" style="position:absolute;inset:0;z-index:20;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto">
+    <div onClick="{{ stop }}" style="width:100%;max-width:460px;max-height:100%;overflow-y:auto;background-color:var(--paper);color:var(--ink);border:1.5px solid var(--ink);box-shadow:8px 8px 0 rgba(0,0,0,.28)">
+      <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 18px;border-bottom:2px dashed var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase">
+        <span>Order slip · No. {{ slipNo }}</span><span>Sat 10 Oct 2026</span>
+      </div>
+      <sc-if value="{{ slipForm }}">
+        <div style="padding:18px 18px 20px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div style="min-width:0"><div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1.1">{{ sT }}</div><div style="font-size:15px;color:var(--ink2)">{{ sN }}</div></div>
+            <span style="display:inline-block;padding:2px 7px;border:2px solid currentColor;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(3deg);white-space:nowrap">{{ sS }}</span>
+          </div>
+          <div role="group" aria-label="Order side" style="display:grid;grid-template-columns:1fr 1fr;margin-top:16px;border:1.5px solid var(--ink)">
+            <button onClick="{{ setBuy }}" aria-pressed="{{ isBuy }}" style="min-height:48px;border:none;background:{{ buyBg }};color:{{ buyFg }};cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.18em">BUY</button>
+            <button onClick="{{ setSell }}" aria-pressed="{{ isSell }}" style="min-height:48px;border:none;border-left:1.5px solid var(--ink);background:{{ sellBg }};color:{{ sellFg }};cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.18em">SELL</button>
+          </div>
+          <label style="display:grid;gap:2px;margin-top:16px"><span style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)">Folio</span>
+            <sc-if value="{{ hasFolios }}">
+              <select value="{{ sPid }}" onChange="{{ onSPid }}" style="min-height:44px;border:none;border-bottom:1.5px solid var(--ink);background:transparent;padding:6px 2px;font-size:16px;cursor:pointer;outline:none">
+                <sc-for list="{{ sFolios }}" as="o"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+              </select>
+            </sc-if>
+          </label>
+          <sc-if value="{{ hasHidden }}"><p style="margin:6px 0 0;font-size:13px;font-style:italic;color:var(--ink2)">{{ hiddenNote }}</p></sc-if>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;margin-top:16px">
+            <label style="display:grid;gap:2px;min-width:0"><span style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)">Quantity</span>
+              <div style="display:flex;align-items:stretch;min-width:0;border-bottom:1.5px solid var(--ink)">
+                <button type="button" onClick="{{ dec }}" aria-label="One fewer" style="width:44px;min-height:48px;border:none;background:transparent;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:22px">−</button>
+                <input value="{{ sQty }}" onChange="{{ onSQty }}" aria-label="Quantity" style="flex:1;width:0;min-width:0;border:none;background:transparent;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:500;outline:none" style-focus="background:var(--hover)">
+                <button type="button" onClick="{{ inc }}" aria-label="One more" style="width:44px;min-height:48px;border:none;background:transparent;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:22px">+</button>
+              </div>
+            </label>
+            <div style="text-align:right;padding-bottom:6px"><div style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)">You hold</div><div style="font-family:'IBM Plex Mono',monospace;font-size:15px">{{ sHeld }}</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:16px;padding:10px 0;border-bottom:1px solid var(--rule)">
+            <span style="font-size:15px">Price <span style="font-style:italic;color:var(--ink2)">{{ sCloseOf }}</span></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:16px">{{ sPrice }}</span>
+          </div>
+          <sc-if value="{{ sStale }}"><p style="margin:8px 0 0;font-size:13px;color:var(--loss)">This close is stale. You'll trade at it anyway; that's paper trading.</p></sc-if>
+          <div style="display:grid;gap:6px;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:14px">
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding-top:6px;border-top:2px solid var(--ink)"><span style="font-family:'Source Serif 4',serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Total</span><span style="font-size:24px;font-weight:600;letter-spacing:-.02em">{{ sTotal }}</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;color:var(--ink2)"><span>Cash now</span><span>{{ sCashNow }}</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px"><span>{{ sAfterLabel }}</span><span style="font-weight:600;color:{{ sAfterTone }}">{{ sAfter }}</span></div>
+          </div>
+          <sc-if value="{{ hasErr }}">
+            <div role="alert" style="margin-top:14px;padding:10px 12px;border:1.5px solid var(--loss);color:var(--loss)">
+              <div style="font-weight:700;font-size:16px">✕ {{ sErr }}</div>
+              <div style="font-size:14px;margin-top:2px">{{ sSub }}</div>
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px">
+            <button onClick="{{ onCancel }}" style="min-height:44px;padding:0 4px;border:none;background:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px">Tear up slip</button>
+            <button onClick="{{ onPlace }}" disabled="{{ cantPlace }}" style="min-height:52px;padding:0 20px;border:3px solid var(--ink);border-radius:4px;box-shadow:inset 0 0 0 3px var(--accent),inset 0 0 0 4.5px var(--on-accent);background:var(--accent);color:var(--on-accent);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-2deg);cursor:pointer;opacity:{{ placeOpacity }}">{{ placeLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ slipDone }}">
+        <div style="padding:30px 18px 22px;text-align:center">
+          <span style="display:inline-block;padding:8px 22px;border:4px solid var(--ink);border-radius:6px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 5px var(--ink);font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;animation:im-stamp .5s cubic-bezier(.2,.8,.3,1) both">{{ doneStamp }}</span>
+          <p style="margin:22px 0 0;font-family:'Rozha One',serif;font-size:24px;line-height:1.15;text-wrap:balance">{{ doneMsg }}</p>
+          <p style="margin:6px 0 0;font-size:15px;color:var(--ink2)">{{ doneSub }}</p>
+          <button onClick="{{ onCancel }}" style="margin-top:20px;min-height:44px;padding:0 20px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">File it</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}">
+  <div role="status" style="position:absolute;left:16px;right:16px;bottom:{{ toastBottom }};z-index:30;display:flex;justify-content:center;pointer-events:none">
+    <div style="max-width:520px;padding:12px 16px;background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.45;box-shadow:4px 4px 0 var(--accent)">{{ toast }}</div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;landing&quot;,&quot;auth&quot;,&quot;login&quot;,&quot;markets&quot;,&quot;book&quot;,&quot;portfolio&quot;,&quot;watchlist&quot;,&quot;desk&quot;],&quot;default&quot;:&quot;landing&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;demo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;empty&quot;,&quot;loading&quot;,&quot;error&quot;,&quot;insufficient&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;learner&quot;,&quot;advisor&quot;],&quot;default&quot;:&quot;learner&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;embedded&quot;:{&quot;editor&quot;:null,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const LAST='2026-10-09';
+const NF=new Intl.NumberFormat('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const NI=new Intl.NumberFormat('en-IN');
+const E=0.004;
+const money=v=>(v<-E?'−':'')+'₹'+NF.format(Math.abs(v));
+const sMoney=v=>(v>E?'+':v<-E?'−':'±')+'₹'+NF.format(Math.abs(v));
+const sPct=v=>(v>E?'+':v<-E?'−':'±')+Math.abs(v).toFixed(2)+'%';
+const arw=v=>v>E?'▲':v<-E?'▼':'■';
+const tone=v=>v>E?'var(--gain)':v<-E?'var(--loss)':'var(--ink2)';
+const dS=iso=>{const [,m,d]=iso.split('-').map(Number);return d+' '+MONTHS[m-1];};
+const dL=iso=>{const [y,m,d]=iso.split('-').map(Number);return d+' '+MONTHS[m-1]+' '+y;};
+
+const STOCKS=[
+ ['RELIANCE','Reliance Industries','Energy',1412.60,1398.25],
+ ['TCS','Tata Consultancy Services','IT',3048.20,3081.90],
+ ['HDFCBANK','HDFC Bank','Banking',982.35,975.10],
+ ['ICICIBANK','ICICI Bank','Banking',1368.90,1361.05],
+ ['SBIN','State Bank of India','Banking',872.55,859.40],
+ ['INFY','Infosys','IT',1512.40,1534.75],
+ ['BHARTIARTL','Bharti Airtel','Telecom',1946.30,1921.65],
+ ['ITC','ITC','FMCG',402.15,404.80],
+ ['HINDUNILVR','Hindustan Unilever','FMCG',2486.70,2471.30],
+ ['LT','Larsen & Toubro','Infra',3688.20,3655.85],
+ ['MARUTI','Maruti Suzuki India','Auto',16214.00,16388.45],
+ ['SUNPHARMA','Sun Pharmaceutical','Pharma',1642.85,1629.10],
+ ['ASIANPAINT','Asian Paints','Consumer',2398.10,2422.60],
+ ['TITAN','Titan Company','Consumer',3612.45,3590.00,'2026-10-03'],
+ ['ETERNAL','Eternal (Zomato)','Consumer',318.40,309.95],
+ ['IRCTC','Indian Railway Catering & Tourism','Travel',null,null],
+ ['DMART','Avenue Supermarts','Retail',null,null],
+].map(([t,n,s,c,p,d])=>({t,n,s,c,p,d:d||LAST}));
+const BY={};STOCKS.forEach(s=>{BY[s.t]=s;});
+const SECTORS=[...new Set(STOCKS.map(s=>s.s))].sort();
+const FETCHED={IRCTC:{c:728.60,p:731.20},DMART:{c:4182.35,p:4140.00},TITAN:{c:3655.10,p:3612.45}};
+const STAMP={FILED:['var(--gain)','transparent'],PARTIAL:['var(--on-accent)','var(--accent)'],FAILED:['var(--loss)','transparent']};
+
+function seed(props){
+  const demo=props.demo||'live', empty=demo==='empty';
+  const prices={};STOCKS.forEach(s=>{prices[s.t]=s.c==null?null:{c:s.c,p:s.p,d:s.d};});
+  const scr=props.screen||'landing';
+  return {
+    demo, route:scr==='login'?'auth':scr, pid:'p1',
+    role:props.role==='advisor'?'advisor':'learner', name:'Ananya Rao',
+    cash:empty?1000000:507400,
+    portfolios:empty?[]:[
+      {id:'p1',name:'Long-Term Chai Fund',lock:null,client:null,folio:1},
+      {id:'p2',name:'Bank Bets Only',lock:'Banking',client:null,folio:2},
+      {id:'p3',name:'Mehta Family Fund',lock:null,client:'IM-2031',folio:3}],
+    holdings:empty?{}:{p1:{RELIANCE:{q:40,a:1350},INFY:{q:60,a:1580},ITC:{q:300,a:415}},p2:{HDFCBANK:{q:100,a:945},SBIN:{q:150,a:812}}},
+    realised:empty?{}:{p1:-3000},
+    trades:empty?[]:[
+      {id:7,d:'2026-09-29',side:'SELL',t:'TCS',q:20,px:3050,pid:'p1',r:-3000},
+      {id:6,d:'2026-09-10',side:'BUY',t:'SBIN',q:150,px:812,pid:'p2'},
+      {id:5,d:'2026-09-10',side:'BUY',t:'HDFCBANK',q:100,px:945,pid:'p2'},
+      {id:4,d:'2026-09-02',side:'BUY',t:'INFY',q:60,px:1580,pid:'p1'},
+      {id:3,d:'2026-08-21',side:'BUY',t:'TCS',q:20,px:3200,pid:'p1'},
+      {id:2,d:'2026-08-14',side:'BUY',t:'ITC',q:300,px:415,pid:'p1'},
+      {id:1,d:'2026-08-14',side:'BUY',t:'RELIANCE',q:40,px:1350,pid:'p1'}],
+    watch:empty?[]:[{t:'ITC',v:'405.00'},{t:'ASIANPAINT',v:'2400.00'},{t:'TCS',v:'2950.00'},{t:'MARUTI',v:'15500.00'}],
+    prices, status:demo==='loading'?'loading':demo==='error'?'error':'ok',
+    q:'', sector:'All sectors', fetching:{}, quota:18, running:false,
+    log:[
+      {w:'10 Oct, 09:12',run:'Manual · TITAN',st:'FAILED',calls:1,note:'Alpha Vantage sent back 3 Oct again. Left it stamped STALE.'},
+      {w:'10 Oct, 07:00',run:'Morning wire',st:'FILED',calls:5,note:'Saturday. Spot-checked 5 names; nothing moved, as expected.'},
+      {w:'9 Oct, 18:30',run:'Evening wire',st:'PARTIAL',calls:14,note:'14 of 15 filed. TITAN came back with last week’s close.'},
+      {w:'8 Oct, 18:30',run:'Evening wire',st:'PARTIAL',calls:11,note:'Ran dry at SUNPHARMA. Someone spent 13 wires on manual refreshes.'},
+      {w:'7 Oct, 18:30',run:'Evening wire',st:'FAILED',calls:0,note:'Rate-limited. Alpha Vantage said “thank you for using” and nothing else.'}],
+    slip:demo==='insufficient'?{t:'RELIANCE',side:'BUY',pid:'p1',qty:'400',done:false}:null,
+    toast:null,
+    auth:{mode:scr==='login'?'login':'signup',name:'',email:'',pass:'',role:'learner',errs:{}},
+    nf:{name:'',lock:'',client:'',err:''},
+  };
+}
+
+function mkTape(items){
+  const h=React.createElement;
+  const one=k=>h('div',{key:k,style:{display:'flex',flex:'none'}},items.map((it,i)=>h('span',{key:i,style:{display:'inline-flex',alignItems:'baseline',gap:8,padding:'0 18px',borderRight:'1px solid var(--rule)',whiteSpace:'nowrap'}},[
+    h('b',{key:'t',style:{fontWeight:600}},it.t),h('span',{key:'c'},it.c),h('span',{key:'d',style:{color:it.tone}},it.d)])));
+  return h('div',{'aria-label':'Closing prices',style:{display:'flex',alignItems:'stretch',borderBottom:'1px solid var(--ink)',background:'var(--paper2)',fontFamily:"'IBM Plex Mono',monospace",fontSize:13,lineHeight:'34px',overflow:'hidden',color:'var(--ink)'}},[
+    h('div',{key:'l',style:{flex:'none',padding:'0 12px',background:'var(--ink)',color:'var(--paper)',fontWeight:600,fontSize:11,letterSpacing:'.14em'}},'CLOSE · 9 OCT'),
+    h('div',{key:'m',style:{flex:1,minWidth:0,overflow:'hidden'}},h('div',{style:{display:'flex',width:'max-content',animation:'im-tape 80s linear infinite'}},[one('a'),one('b')]))]);
+}
+function mkShimmer(){
+  const h=React.createElement;
+  const bar=(w,k)=>h('span',{key:k,style:{display:'block',height:14,width:w,background:'linear-gradient(90deg,var(--hover) 0,var(--rule) 50%,var(--hover) 100%)',backgroundSize:'480px 100%',animation:'im-shim 1.3s linear infinite'}});
+  const words='··· FETCHING THE WIRE ··· RELIANCE ··· TCS ··· HDFCBANK ··· INFY ··· ITC ··· SBIN ··· LT ··· MARUTI ';
+  const rows=[0,1,2,3,4].map(i=>h('div',{key:i,style:{display:'grid',gridTemplateColumns:'minmax(70px,1.4fr) repeat(4,minmax(30px,1fr))',gap:16,alignItems:'center',padding:'18px 4px',borderBottom:'1px solid var(--rule)'}},[bar('80%','a'),bar('55%','b'),bar('70%','c'),bar('45%','d'),bar('65%','e')]));
+  return h('div',{role:'status','aria-label':'Loading',style:{borderTop:'1px solid var(--ink)',marginTop:12}},[
+    h('div',{key:'tape',style:{overflow:'hidden',borderBottom:'1px solid var(--rule)',fontFamily:"'IBM Plex Mono',monospace",fontSize:12,letterSpacing:'.14em',lineHeight:'34px',color:'var(--ink2)'}},
+      h('div',{style:{display:'flex',width:'max-content',animation:'im-tape 14s linear infinite',whiteSpace:'nowrap'}},[h('span',{key:1},words+words),h('span',{key:2},words+words)])),
+    ...rows]);
+}
+
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    const p=props||{};
+    this.state={...seed(p),theme:p.theme==='dark'?'dark':'light',wide:typeof window!=='undefined'?window.innerWidth>=880:true};
+    this.rootRef=React.createRef();this.scrollRef=React.createRef();this.timers=[];
+    this.shimmerEl=mkShimmer();
+  }
+  componentDidMount(){
+    const el=this.rootRef.current;
+    if(el&&window.ResizeObserver){this.ro=new ResizeObserver(es=>{const w=es[0].contentRect.width>=880;if(w!==this.state.wide)this.setState({wide:w});});this.ro.observe(el);}
+  }
+  componentWillUnmount(){this.ro&&this.ro.disconnect();this.timers.forEach(clearTimeout);clearTimeout(this.tt);}
+  componentDidUpdate(pp,ps){
+    const p=this.props||{};pp=pp||{};
+    if(pp.demo!==p.demo||pp.screen!==p.screen||pp.role!==p.role)this.setState(seed(p));
+    if(pp.theme!==p.theme)this.setState({theme:p.theme==='dark'?'dark':'light'});
+    if(ps.route!==this.state.route||ps.pid!==this.state.pid){const s=this.scrollRef.current;if(s)s.scrollTop=0;}
+  }
+  later(fn,ms){this.timers.push(setTimeout(fn,ms));}
+  toast(msg){clearTimeout(this.tt);this.setState({toast:msg});this.tt=setTimeout(()=>this.setState({toast:null}),3600);}
+  go(route,extra){this.setState({route,slip:null,...(extra||{})});}
+  pf(S){return S.portfolios.filter(p=>!p.client||S.role==='advisor');}
+  stats(S,pid){
+    const h=S.holdings[pid]||{};let inv=0,val=0;
+    const rows=Object.keys(h).map(t=>{const x=h[t],pr=S.prices[t],c=pr?pr.c:x.a;inv+=x.q*x.a;val+=x.q*c;return {t,x,pr,c};});
+    return {rows,inv,val,un:val-inv,real:S.realised[pid]||0};
+  }
+  openSlip(t,side,pid){
+    const S=this.state,st=BY[t];side=side||'BUY';
+    const ok=this.pf(S).filter(p=>!p.lock||p.lock===st.s);
+    let id=pid;
+    if(!id){const holder=ok.find(p=>(S.holdings[p.id]||{})[t]);id=(holder||ok[0]||{}).id||'';}
+    const held=((S.holdings[id]||{})[t]||{}).q;
+    this.setState({slip:{t,side,pid:id,qty:side==='SELL'&&held?String(held):'10',done:false}});
+  }
+  place(){
+    this.setState(S=>{
+      const sl=S.slip,pr=S.prices[sl.t],q=parseInt(sl.qty,10),tot=q*pr.c;
+      const H={...S.holdings},ph={...(H[sl.pid]||{})},cur=ph[sl.t];
+      let cash=S.cash,realised={...S.realised},r=null;
+      if(sl.side==='BUY'){const nq=(cur?cur.q:0)+q;ph[sl.t]={q:nq,a:((cur?cur.q*cur.a:0)+tot)/nq};cash-=tot;}
+      else{r=(pr.c-cur.a)*q;const nq=cur.q-q;if(nq>0)ph[sl.t]={q:nq,a:cur.a};else delete ph[sl.t];cash+=tot;realised[sl.pid]=(realised[sl.pid]||0)+r;}
+      H[sl.pid]=ph;
+      return {holdings:H,cash,realised,trades:[{id:Date.now(),d:'2026-10-10',side:sl.side,t:sl.t,q,px:pr.c,pid:sl.pid,r},...S.trades],slip:{...sl,done:true,r,q}};
+    });
+  }
+  fetchPrice(t){
+    const S=this.state;if(S.fetching[t])return;
+    if(S.quota<=0){this.toast('Out of wires for today, boss. Quota resets at 05:30 IST.');return;}
+    this.setState(s=>({fetching:{...s.fetching,[t]:true}}));
+    this.later(()=>{
+      const s=this.state,f=FETCHED[t],cur=s.prices[t];
+      const np=f?{...f,d:LAST}:{...cur,d:LAST};
+      const note=f?`${t} filed at ${money(f.c)}, close of 9 Oct.`:`${t} unchanged at ${money(cur.c)}. It’s Saturday; that wire was a donation.`;
+      const fetching={...s.fetching};delete fetching[t];
+      this.setState({fetching,prices:{...s.prices,[t]:np},quota:s.quota-1,log:[{w:'10 Oct, just now',run:'Manual · '+t,st:'FILED',calls:1,note},...s.log]});
+      this.toast(f?`${t} is on the wire: ${money(f.c)}, close of 9 Oct.`:`${t} refetched. Same price. Dalal Street is still asleep.`);
+    },1100);
+  }
+  runWire(){
+    if(this.state.running)return;
+    this.setState({running:true});
+    this.later(()=>this.setState(s=>{
+      const tracked=Object.keys(s.prices).filter(t=>s.prices[t]);
+      const need=tracked.length,used=Math.min(s.quota,need);
+      const st=used===0?'FAILED':used<need?'PARTIAL':'FILED';
+      const note=st==='FILED'?`All ${need} tracked names refreshed. Saturday, so nothing moved, but it’s on the record.`:st==='PARTIAL'?`Ran dry after ${used} of ${need}. The rest stay on the old wire.`:'No wires left today. Quota resets at 05:30 IST.';
+      const prices={...s.prices};
+      tracked.slice(0,used).forEach(t=>{prices[t]=FETCHED[t]?{...FETCHED[t],d:LAST}:{...prices[t],d:LAST};});
+      return {running:false,quota:s.quota-used,prices,log:[{w:'10 Oct, just now',run:'Morning wire',st,calls:used,note},...s.log]};
+    }),1800);
+  }
+  retry(){this.setState({status:'loading'});this.later(()=>this.setState({status:'ok'}),1200);}
+  authSubmit(e){
+    e&&e.preventDefault&&e.preventDefault();
+    const a=this.state.auth,su=a.mode==='signup',errs={};
+    if(su&&!a.name.trim())errs.name='We need a name for the share certificate.';
+    if(!/^\S+@\S+\.\S+$/.test(a.email))errs.email='That email wouldn’t get past a KYC desk.';
+    if(a.pass.length<6)errs.pass='Six characters at least. “nifty” is not a password.';
+    if(Object.keys(errs).length){this.setState({auth:{...a,errs}});return;}
+    const keep={theme:this.state.theme,wide:this.state.wide};
+    if(su){this.setState({...seed({...this.props,demo:'empty'}),...keep,name:a.name.trim(),role:a.role,route:'markets'});this.toast('Application allotted. ₹10,00,000 credited. None of it is real.');}
+    else{this.setState({...seed({...this.props,demo:'live'}),...keep,route:'markets'});this.toast('Welcome back. Your book is where you left it.');}
+  }
+  createFolio(e){
+    e&&e.preventDefault&&e.preventDefault();
+    const S=this.state,f=S.nf;
+    if(!f.name.trim()){this.setState({nf:{...f,err:'A folio needs a name. “Untitled” is not a strategy.'}});return;}
+    const cl=f.client.trim().toUpperCase();
+    if(S.role==='advisor'&&cl&&!/^IM-\d{4}$/.test(cl)){this.setState({nf:{...f,err:'Client IDs look like IM-2031. Check the file.'}});return;}
+    const folio=S.portfolios.reduce((m,p)=>Math.max(m,p.folio),0)+1;
+    this.setState({portfolios:[...S.portfolios,{id:'p'+Date.now(),name:f.name.trim(),lock:f.lock||null,client:S.role==='advisor'&&cl?cl:null,folio}],nf:{name:'',lock:'',client:'',err:''}});
+    this.toast('Folio opened. Fresh page, fresh mistakes.');
+  }
+  renderVals(){
+    const S=this.state,P=this.props||{},wide=!!S.wide;
+    const pf=this.pf(S);
+    const isApp=['markets','book','portfolio','watchlist','desk'].includes(S.route);
+    const go=r=>()=>this.go(r);
+    const nav=[['markets','Markets','Markets','01'],['book','My Book','Book','02'],['watchlist','Watchlist','Watch','03'],['desk','Price Desk','Desk','04']].map(([k,label,short,num])=>{
+      const on=S.route===k||(k==='book'&&S.route==='portfolio');
+      return {label,short,num,go:go(k),current:on?'page':undefined,bg:on?'var(--accent)':'transparent',fg:on?'var(--on-accent)':'var(--ink)'};
+    });
+    const tracked=STOCKS.filter(s=>S.prices[s.t]);
+    const tapeItems=tracked.map(s=>{const pr=S.prices[s.t],ch=(pr.c-pr.p)/pr.p*100;return {t:s.t,c:money(pr.c)+(pr.d<LAST?' · stale, '+dS(pr.d):''),d:arw(ch)+' '+sPct(ch),tone:tone(ch)};});
+    const mv=tracked.map(s=>{const pr=S.prices[s.t];return {s,pr,ch:(pr.c-pr.p)/pr.p*100};}).sort((a,b)=>b.ch-a.ch);
+    const movers=[...mv.slice(0,3),...mv.slice(-2)].map(m=>({t:m.s.t,close:money(m.pr.c),chg:arw(m.ch)+' '+sPct(m.ch),tone:tone(m.ch)}));
+    const isOk=S.status==='ok',isLoading=S.status==='loading',isError=S.status==='error';
+    // markets
+    const q=S.q.trim().toLowerCase();
+    const watchSet=new Set(S.watch.map(w=>w.t));
+    const holdAll=t=>{let qq=0,cost=0;pf.forEach(p=>{const h=(S.holdings[p.id]||{})[t];if(h){qq+=h.q;cost+=h.q*h.a;}});return {q:qq,cost};};
+    const rows=STOCKS.filter(s=>(S.sector==='All sectors'||s.s===S.sector)&&(!q||s.t.toLowerCase().includes(q)||s.n.toLowerCase().includes(q))).map(s=>{
+      const pr=S.prices[s.t],h=holdAll(s.t),ch=pr?(pr.c-pr.p)/pr.p*100:0;
+      const un=pr&&h.q?h.q*pr.c-h.cost:0,watching=watchSet.has(s.t),fetching=!!S.fetching[s.t];
+      return {t:s.t,n:s.n,s:s.s,onWire:!!pr,offWire:!pr,close:pr?money(pr.c):'',asOf:pr?'as of '+dS(pr.d):'',stale:!!pr&&pr.d<LAST,
+        chg:pr?arw(ch)+' '+sPct(ch):'—',chgTone:pr?tone(ch):'var(--ink2)',
+        hold:h.q?NI.format(h.q):'—',avg:h.q?money(h.cost/h.q):'—',un:h.q&&pr?sMoney(un):'—',unp:h.q&&pr?sPct(un/h.cost*100):'—',unTone:h.q&&pr?tone(un):'var(--ink2)',
+        watching,watchLabel:watching?'✓ Watching':'Watch',watchBg:watching?'var(--accent)':'transparent',watchFg:watching?'var(--on-accent)':'var(--ink)',
+        onWatch:()=>{this.toggleWatch(s.t);},onTrade:()=>this.openSlip(s.t,'BUY'),onFetch:()=>this.fetchPrice(s.t),fetching,fetchLabel:fetching?'On the wire…':'Fetch price'};
+    });
+    // book
+    const folios=pf.map(p=>{const st=this.stats(S,p.id),pnl=st.un+st.real;return {folio:'Folio '+String(p.folio).padStart(2,'0'),name:p.name,lock:p.lock?p.lock+' only':'Any sector',owner:p.client?'Client '+p.client:'Self',value:money(st.val),pnl:sMoney(pnl)+' P&L',tone:tone(pnl),open:()=>this.setState({route:'portfolio',pid:p.id})};});
+    const setNf=patch=>this.setState(s=>({nf:{...s.nf,...patch,err:''}}));
+    // portfolio
+    const cur=pf.find(p=>p.id===S.pid)||pf[0];
+    let pv={hasCur:false,noCur:true,summary:[],holdRows:[],tradeRows:[]};
+    if(cur){
+      const st=this.stats(S,cur.id);
+      const holdRows=st.rows.map(({t,x,pr,c})=>{const inv=x.q*x.a,un=x.q*c-inv;return {t,n:BY[t].n,qty:NI.format(x.q),avg:money(x.a),close:pr?money(pr.c):'—',asOf:pr?'as of '+dS(pr.d):'not on the wire',inv:money(inv),val:money(x.q*c),un:sMoney(un),unp:sPct(un/inv*100),tone:tone(un),onSell:()=>this.openSlip(t,'SELL',cur.id),onBuy:()=>this.openSlip(t,'BUY',cur.id)};});
+      const tradeRows=S.trades.filter(x=>x.pid===cur.id).map(x=>({d:dL(x.d),stamp:x.side==='BUY'?'Bought':'Sold',fg:x.side==='BUY'?'var(--ink)':'var(--on-accent)',bg:x.side==='BUY'?'transparent':'var(--accent)',t:x.t,q:NI.format(x.q),px:money(x.px),amt:money(x.q*x.px),real:x.r!=null?sMoney(x.r):'—',rTone:x.r!=null?tone(x.r):'var(--ink2)'}));
+      pv={hasCur:true,noCur:false,pHead:'Folio '+String(cur.folio).padStart(2,'0')+' · '+(cur.lock?cur.lock+' only':'No sector lock')+' · '+(cur.client?'Client '+cur.client:'Owner: '+S.name),pName:cur.name,
+        summary:[{l:'Invested',v:money(st.inv),tone:'var(--ink)'},{l:'Value',v:money(st.val),tone:'var(--ink)'},{l:'Unrealised',v:sMoney(st.un),tone:tone(st.un)},{l:'Realised',v:sMoney(st.real),tone:tone(st.real)},{l:'Cash',v:money(S.cash),tone:'var(--ink)'}],
+        holdRows,tradeRows,holdCount:holdRows.length+(holdRows.length===1?' holding':' holdings'),tradeCount:tradeRows.length+(tradeRows.length===1?' trade':' trades')};
+    }
+    // watchlist
+    const wrows=S.watch.map(w=>{
+      const s=BY[w.t],pr=S.prices[w.t],tg=parseFloat(w.v),valid=!isNaN(tg)&&tg>0,hit=!!pr&&valid&&pr.c<=tg,gap=pr&&valid?pr.c-tg:0;
+      return {t:w.t,n:s.n,close:pr?money(pr.c):'not on the wire',asOf:pr?'as of '+dS(pr.d):'',v:w.v,label:'Target price for '+s.n,
+        onT:e=>{const v=e.target.value.replace(/[^\d.]/g,'');this.setState(st=>({watch:st.watch.map(x=>x.t===w.t?{...x,v}:x)}));},
+        hit,waiting:!hit,gap:!pr||!valid?'—':hit?(Math.abs(gap)<E?'Bang on target':money(-gap)+' below'):money(gap)+' to go',
+        canTrade:!!pr,onTrade:()=>this.openSlip(w.t,'BUY'),onRemove:()=>this.setState(st=>({watch:st.watch.filter(x=>x.t!==w.t)}))};
+    });
+    // desk
+    const trackedCount=tracked.length;
+    const bars=Array.from({length:24},(_,i)=>({bg:i<S.quota?'var(--ink)':'transparent'}));
+    const logRows=S.log.map(l=>({...l,fg:STAMP[l.st][0],bg:STAMP[l.st][1]}));
+    // auth
+    const A=S.auth,su=A.mode==='signup';
+    const setA=patch=>this.setState(s=>({auth:{...s.auth,...patch}}));
+    // slip
+    let slip={slipOpen:false};
+    if(S.slip&&S.prices[S.slip.t]){
+      const sl=S.slip,st=BY[sl.t],pr=S.prices[sl.t],buy=sl.side==='BUY';
+      const ok=pf.filter(p=>!p.lock||p.lock===st.s),hidden=pf.filter(p=>p.lock&&p.lock!==st.s);
+      const qn=parseInt(sl.qty,10),validQ=/^\d+$/.test(sl.qty)&&qn>0,tot=validQ?qn*pr.c:0;
+      const held=((S.holdings[sl.pid]||{})[sl.t]||{q:0}).q;
+      let err='',sub='';
+      if(!ok.length){err=`None of your folios take ${st.s} stocks.`;sub='Open one without a sector lock in My Book.';}
+      else if(sl.qty===''){}
+      else if(!validQ){err='Whole shares only, boss.';sub='No fractions, no negatives, no funny business.';}
+      else if(buy&&tot>S.cash){err='That’s more than you’ve got, boss.';sub=`At this close you can afford ${NI.format(Math.floor(S.cash/pr.c))} shares.`;}
+      else if(!buy&&qn>held){err=held?`You hold ${NI.format(held)} in this folio.`:'You don’t own any of this here.';sub=held?'You can’t sell what isn’t yours.':'Shorting is a different app. A riskier one.';}
+      const after=buy?S.cash-tot:S.cash+tot,can=!err&&validQ&&ok.length>0;
+      const set=patch=>this.setState(s=>({slip:{...s.slip,...patch}}));
+      const folioName=(pf.find(p=>p.id===sl.pid)||{}).name||'';
+      slip={slipOpen:true,slipForm:!sl.done,slipDone:!!sl.done,slipNo:String(1040+S.trades.length).padStart(5,'0'),sT:sl.t,sN:st.n,sS:st.s,
+        isBuy:buy,isSell:!buy,buyBg:buy?'var(--ink)':'transparent',buyFg:buy?'var(--paper)':'var(--ink)',sellBg:!buy?'var(--ink)':'transparent',sellFg:!buy?'var(--paper)':'var(--ink)',
+        setBuy:()=>set({side:'BUY'}),setSell:()=>set({side:'SELL'}),
+        sFolios:ok.map(p=>({id:p.id,name:p.name+(p.lock?' ('+p.lock+' only)':'')+(p.client?' · '+p.client:'')})),hasFolios:ok.length>0,sPid:sl.pid,onSPid:e=>set({pid:e.target.value}),
+        hasHidden:hidden.length>0,hiddenNote:hidden.length?'Not shown: '+hidden.map(p=>p.name+' ('+p.lock+' only)').join(', ')+'.':'',
+        sQty:sl.qty,onSQty:e=>set({qty:e.target.value.replace(/[^\d.\-]/g,'')}),
+        dec:()=>set({qty:String(Math.max(1,(parseInt(sl.qty,10)||1)-1))}),inc:()=>set({qty:String((parseInt(sl.qty,10)||0)+1)}),
+        sPrice:money(pr.c),sCloseOf:'close of '+dL(pr.d),sStale:pr.d<LAST,sHeld:NI.format(held)+(held===1?' share':' shares'),
+        sTotal:money(tot),sCashNow:money(S.cash),sAfterLabel:buy?'Cash after buying':'Cash after selling',sAfter:money(after),sAfterTone:after<0?'var(--loss)':'var(--ink)',
+        hasErr:!!err,sErr:err,sSub:sub,cantPlace:!can,placeOpacity:can?1:.45,placeLabel:buy?'Place buy order':'Place sell order',
+        onPlace:()=>{if(can)this.place();},onCancel:()=>this.setState({slip:null}),onScrim:e=>{if(e.target===e.currentTarget)this.setState({slip:null});},stop:()=>{},
+        doneStamp:buy?'Bought':'Sold',doneMsg:`${NI.format(sl.q||qn||0)} ${sl.t} at ${money(pr.c)}, filed in ${folioName}.`,
+        doneSub:!buy&&sl.r!=null?'Realised '+sMoney(sl.r)+'. '+(sl.r<0?'Ouch. It’s pretend, at least.':'Book it. Literally.'):'Cash left: '+money(S.cash)+'.'};
+    }
+    return {
+      rootRef:this.rootRef,scrollRef:this.scrollRef,theme:S.theme,rootH:P.embedded?'100%':'100dvh',
+      wide,narrow:!wide,isLanding:S.route==='landing',isAuth:S.route==='auth',isApp,
+      isMarkets:S.route==='markets',isBook:S.route==='book',isPortfolio:S.route==='portfolio',isWatch:S.route==='watchlist',isDesk:S.route==='desk',
+      goLanding:go('landing'),goBook:go('book'),goMarkets:go('markets'),
+      goSignup:()=>this.setState(s=>({route:'auth',auth:{...s.auth,mode:'signup',errs:{}}})),
+      goLogin:()=>this.setState(s=>({route:'auth',auth:{...s.auth,mode:'login',errs:{}}})),
+      logout:()=>this.setState(s=>({route:'landing',slip:null,auth:{...s.auth,mode:'login',errs:{}}})),
+      nav,tape:mkTape(tapeItems),shimmer:this.shimmerEl,movers,
+      userName:S.name,roleStamp:S.role==='advisor'?'Advisor':'Learner',cashStr:money(S.cash),
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='dark'?'light':'dark'})),
+      themeLabel:S.theme==='dark'?'Newsprint edition':'Ink edition',themeShort:S.theme==='dark'?'NEWS':'INK',
+      isOk,isLoading,isError,retry:()=>this.retry(),
+      q:S.q,onQ:e=>this.setState({q:e.target.value}),sector:S.sector,onSector:e=>this.setState({sector:e.target.value}),sectors:['All sectors',...SECTORS],
+      clearSearch:()=>this.setState({q:'',sector:'All sectors'}),
+      rows,marketsOk:isOk&&rows.length>0,marketsNone:isOk&&rows.length===0,marketCount:rows.length+' of '+STOCKS.length+' names',quotaLeft:S.quota,
+      folios,bookOk:isOk&&folios.length>0,bookEmpty:isOk&&folios.length===0,folioCount:folios.length+(folios.length===1?' folio':' folios'),
+      bookDek:S.role==='advisor'?'Every portfolio is a folio. Run your own, or open one per client with their ID.':'Every portfolio is a folio. Lock one to a sector if you want to keep yourself honest.',
+      nfName:S.nf.name,onNfName:e=>setNf({name:e.target.value}),nfLock:S.nf.lock,onNfLock:e=>setNf({lock:e.target.value}),
+      lockOpts:[{v:'',l:'No lock: any sector'},...SECTORS.map(s=>({v:s,l:s+' only'}))],
+      nfClient:S.nf.client,onNfClient:e=>setNf({client:e.target.value}),nfErr:S.nf.err,hasNfErr:!!S.nf.err,isAdvisor:S.role==='advisor',
+      onCreate:e=>this.createFolio(e),
+      ...pv,holdOk:isOk&&pv.holdRows.length>0,holdEmpty:isOk&&pv.hasCur&&pv.holdRows.length===0,trOk:isOk&&pv.tradeRows.length>0,trEmpty:isOk&&pv.hasCur&&pv.tradeRows.length===0,
+      wrows,wOk:isOk&&wrows.length>0,wEmpty:isOk&&wrows.length===0,watchCount:wrows.length+(wrows.length===1?' name':' names'),
+      trackedCount,bars,logRows,logCount:logRows.length,running:S.running,runWire:()=>this.runWire(),
+      runLabel:S.running?'Wire’s running…':'Run the morning wire',runOpacity:S.running?.6:1,wireShort:S.quota<trackedCount,
+      deskShim:isLoading||(isOk&&S.running),
+      isSignup:su,isLogin:!su,formKind:su?'Application':'Holder login',
+      suBg:su?'var(--ink)':'transparent',suFg:su?'var(--paper)':'var(--ink)',liBg:!su?'var(--ink)':'transparent',liFg:!su?'var(--paper)':'var(--ink)',
+      toSignup:()=>setA({mode:'signup',errs:{}}),toLogin:()=>setA({mode:'login',errs:{}}),
+      authTitle:su?'Application for pretend shares':'Existing holders, this way',
+      authDek:su?'Allotment is instant and guaranteed, which is how you know it’s fake.':'Any email works in this demo. Your book opens where you left it.',
+      authFine:su?'I understand none of this money is real, and neither are the losses.':'Forgot your password? So did we. Make a new application.',
+      aName:A.name,onAName:e=>setA({name:e.target.value}),aEmail:A.email,onAEmail:e=>setA({email:e.target.value}),aPass:A.pass,onAPass:e=>setA({pass:e.target.value}),
+      errName:!!A.errs.name,errNameMsg:A.errs.name,errEmail:!!A.errs.email,errEmailMsg:A.errs.email,errPass:!!A.errs.pass,errPassMsg:A.errs.pass,
+      emailNo:su?'02':'01',passNo:su?'03':'02',
+      isLearnerPick:A.role==='learner',isAdvisorPick:A.role==='advisor',learnerMark:A.role==='learner'?'✕':'',advisorMark:A.role==='advisor'?'✕':'',
+      pickLearner:()=>setA({role:'learner'}),pickAdvisor:()=>setA({role:'advisor'}),
+      submitLabel:su?'File application':'Log in',onAuth:e=>this.authSubmit(e),
+      ...slip,
+      hasToast:!!S.toast,toast:S.toast,toastBottom:wide||!isApp?'24px':'76px',
+    };
+  }
+  toggleWatch(t){
+    const has=this.state.watch.find(w=>w.t===t);
+    if(has){this.setState(s=>({watch:s.watch.filter(w=>w.t!==t)}));this.toast(`${t} off the watchlist.`);return;}
+    const pr=this.state.prices[t];
+    this.setState(s=>({watch:[...s.watch,{t,v:pr?(Math.floor(pr.c*95)/100).toFixed(2):''}]}));
+    this.toast(pr?`${t} on the watchlist. Target set 5% under Friday’s close.`:`${t} on the watchlist. Fetch a price to set a target.`);
+  }
+}
+</script>
+</body>
+</html>

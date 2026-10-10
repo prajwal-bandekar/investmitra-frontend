@@ -1,0 +1,143 @@
+/* Order slip motion: shake, tear, thermal receipt, filing tray. Transform and opacity only, bar the print reveal.
+   Reduced motion: tokens.css zeroes animation duration and delay, so every animation lands on its final frame. */
+
+.stage { position: relative; width: 100%; max-width: 460px; }
+.stage .slip { max-height: none; overflow: visible; }
+.tear { position: relative; }
+
+.scrim--leaving { animation: im-scrim-out .3s ease-in .45s forwards; }
+.scrim--tearing { animation-delay: .3s; }
+@keyframes im-scrim-out { to { opacity: 0; } }
+
+/* ---- Error: short shake ---- */
+.slip--shake { animation: im-shake .42s cubic-bezier(.36, .07, .19, .97) both; }
+@keyframes im-shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-7px); }
+  40%, 60% { transform: translateX(7px); }
+}
+
+/* ---- Cancel: tear in two jagged halves ---- */
+.slip--tear-a { transform-origin: 0 0; animation: im-tear-a .72s cubic-bezier(.5, 0, .9, .5) both; }
+.slip--tear-b { position: absolute; inset: 0; transform-origin: 100% 100%; pointer-events: none;
+  animation: im-tear-b .72s cubic-bezier(.5, 0, .9, .5) .05s both; }
+@keyframes im-tear-a {
+  0% { transform: none; }
+  18% { transform: translate(-7px, -3px) rotate(-2.5deg); }
+  100% { transform: translate(-70px, 110vh) rotate(-16deg); }
+}
+@keyframes im-tear-b {
+  0% { transform: none; }
+  18% { transform: translate(8px, 4px) rotate(2deg); }
+  100% { transform: translate(90px, 110vh) rotate(13deg); }
+}
+
+/* ---- Trade placed: printer + thermal receipt ---- */
+.stage--receipt { max-width: 340px; padding-bottom: 8px; }
+
+.printer { position: relative; z-index: 3; height: 54px; border: 1.5px solid rgba(245, 237, 224, .4); border-radius: 6px;
+  background: linear-gradient(#4a3a4d, #2b1d2e); box-shadow: 0 6px 0 rgba(0, 0, 0, .3);
+  animation: im-chug .09s steps(2) 22; }
+.printer__slot { position: absolute; left: 6%; right: 6%; bottom: 10px; height: 8px; border-radius: 4px; background: #0d050f;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .8); }
+.printer__led { position: absolute; top: 12px; right: 14px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); animation: im-led .5s steps(2) 8 both; }
+@keyframes im-chug { 50% { transform: translateY(1px); } }
+@keyframes im-led { 50% { opacity: .25; } }
+
+.feed { position: relative; z-index: 1; width: 88%; margin: -8px auto 0; transform-origin: 50% 100%; }
+.receipt { clip-path: inset(0 -70px 100% -70px); animation: im-print 2s steps(22, end) .15s forwards; }
+@keyframes im-print { to { clip-path: inset(0 -70px -20px -70px); } }
+
+/* Thermal paper keeps its own ink so it reads the same in both editions. */
+.receipt__paper { --rp-ink: #2a2230; --rp-plum: #46014A; --rp-gain: #0A6634; --rp-loss: #A12E1A;
+  position: relative; padding: 22px 18px 26px; background: #FBFAF6; color: var(--rp-ink);
+  font-family: var(--mono); font-size: 13px; line-height: 1.5; }
+.receipt--win { animation: im-thump .3s ease-out 2.15s both; }
+.receipt--buy, .receipt--flat { animation: im-thump .3s ease-out 2.15s both; }
+.receipt--loss { transform-origin: 50% 0; animation: im-ouch 1s ease-out 2.15s both; }
+@keyframes im-thump { 0% { transform: translateY(0); } 40% { transform: translateY(4px); } 100% { transform: translateY(0); } }
+@keyframes im-ouch {
+  0% { transform: translateY(0) rotate(0); } 12% { transform: translateY(4px) rotate(0); }
+  28% { transform: rotate(-2.6deg); } 44% { transform: rotate(2.2deg); } 60% { transform: rotate(-1.4deg); }
+  76% { transform: rotate(.8deg); } 100% { transform: rotate(0); }
+}
+
+.receipt__brand { font-family: var(--display); font-size: 28px; line-height: 1; text-align: center; color: var(--rp-plum); }
+.receipt__tag { margin-top: 4px; text-align: center; font-size: 12px; color: #5b5160; }
+.receipt__rule { margin: 10px 0; border: none; border-top: 2px dotted #7a7080; }
+.receipt__rule--bold { border-top-style: dashed; border-top-color: var(--rp-ink); }
+.receipt__rows { margin: 0; display: grid; gap: 2px; }
+.receipt__rows > div { display: flex; justify-content: space-between; gap: 12px; }
+.receipt__rows dt { color: #5b5160; }
+.receipt__rows dd { margin: 0; text-align: right; font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
+.receipt__rows--big { font-size: 14px; }
+.receipt__rows--big > div:first-child dd { font-size: 19px; font-weight: 600; }
+.receipt__stock { font-size: 22px; font-weight: 600; line-height: 1.1; }
+.receipt__name { margin-bottom: 6px; font-size: 12px; color: #5b5160; font-family: var(--serif); font-size: 14px; }
+.receipt__pnl--win dd { color: var(--rp-gain); font-weight: 600; }
+.receipt__pnl--loss dd { color: var(--rp-loss); font-weight: 600; }
+.receipt__foot { margin: 0; text-align: center; font-weight: 500; }
+.receipt__foot--small { margin-top: 2px; font-size: 12px; font-weight: 400; color: #5b5160; font-family: var(--serif); font-style: italic; font-size: 14px; }
+.receipt__bars { height: 28px; margin-top: 12px;
+  background: repeating-linear-gradient(90deg, var(--rp-ink) 0 2px, transparent 2px 4px, var(--rp-ink) 4px 5px, transparent 5px 9px, var(--rp-ink) 9px 12px, transparent 12px 14px); }
+
+/* Stamp thumps onto the paper once printing ends */
+.rstamp { position: absolute; right: 12px; top: 98px; padding: 4px 14px; border: 3px solid currentColor; border-radius: 5px;
+  font-size: 26px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; line-height: 1.1;
+  background: rgba(251, 250, 246, .55); mix-blend-mode: multiply; transform: rotate(-9deg);
+  animation: im-thump-stamp .34s cubic-bezier(.2, .8, .3, 1) 2.1s both; }
+.rstamp--buy, .rstamp--flat { color: var(--rp-plum); }
+.rstamp--win { color: var(--rp-gain); }
+.rstamp--loss { color: var(--rp-loss); }
+@keyframes im-thump-stamp {
+  0% { transform: scale(2.6) rotate(-20deg); opacity: 0; }
+  62% { transform: scale(.92) rotate(-8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-9deg); opacity: 1; }
+}
+
+/* Profit: a gold coin flick and a few paper scraps */
+.fx { position: absolute; right: 70px; top: 120px; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.coin { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--accent); color: #2A0530; border: 2px solid #8a5d00;
+  font-family: var(--mono); font-weight: 600; font-size: 15px; opacity: 0; animation: im-coin 1.1s cubic-bezier(.3, .6, .4, 1) 2.3s both; }
+@keyframes im-coin {
+  0% { transform: translate(0, 0) rotateY(0); opacity: 0; }
+  8% { opacity: 1; }
+  45% { transform: translate(14px, -92px) rotateY(540deg); opacity: 1; }
+  100% { transform: translate(34px, 8px) rotateY(1080deg); opacity: 0; }
+}
+.confetti { position: absolute; left: -3px; top: -3px; width: 6px; height: 9px; background: var(--c); opacity: 0;
+  animation: im-confetti .9s cubic-bezier(.2, .7, .3, 1) calc(2.2s + var(--d)) both; }
+@keyframes im-confetti {
+  0% { transform: translate(0, 0) rotate(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 40px)) rotate(300deg); opacity: 0; }
+}
+
+.receipt__actions { position: relative; z-index: 4; display: flex; justify-content: center; margin-top: 18px;
+  opacity: 0; animation: im-fade-in .3s ease-out 2.2s forwards; }
+@keyframes im-fade-in { to { opacity: 1; } }
+
+/* ---- Filing tray ---- */
+.tray { position: relative; z-index: 3; height: 34px; margin: -2px auto 0; width: 70%; display: grid; place-items: center;
+  border: 1.5px solid rgba(245, 237, 224, .45); border-top: 4px solid rgba(245, 237, 224, .45); background: #3a2a3c; color: rgba(245, 237, 224, .9);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  opacity: 0; transform: translateY(10px); }
+.feed--filing ~ .tray { animation: im-tray-in .7s ease-out forwards; }
+@keyframes im-tray-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  20%, 85% { opacity: 1; transform: translateY(0); }
+  60% { transform: translateY(2px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.feed--filing { animation: im-file .7s cubic-bezier(.5, 0, .75, .4) forwards; }
+@keyframes im-file {
+  0% { transform: none; opacity: 1; }
+  20% { transform: translateY(-6px) rotate(-1deg); opacity: 1; }
+  100% { transform: translate(8px, 70%) scale(.42) rotate(5deg); opacity: 0; }
+}
+.feed--filing ~ .receipt__actions { animation: none; opacity: 0; }
+
+@media (max-width: 420px) { .rstamp { font-size: 22px; top: 104px; } }
