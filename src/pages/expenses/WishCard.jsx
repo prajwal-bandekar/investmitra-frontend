@@ -83,11 +83,11 @@ export default function WishCard({ card, index = 0, year }) {
       )}
       <p className="wish__invest">
         {card.investShares != null
-          ? <>Or <b>{card.investShares}</b> {card.investShares === 1 ? 'share' : 'shares'} of <b>{card.investSymbol}</b> at the last close.</>
-          : <>Priced at {rupees(card.productPrice)}. No judgement, just maths.</>}
+          ? <>Or <b>{card.investShares}</b> {card.investShares === 1 ? 'share' : 'shares'} of <b>{card.investSymbol}</b>.</>
+          : <>Priced at {rupees(card.productPrice)}.</>}
       </p>
       <div className="wish__actions">
-        <button className="btn btn--link" onClick={share} disabled={sharing}>{sharing ? 'Printing…' : 'Share as story'}</button>
+        <button className="btn btn--link" onClick={share} disabled={sharing}>{sharing ? 'Preparing…' : 'Share'}</button>
       </div>
     </article>
   );

@@ -3,19 +3,21 @@ import { Link } from 'react-router-dom';
 import { Expenses } from '../../api/client';
 import { monthName, rupees, thisMonth } from '../../format';
 import useRemote from '../../lib/useRemote';
-import { Shimmer, Stamp, StateBlock } from '../../ui';
+import { MonthPicker, Shimmer, Stamp, StateBlock } from '../../ui';
 import QuickAdd from './QuickAdd';
 import WishCard from './WishCard';
 import './expense.css';
 import './WishCard.css';
+import './simple-expenses.css';
 
 /** ExpenseMitra front page: month headline, spend by category against budgets, could-have-bought cards. */
 export default function Overview() {
   const [month, setMonth] = useState(thisMonth());
   const [adding, setAdding] = useState(false);
-  const summary = useRemote(() => Expenses.summary(month), [month]);
+  // The payload is tagged with the month it belongs to, so a previous month's numbers are never shown under a new month.
+  const summary = useRemote(() => Expenses.summary(month).then((res) => ({ ...res, data: { month, body: res.data } })), [month]);
   const categories = useRemote(() => Expenses.categories(), []);
-  const s = summary.data;
+  const s = !summary.error && summary.data?.month === month ? summary.data.body : null;
 
   const reload = () => { summary.reload(); };
   const topIds = s ? s.byCategory.filter((c) => c.count > 0).map((c) => c.categoryId) : [];
@@ -29,24 +31,19 @@ export default function Overview() {
   return (
     <>
       <div className="page-head">
-        <div className="kicker">The Daily Ledger · {monthName(month)}</div>
-        {s ? (
-          <h1>{rupees(s.total)} spent{month === thisMonth() ? ' so far' : ''}.</h1>
-        ) : <h1>Your money, in print.</h1>}
+        <h1>Ledger</h1>
         <p>
-          {change === null ? 'Log every spend for a month and the paper starts talking back.'
-            : Math.round(change) === 0 ? `About the same as last month (${rupees(s.lastMonthTotal)}).`
-              : change > 0 ? `That's ${Math.round(change)}% more than last month (${rupees(s.lastMonthTotal)}).`
-                : `That's ${Math.round(-change)}% less than last month (${rupees(s.lastMonthTotal)}). Nice.`}
+          {s ? `${rupees(s.total)} spent${month === thisMonth() ? ' so far' : ''} in ${monthName(month)}.` : 'What you spent this month.'}
+          {s && change !== null && ` ${Math.round(change) === 0 ? 'About the same as last month.'
+            : change > 0 ? `${Math.round(change)}% more than last month.` : `${Math.round(-change)}% less than last month.`}`}
         </p>
         <div className="ledger-toolbar">
-          <input type="month" className="field__input field__input--mono month-input" value={month} max={thisMonth()}
-            onChange={(e) => e.target.value && setMonth(e.target.value)} aria-label="Month" />
+          <MonthPicker value={month} max={thisMonth()} onChange={setMonth} />
           <button className="btn btn--primary" onClick={() => setAdding(true)} disabled={!categories.data}>+ Log expense</button>
         </div>
       </div>
 
-      {summary.loading && <Shimmer rows={5} />}
+      {!s && !summary.error && <Shimmer rows={5} />}
       {summary.error && (
         <StateBlock error stamp="Press jam" title="Can't print your ledger right now."
           action={<button className="btn" onClick={summary.reload}>Try again</button>}>
@@ -59,7 +56,7 @@ export default function Overview() {
           {overall && (
             <div className={`budget-meter${usedPct >= 100 ? ' budget-meter--over' : usedPct >= 80 ? ' budget-meter--warn' : ''}`}>
               <div className="budget-meter__label">
-                <span className="kicker">Monthly cap</span>
+                <span>Monthly limit</span>
                 <span className="mono">{rupees(s.total)} of {rupees(overall)}</span>
               </div>
               <div className="bar"><span style={{ width: `${Math.min(100, usedPct)}%` }} /></div>
@@ -71,7 +68,7 @@ export default function Overview() {
             <section style={{ marginTop: 28 }}>
               <div className="section-head">
                 <h2>Could have bought</h2>
-                <span className="muted">From your “want, not need” spends in {month.slice(0, 4)}.</span>
+                <span className="muted">What your “want” spends in {month.slice(0, 4)} could have bought.</span>
               </div>
               <div className="wish-grid">
                 {s.couldHaveBought.map((card, i) => <WishCard key={card.categoryId} card={card} index={i} year={month.slice(0, 4)} />)}
@@ -81,7 +78,7 @@ export default function Overview() {
 
           <section style={{ marginTop: 32 }}>
             <div className="section-head">
-              <h2>Where it went</h2>
+              <h2>By category</h2>
               <Link to="/app/expenses/budgets" className="btn btn--link">Set budgets</Link>
             </div>
             {spent.length === 0 ? (

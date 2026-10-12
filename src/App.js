@@ -14,11 +14,14 @@ import Desk from './pages/Desk';
 import Overview from './pages/expenses/Overview';
 import History from './pages/expenses/History';
 import Budgets from './pages/expenses/Budgets';
+import AccessGate from './pages/AccessGate';
+import RequireAdvisor from './pages/RequireAdvisor';
 
 export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
+        <AccessGate>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -30,7 +33,7 @@ export default function App() {
               <Route path="book" element={<Book />} />
               <Route path="book/:id" element={<Portfolio />} />
               <Route path="watchlist" element={<WatchlistPage />} />
-              <Route path="desk" element={<Desk />} />
+              <Route path="desk" element={<RequireAdvisor><Desk /></RequireAdvisor>} />
               <Route path="expenses">
                 <Route index element={<Navigate to="overview" replace />} />
                 <Route path="overview" element={<Overview />} />
@@ -41,6 +44,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
+        </AccessGate>
       </ToastProvider>
     </ThemeProvider>
   );

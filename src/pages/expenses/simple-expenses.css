@@ -1,0 +1,27 @@
+/* Simplified ExpenseMitra pages: labelled toolbar, expandable history rows. Existing tokens only. */
+.ledger-toolbar { align-items: flex-end; }
+.ledger-toolbar .field { width: auto; }
+.ledger-toolbar .month-input { max-width: 190px; }
+
+.xrows { list-style: none; margin: 18px 0 0; padding: 0; border-top: 1px solid var(--ink); }
+.xrow { border-bottom: 1px solid var(--rule); }
+.xrow__head { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%;
+  min-height: 56px; padding: 10px 12px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.xrow__head:hover { background: var(--hover); }
+.xrow__head:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.xrow__date { font-size: 14px; color: var(--ink2); white-space: nowrap; }
+.xrow__what { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.xrow__amt { font-size: 16px; text-align: right; white-space: nowrap; }
+.xrow__chev { display: inline-block; margin-right: 6px; transition: transform .15s; }
+.xrow__head[aria-expanded="true"] .xrow__chev { transform: rotate(90deg); }
+.xrow__body { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 32px; padding: 14px 12px 16px 32px;
+  background: var(--paper2); border-top: 1px solid var(--rule); }
+.xrow__fact { display: grid; gap: 2px; min-width: 110px; margin: 0; }
+.xrow__fact dt { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+.xrow__fact dd { margin: 0; font-size: 16px; overflow-wrap: anywhere; }
+.xrow__acts { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+
+@media (max-width: 560px) {
+  .xrow__head { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 8px; padding: 10px 6px; }
+  .xrow__body { padding-left: 12px; }
+}

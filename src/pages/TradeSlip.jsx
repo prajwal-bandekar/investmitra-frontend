@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Portfolios } from '../api/client';
-import { longDate, money, qty as fmtQty, signedMoney } from '../format';
+import { Portfolios, Stocks } from '../api/client';
+import { money, qty as fmtQty, signedMoney } from '../format';
 import { istShortDate } from '../lib/market';
-import { Field, Stamp, useToast } from '../ui';
+import { Field, useToast } from '../ui';
 import './TradeSlip.css';
 
 const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -32,6 +32,15 @@ const CONFETTI = [
   ['62px', '-30px', '#0A6634'], ['-62px', '-28px', '#46014A'], ['28px', '-48px', '#E8A317'], ['-34px', '-44px', '#0A6634'],
 ];
 
+const MAX_QTY = 99999999; // 8 digits
+
+const newRequestId = () => {
+  try {
+    if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  } catch { /* fall through */ }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+};
+
 const istStamp = (instant) =>
   `${new Date(instant || Date.now()).toLocaleString('en-IN', {
     timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
@@ -42,7 +51,7 @@ const istStamp = (instant) =>
  * Placing an order turns the slip into a printed receipt that files itself away; tearing it up rips it in two.
  * @param stock        StockView (symbol, name, sector, price)
  * @param side         'BUY' | 'SELL'
- * @param portfolioId  preselect a folio (e.g. from a portfolio page)
+ * @param portfolioId  preselect a portfolio (e.g. from a portfolio page)
  * @param latest       ISO date of the newest close, to flag stale prices
  * @param cash         the signed-in user's cash, kept fresh by the shell
  */
@@ -52,17 +61,21 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
   const [folios, setFolios] = useState(null);
   const [pid, setPid] = useState(portfolioId ? String(portfolioId) : '');
   const [held, setHeld] = useState(0);
+  const [heldReady, setHeldReady] = useState(false);
+  const [fresh, setFresh] = useState(null);
   const [ownerCash, setOwnerCash] = useState(null);
-  const [qtyText, setQtyText] = useState(initialSide === 'SELL' ? '' : '1');
+  const [qtyText, setQtyText] = useState('1');
   const [serverError, setServerError] = useState(null);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(null);
   const [shaking, setShaking] = useState(false);
   const [phase, setPhase] = useState('slip'); // slip | tearing | filing
-  const [folioName, setFolioName] = useState('My first folio');
+  const [folioName, setFolioName] = useState('My first portfolio');
   const [folioBusy, setFolioBusy] = useState(false);
   const [folioError, setFolioError] = useState('');
   const timers = useRef([]);
+  const inFlight = useRef(false);
+  const attempt = useRef({ sig: null, id: null }); // same order retried keeps its id; a changed order gets a new one
 
   const later = useCallback((fn, ms) => { timers.current.push(setTimeout(fn, ms)); }, []);
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
@@ -80,20 +93,37 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
 
   // How many the chosen folio holds, and the cash of whoever owns it (a client's cash, for advisors).
   useEffect(() => {
+    setOwnerCash(null);
     if (!pid) return undefined;
     let live = true;
+    setHeldReady(false);
     Portfolios.get(pid)
       .then((res) => {
         if (!live) return;
-        const h = res.data.holdings.find((x) => x.symbol === stock.symbol);
+        const h = res.data?.holdings?.find((x) => x.symbol === stock.symbol);
         const n = h ? h.quantity : 0;
         setHeld(n);
-        setOwnerCash(res.data.ownerCash != null ? Number(res.data.ownerCash) : null);
-        if (initialSide === 'SELL' && n) setQtyText((t) => t || String(n));
+        setHeldReady(true);
+        setOwnerCash(res.data?.ownerCash != null ? Number(res.data.ownerCash) : null);
       })
-      .catch(() => { if (live) { setHeld(0); setOwnerCash(null); } });
+      .catch(() => { if (live) { setHeld(0); setHeldReady(true); setOwnerCash(null); } });
     return () => { live = false; };
-  }, [pid, stock.symbol, initialSide]);
+  }, [pid, stock.symbol]);
+
+  // Selling never starts above what the chosen portfolio holds.
+  useEffect(() => {
+    if (side !== 'SELL' || !heldReady || held <= 0) return;
+    setQtyText((t) => (/^\d+$/.test(t) && parseInt(t, 10) > held ? String(held) : t));
+  }, [side, heldReady, held]);
+
+  // The price may have moved since the list was loaded; show the latest stored close.
+  useEffect(() => {
+    let live = true;
+    Stocks.get(stock.symbol)
+      .then((res) => { if (live && res.data?.price) setFresh(res.data.price); })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [stock.symbol]);
 
   const dismiss = useCallback(() => {
     if (done) {
@@ -142,57 +172,63 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
   }, [later]);
 
   const usable = (folios || []).filter((p) => !p.sector || p.sector === stock.sector);
-  const hidden = (folios || []).filter((p) => p.sector && p.sector !== stock.sector);
-  const price = Number(stock.price?.close ?? 0);
+  const quote = fresh || stock.price;
+  const price = Number(quote?.close ?? 0);
   const buy = side === 'BUY';
+  // Until the chosen portfolio's owner cash arrives, the signed-in user's cash is only a stand-in for checks, never shown.
+  const cashKnown = ownerCash !== null || !pid;
   const cash = ownerCash ?? Number(userCash ?? 0);
   const n = /^\d+$/.test(qtyText) ? parseInt(qtyText, 10) : NaN;
   const validQty = n > 0;
   const total = validQty ? n * price : 0;
   const after = buy ? cash - total : cash + total;
-  const stale = latest && stock.price && stock.price.asOf < latest;
+  const stale = latest && quote && quote.asOf < latest;
   const needsFolio = folios !== null && usable.length === 0;
 
   const problem = useMemo(() => {
     if (qtyText === '') return null;
-    if (!validQty) return { title: 'Whole shares only, boss.', sub: 'No fractions, no negatives, no funny business.' };
-    if (buy && total > cash) return { title: 'That’s more than you’ve got, boss.', sub: `At this close you can afford ${fmtQty(Math.floor(cash / price))} shares.` };
-    if (!buy && n > held) return held
-      ? { title: `You hold ${fmtQty(held)} in this folio.`, sub: 'You can’t sell what isn’t yours.' }
-      : { title: 'You don’t own any of this here.', sub: 'Shorting is a different app. A riskier one.' };
+    if (!validQty) return { title: 'Enter a whole number of shares.', sub: null };
+    if (buy && cashKnown && total > cash) return { title: 'Not enough cash for this order.', sub: `You can afford ${fmtQty(Math.floor(cash / price))} shares at this price.` };
+    if (!buy && heldReady && n > held) return held
+      ? { title: `You only hold ${fmtQty(held)} in this portfolio.`, sub: null }
+      : { title: 'You don’t own this stock in this portfolio.', sub: null };
     return null;
-  }, [qtyText, validQty, buy, total, cash, price, n, held]);
+  }, [qtyText, validQty, buy, total, cash, cashKnown, price, n, held, heldReady]);
 
-  const canTry = validQty && pid && !busy && price > 0 && !needsFolio;
+  const canTry = validQty && pid && !busy && (buy || heldReady) && price > 0 && !needsFolio;
   const folioLabel = (folios || []).find((p) => String(p.id) === pid)?.name || '';
 
   const place = async () => {
-    if (!canTry) return;
+    if (inFlight.current || !canTry) return;
     if (problem) { shake(); return; }
+    inFlight.current = true;
     setBusy(true);
     setServerError(null);
     try {
-      const res = await Portfolios.trade(pid, { symbol: stock.symbol, side, quantity: n });
+      const sig = `${pid}|${side}|${n}`;
+      if (attempt.current.sig !== sig) attempt.current = { sig, id: newRequestId() };
+      const res = await Portfolios.trade(pid, { symbol: stock.symbol, side, quantity: n, clientRequestId: attempt.current.id });
       setDone(res.data);
       onDone?.();
     } catch (err) {
       setServerError({ title: err.message });
       shake();
     } finally {
+      inFlight.current = false;
       setBusy(false);
     }
   };
 
   const openFolio = async (e) => {
     e.preventDefault();
-    if (!folioName.trim()) { setFolioError('Give the folio a name first.'); return; }
+    if (!folioName.trim()) { setFolioError('Give the portfolio a name first.'); return; }
     setFolioBusy(true);
     setFolioError('');
     try {
       const res = await Portfolios.create({ name: folioName.trim(), sector: null, ownerId: null });
       setFolios((list) => [...(list || []), res.data]);
       setPid(String(res.data.id));
-      toast('Folio opened. Now for the fun part.');
+      toast('Portfolio created.');
     } catch (err) {
       setFolioError(err.message);
     } finally {
@@ -207,7 +243,7 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
   const sheet = (
     <>
       <div className="slip__head mono">
-        <span>Order slip · {stock.symbol}</span><span>{istShortDate()}</span>
+        <span>Order slip</span><span>{istShortDate()}</span>
       </div>
       <div className="slip__body">
         <div className="slip__stock">
@@ -215,13 +251,12 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
             <div className="mono slip__ticker">{stock.symbol}</div>
             <div className="muted">{stock.name}</div>
           </div>
-          <Stamp tilt={3}>{stock.sector}</Stamp>
         </div>
 
         {noPrice && (
           <div className="error-box" role="alert">
             <strong>No price on file for {stock.symbol} yet.</strong>
-            <span>Close this slip, press Get price on the stock, then come back.</span>
+            <span>{stock.tracked === false ? 'Its price arrives with the evening update. Try again after that.' : 'Close this slip, press Get price on the stock, then try again.'}</span>
           </div>
         )}
 
@@ -230,23 +265,22 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
           <button type="button" aria-pressed={!buy} onClick={() => setSide('SELL')}>Sell</button>
         </div>
 
-        {folios === null && <p className="muted" style={{ margin: '16px 0 0' }}>Opening your book…</p>}
+        {folios === null && <p className="muted" style={{ margin: '16px 0 0' }}>Loading…</p>}
 
         {needsFolio && (
           <form className="slip__newfolio" onSubmit={openFolio}>
-            <strong>{folios.length ? `None of your folios take ${stock.sector} stocks.` : 'You need a folio first.'}</strong>
-            <span className="muted">A folio is a pretend portfolio: it holds the shares you buy. Open one now and carry on.</span>
-            <Field label="Folio name" value={folioName} onChange={(e) => { setFolioName(e.target.value); setFolioError(''); }} />
+            <strong>{folios.length ? `None of your portfolios take ${stock.sector} stocks.` : 'Create a portfolio first.'}</strong>
+            <Field label="Portfolio name" value={folioName} onChange={(e) => { setFolioName(e.target.value); setFolioError(''); }} />
             {folioError && <p role="alert" className="field__error" style={{ margin: 0 }}>✕ {folioError}</p>}
             <div className="slip__newfolio-actions">
-              <button type="submit" className="btn btn--ink" disabled={folioBusy}>{folioBusy ? 'Opening…' : 'Open folio and continue'}</button>
-              <Link to="/app/book" className="btn btn--link" onClick={onClose}>Manage folios</Link>
+              <button type="submit" className="btn btn--ink" disabled={folioBusy}>{folioBusy ? 'Creating…' : 'Create and continue'}</button>
+              <Link to="/app/book" className="btn btn--link" onClick={onClose}>Manage portfolios</Link>
             </div>
           </form>
         )}
 
         {usable.length > 0 && (
-          <Field as="select" label="Folio" value={pid} onChange={(e) => setPid(e.target.value)} disabled={!!portfolioId}
+          <Field as="select" label="Portfolio" value={pid} onChange={(e) => setPid(e.target.value)} disabled={!!portfolioId}
             style={{ marginTop: 16 }}>
             {usable.map((p) => (
               <option key={p.id} value={p.id}>
@@ -255,9 +289,6 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
             ))}
           </Field>
         )}
-        {!portfolioId && hidden.length > 0 && usable.length > 0 && (
-          <p className="slip__hidden">Not shown: {hidden.map((p) => `${p.name} (${p.sector} only)`).join(', ')}.</p>
-        )}
 
         {!needsFolio && (
           <>
@@ -265,29 +296,34 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
               <label className="field">
                 <span className="field__label">Quantity</span>
                 <div className="slip__stepper">
-                  <button type="button" aria-label="One fewer" onClick={() => setQtyText(String(Math.max(1, (parseInt(qtyText, 10) || 1) - 1)))}>−</button>
+                  <button type="button" aria-label="One fewer" onClick={() => setQtyText(String(Math.min(MAX_QTY, Math.max(1, (parseInt(qtyText, 10) || 1) - 1))))}>−</button>
                   <input aria-label="Quantity" inputMode="numeric" value={qtyText} autoFocus={phase === 'slip'}
-                    onChange={(e) => setQtyText(e.target.value.replace(/[^\d.-]/g, ''))}
+                    onChange={(e) => setQtyText(e.target.value.replace(/\D/g, '').slice(0, 8))}
                     onKeyDown={(e) => e.key === 'Enter' && place()} />
-                  <button type="button" aria-label="One more" onClick={() => setQtyText(String((parseInt(qtyText, 10) || 0) + 1))}>+</button>
+                  <button type="button" aria-label="One more" onClick={() => setQtyText(String(Math.min(MAX_QTY, (parseInt(qtyText, 10) || 0) + 1)))}>+</button>
                 </div>
               </label>
-              <div style={{ textAlign: 'right', paddingBottom: 6 }}>
-                <div className="field__label" style={{ justifyContent: 'flex-end' }}>You hold</div>
-                <div className="mono">{fmtQty(held)} {held === 1 ? 'share' : 'shares'}</div>
-              </div>
+              {!buy && (
+                <div style={{ textAlign: 'right', paddingBottom: 6 }}>
+                  <div className="field__label" style={{ justifyContent: 'flex-end' }}>You hold</div>
+                  <div className="mono">{fmtQty(held)}</div>
+                  {held > 0 && (
+                    <button type="button" className="btn btn--link" style={{ minHeight: 0, padding: 0 }}
+                      onClick={() => setQtyText(String(Math.min(MAX_QTY, held)))}>Sell all ({fmtQty(held)})</button>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="slip__line">
-              <span>Price <span className="italic muted">close of {longDate(stock.price?.asOf)}</span></span>
+              <span>Price per share</span>
               <span className="mono">{money(price)}</span>
             </div>
-            {stale && <p className="loss" style={{ margin: '8px 0 0', fontSize: 14 }}>This close is stale. You'll trade at it anyway; that's paper trading.</p>}
+            {stale && <p className="loss" style={{ margin: '8px 0 0', fontSize: 14 }}>This price is out of date. The trade will use it anyway.</p>}
 
             <div className="slip__totals mono">
-              <div className="slip__total"><span>Total</span><span>{money(total)}</span></div>
-              <div className="muted"><span>Cash now</span><span>{money(cash)}</span></div>
-              <div><span>{buy ? 'Cash after buying' : 'Cash after selling'}</span><span className={after < 0 ? 'loss' : ''} style={{ fontWeight: 600 }}>{money(after)}</span></div>
+              <div className="slip__total"><span>Estimated total</span><span>{money(total)}</span></div>
+              <div><span>Cash after</span><span className={after < 0 ? 'loss' : ''} style={{ fontWeight: 600 }}>{cashKnown ? money(after) : '…'}</span></div>
             </div>
           </>
         )}
@@ -300,9 +336,9 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
         )}
 
         <div className="slip__actions">
-          <button className="btn btn--link" type="button" onClick={tearUp}>Tear up slip</button>
+          <button className="btn btn--link" type="button" onClick={tearUp}>Cancel</button>
           <button className="btn btn--stamp" onClick={place} disabled={!canTry} aria-disabled={!canTry || undefined}>
-            {busy ? 'Filing…' : buy ? 'Place buy order' : 'Place sell order'}
+            {busy ? 'Placing…' : buy ? 'Confirm buy' : 'Confirm sell'}
           </button>
         </div>
       </div>
@@ -327,12 +363,12 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
           <div className="receipt">
             <div className={`receipt__paper receipt--${mood}`} style={{ clipPath: ZIGZAG }}>
               <div className="receipt__brand">InvestMitra</div>
-              <div className="receipt__tag">Paper trades, real feelings.</div>
+              <div className="receipt__tag">Practice trade</div>
               <hr className="receipt__rule" />
               <dl className="receipt__rows">
                 <div><dt>Date</dt><dd>{istStamp(t.executedAt)}</dd></div>
                 <div><dt>Slip no.</dt><dd>IM-{String(t.id ?? 0).padStart(6, '0')}</dd></div>
-                <div><dt>Folio</dt><dd>{folioLabel || 'Your book'}</dd></div>
+                <div><dt>Portfolio</dt><dd>{folioLabel || 'Your portfolio'}</dd></div>
               </dl>
               <hr className="receipt__rule" />
               <div className="receipt__stock">{stock.symbol}</div>
@@ -350,9 +386,9 @@ export default function TradeSlip({ stock, side: initialSide = 'BUY', portfolioI
                 <div><dt>Cash left</dt><dd>{money(done.ownerCash)}</dd></div>
               </dl>
               <hr className="receipt__rule" />
-              <p className="receipt__foot">This receipt is worth exactly ₹0.00.</p>
+              <p className="receipt__foot">Practice trade. No real money moved.</p>
               <p className="receipt__foot receipt__foot--small">
-                {mood === 'loss' ? 'Ouch. It’s pretend, at least.' : mood === 'win' ? 'Book it. Literally.' : 'Keep it. Frame it. Do not try to deposit it.'}
+                {mood === 'loss' ? 'A loss, but only on paper.' : mood === 'win' ? 'A gain, locked in.' : 'Saved to your trade history.'}
               </p>
               <div className="receipt__bars" aria-hidden="true" />
               <div className={`rstamp rstamp--${mood}`} aria-hidden="true">{bought ? 'Bought' : 'Sold'}</div>

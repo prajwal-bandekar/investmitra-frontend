@@ -1,4 +1,7 @@
-const KEY = 'investmitra.user';
+export const SESSION_KEY = 'investmitra.user';
+const KEY = SESSION_KEY;
+/** Where each product was last open; forgotten on logout so the next user starts clean. */
+export const LAST_PATH = { invest: 'im.lastInvestPath', expense: 'im.lastExpensePath' };
 
 export function getUser() {
   try {
@@ -19,6 +22,8 @@ export function setUser(user) {
 export function clearUser() {
   try {
     localStorage.removeItem(KEY);
+    localStorage.removeItem(LAST_PATH.invest);
+    localStorage.removeItem(LAST_PATH.expense);
   } catch {
     // ignore
   }

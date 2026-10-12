@@ -45,3 +45,29 @@ Format: date, decision, why, alternatives rejected, status.
 - **Why:** One login and one app; users hop between spending and investing.
 - **Rejected:** A separate `/expenses` landing site; a separate app.
 - **Status:** Done (web). Phase 2 Android app with SMS auto-capture is in the PRD.
+
+## F09 Advisor stands in for admin on the Price Desk (2026-10-11)
+- **Decision:** Show/guard Price Desk only for `role === 'ADVISOR'` until a real admin role exists. UI gate only; backend must enforce.
+- **Rejected:** Hiding it for everyone (loses the quota view).
+- **Status:** Done.
+
+## F10 Fresh price via Stocks.get, not Stocks.quote (2026-10-11)
+- **Decision:** The slip refetches the stored price with `Stocks.get` on open. `Stocks.quote` can spend a daily price check and returns 503 for untracked stocks.
+- **Status:** Done.
+
+## F11 clientRequestId per distinct order (2026-10-11)
+- **Decision:** One id per (portfolio, side, quantity); retrying the same order reuses it, changing the order makes a new one (backend returns 409 for same id with a different order).
+- **Status:** Done.
+
+## 2026-10-12 ExpenseMitra simplification
+- History switched from day-grouped list with inline Edit/Delete to flat simple rows + expand (same pattern as Markets/Watchlist), new `.xrow` classes in `simple-expenses.css` rather than reusing `.srow` so the two pages stay independent.
+- Payment mode removed from the add/edit form (minimal form). Rejected: hiding it behind an "More" toggle (extra control for a rarely used field). It is still shown on expand and filterable in History; edits keep the stored value.
+- Kept the could-have-bought cards and sparkle/story share; only copy trimmed.
+
+## 2026-10-12 review fixes
+- **Payment mode is back on the QuickAdd form**, as a compact optional "Paid by" chip row (UPI, Cash, Card, Net banking, Other; mirrors backend `PaymentMode`). Defaults to the last used mode (`localStorage['im.lastPaymentMode']`, try/catch); edits show and can change the stored value. This reverses the earlier "dropped from form" decision above. Rejected: a "More" toggle.
+- Header uses one `ModeSwitch` element positioned by CSS (header on >=1280px, wrapped row under the brand below it) instead of two copies; the 4-tab advisor row needs ~1270px, so below 1280px tabs move to the bottom bar. Rejected: tablist roles (it is not a tab panel pattern), so `aria-pressed` buttons in a labelled group.
+- A session change to a different user in another tab reloads the page (simplest way to drop all in-memory state). Same user: no-op.
+- Remembered paths are only list pages from the allowed nav (detail routes fall back to section root; desk only for advisors).
+- Month fields accept only `YYYY-MM`; browsers without `type=month` get a select of the last 24 months.
+- Data shown for a month/filter is tagged with its key; mismatches show Shimmer rather than stale rows.

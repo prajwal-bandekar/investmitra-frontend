@@ -1,0 +1,46 @@
+/* Simple expandable rows for Markets, Watchlist and Desk. Uses existing tokens only. */
+.srows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.srows__cols, .srow__head { display: grid; gap: 12px; align-items: center; }
+.srows__cols { padding: 8px 12px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); border-bottom: 1px solid var(--rule); }
+.srows__cols .num, .srow__head .num { text-align: right; font-family: var(--mono); font-size: 15.5px; white-space: nowrap; }
+.srows__cols .num { font-size: 12px; }
+.srow { border-bottom: 1px solid var(--rule); }
+.srow--split { display: grid; grid-template-columns: 1fr 130px; align-items: center; }
+.srow--split .srow__body { grid-column: 1 / -1; }
+.srow__head { width: 100%; padding: 12px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; min-height: 56px; }
+.srow__head:hover { background: var(--hover); }
+.srow__head:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.srow__head .ticker { font-family: var(--mono); font-weight: 600; font-size: 15px; }
+.srow__head .sub { font-size: 15px; color: var(--ink2); line-height: 1.25; }
+.srow__chev { display: inline-block; margin-right: 6px; transition: transform .15s; color: var(--ink2); }
+.srow__head[aria-expanded="true"] .srow__chev { transform: rotate(90deg); }
+.srow__act { padding: 8px 12px; display: flex; gap: 6px; justify-content: flex-end; }
+.srow__body { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: flex-end; padding: 6px 12px 16px 32px; background: var(--paper2); border-top: 1px solid var(--rule); padding-top: 14px; }
+.srow__fact { display: grid; gap: 2px; min-width: 110px; }
+.srow__fact dt, .srow__label { margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+.srow__fact dd { margin: 0; font-size: 16px; }
+.srow__acts { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.srow__muted { font-family: var(--serif); font-style: italic; color: var(--ink2); }
+
+.srows--mkt .srows__cols, .srows--mkt .srow__head { grid-template-columns: minmax(0, 1fr) 110px 110px; }
+.srows--wl .srows__cols, .srows--wl .srow__head { grid-template-columns: minmax(0, 1fr) 110px 110px 170px; }
+.srows--desk .srows__cols, .srows--desk .srow__head { grid-template-columns: minmax(0, 1fr) 110px 70px; }
+.srows--mkt .srows__cols { margin-right: 130px; }
+
+.desk-simple { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-top: 22px; padding: 18px; border: 1.5px solid var(--ink); background: var(--paper2); }
+.desk-simple__line { margin: 0; font-size: clamp(22px, 2.8vw, 30px); line-height: 1.15; }
+.desk-simple__line .mono { font-weight: 500; }
+.desk-simple__note { margin: 4px 0 0; font-size: 15px; color: var(--ink2); }
+
+@media (max-width: 720px) {
+  .srows--mkt .srows__cols, .srows--mkt .srow__head { grid-template-columns: minmax(0, 1fr) 90px; }
+  .srows--mkt .srow__avg { display: none; }
+  .srows--wl .srows__cols, .srows--wl .srow__head { grid-template-columns: minmax(0, 1fr) 90px; }
+  .srows--wl .srow__tgt { display: none; }
+  .srows--wl .srow__status { grid-column: 1 / -1; }
+  .srows--wl .srows__cols .srow__status { display: none; }
+  .srows--mkt .srows__cols { margin-right: 0; }
+  .srow--split { grid-template-columns: 1fr; }
+  .srow--split .srow__act { padding-top: 0; justify-content: flex-start; }
+  .srow__body { padding-left: 12px; }
+}

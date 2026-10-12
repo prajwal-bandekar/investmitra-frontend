@@ -1,6 +1,6 @@
 # Frontend API usage
 
-All calls go through `src/api/client.js` (base `http://localhost:8080/api` or `REACT_APP_API_URL`). Header `X-User-Id` is added automatically when a user is stored. Full contracts are in `knowledge/backend/api.md`.
+All calls go through `src/api/client.js` (base `http://localhost:8080/api` or `REACT_APP_API_URL`). Header `X-User-Id` is added automatically when a user is stored; `X-Access-Key` (and `X-Admin-Key` on `/admin`) when keys are stored, see `deploy.md`. Full contracts are in `knowledge/backend/api.md`.
 
 ## Client functions
 | Function | HTTP |

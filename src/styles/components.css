@@ -168,7 +168,7 @@ select.field__input { cursor: pointer; }
 @media (max-width: 879px) { .toast-wrap--app { bottom: 76px; } }
 
 /* ---------- Dialog (order slip) ---------- */
-.scrim { position: fixed; inset: 0; z-index: 20; background: var(--scrim);
+.scrim { position: fixed; inset: 0; z-index: 25; background: var(--scrim);
   display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
 .slip { width: 100%; max-width: 460px; max-height: 100%; overflow-y: auto;
   background-color: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 rgba(0, 0, 0, .28); }

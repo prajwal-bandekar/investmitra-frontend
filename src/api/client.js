@@ -1,24 +1,64 @@
 import axios from 'axios';
-import { getUser } from './session';
+import { clearUser, getUser } from './session';
+import { ACCESS_KEY_MESSAGE, getAccessKey, getAdminKey, patchGate } from './access';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
 });
 
-// Identifies the caller until token-based auth replaces it.
+// A free-tier host sleeps when idle; the first call may take a minute to be answered.
+const FIRST_CALL_TIMEOUT = 70000;
+const WAKING_AFTER = 3000;
+let firstDone = false;
+let wakingTimer = null;
+const firstSettled = () => {
+  firstDone = true;
+  clearTimeout(wakingTimer);
+  patchGate({ waking: false });
+};
+
+// Identifies the caller until token-based auth replaces it; adds the shared access/admin keys.
 api.interceptors.request.use((config) => {
   const user = getUser();
   if (user) config.headers['X-User-Id'] = user.id;
+  const access = getAccessKey();
+  if (access) config.headers['X-Access-Key'] = access;
+  const admin = getAdminKey();
+  if (admin && (config.url || '').startsWith('/admin')) config.headers['X-Admin-Key'] = admin;
+  if (!firstDone) {
+    config.timeout = FIRST_CALL_TIMEOUT;
+    if (!wakingTimer) wakingTimer = setTimeout(() => patchGate({ waking: true }), WAKING_AFTER);
+  }
   return config;
 });
 
 // Every endpoint returns { data, message, statusCode }; errors carry a readable message.
 api.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    if (!firstDone) firstSettled();
+    return response.data;
+  },
   (error) => {
+    if (!firstDone) firstSettled();
     const offline = error.request && !error.response;
     const err = new Error(error.response?.data?.message || (offline ? 'The server is not answering.' : error.message));
     err.status = error.response?.status;
+    // A rejected session ends here, whichever call noticed. Login/sign-up 401s are plain wrong-password errors.
+    const url = error.config?.url || '';
+    // The shared access key is missing or wrong: show the key screen, not the login redirect.
+    if (err.status === 401 && ACCESS_KEY_MESSAGE.test(error.response?.data?.message || '')) {
+      patchGate({ needKey: true, rejected: !!getAccessKey() });
+      err.accessKey = true;
+      return Promise.reject(err);
+    }
+    if (err.status === 401 && getUser() && !url.startsWith('/users/login') && url !== '/users') {
+      clearUser();
+      const path = window.location.pathname;
+      if (path.startsWith('/app')) {
+        try { sessionStorage.setItem('im.returnTo', path + window.location.search); } catch { /* storage blocked */ }
+        window.location.assign('/login');
+      }
+    }
     err.offline = offline;
     return Promise.reject(err);
   }

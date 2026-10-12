@@ -7,3 +7,4 @@ export { ToastProvider, useToast } from './Toast';
 export { ThemeProvider, useTheme } from './Theme';
 export { default as Term } from './Term';
 export { default as Glossary } from './Glossary';
+export { default as MonthPicker, MONTH_RE } from './MonthPicker';

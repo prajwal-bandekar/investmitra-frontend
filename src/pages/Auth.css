@@ -1,17 +1,14 @@
 .auth__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 3px double var(--ink); }
-.auth__brand { min-height: 56px; display: inline-flex; align-items: center; font-size: 30px; line-height: 1; text-decoration: none; }
-.auth__back { min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; letter-spacing: .06em; text-underline-offset: 4px; }
+.auth__brand { min-height: 60px; display: inline-flex; align-items: center; font-size: 30px; line-height: 1; text-decoration: none; }
+.auth__back { min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; text-underline-offset: 4px; }
 
 .auth__body { max-width: 600px; margin: 0 auto; padding: 28px 16px 64px; }
 .auth__form { border: 2px solid var(--ink); background: var(--paper); box-shadow: 6px 6px 0 var(--ink); }
-.auth__formhead { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px;
-  border-bottom: 1px solid var(--ink); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .auth__tabs { border: none; border-bottom: 1px solid var(--ink); }
 .auth__tabs button { font-size: 12px; }
 
 .auth__fields { padding: 22px 20px 26px; display: grid; gap: 22px; }
 .auth__fields h1 { margin: 0; font-size: clamp(30px, 6vw, 42px); line-height: 1.02; text-wrap: balance; }
-.auth__dek { margin: -14px 0 0; font-size: 16px; color: var(--ink2); text-wrap: pretty; }
 
 .auth__roles { border: none; padding: 0; margin: 2px 0 0; min-width: 0; }
 .auth__roles legend { padding: 0; }
@@ -22,6 +19,4 @@
 .auth__tick { width: 24px; height: 24px; flex: none; display: grid; place-items: center; border: 1.5px solid var(--ink);
   font-weight: 600; font-size: 16px; }
 
-.auth__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;
-  margin-top: 8px; padding-top: 18px; border-top: 1px dashed var(--ink); }
-.auth__foot p { margin: 0; max-width: 30ch; font-size: 14px; font-style: italic; color: var(--ink2); }
+.auth__submit { width: 100%; margin-top: 4px; }

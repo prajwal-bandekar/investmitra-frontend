@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Expenses } from '../../api/client';
-import { longDate, monthName, rupees, thisMonth } from '../../format';
+import { rupees, shortDate, thisMonth } from '../../format';
 import useRemote from '../../lib/useRemote';
-import { Shimmer, StateBlock, useToast } from '../../ui';
+import { Field, MonthPicker, Shimmer, StateBlock, useToast } from '../../ui';
 import QuickAdd, { MODE_LABELS } from './QuickAdd';
 import './expense.css';
+import './simple-expenses.css';
 
-/** Every logged expense for a month, grouped by day, with filters, edit and delete. */
+/** Every logged expense for a month as simple rows (date, category, amount) that expand for details, edit and delete. */
 export default function History() {
   const toast = useToast();
   const [month, setMonth] = useState(thisMonth());
@@ -14,24 +15,41 @@ export default function History() {
   const [paymentMode, setPaymentMode] = useState('');
   const [editing, setEditing] = useState(null);
   const categories = useRemote(() => Expenses.categories(), []);
-  const list = useRemote(() => Expenses.list({ month, categoryId: categoryId || undefined, paymentMode: paymentMode || undefined }),
-    [month, categoryId, paymentMode]);
+  const key = `${month}|${categoryId}|${paymentMode}`;
+  // The payload is tagged with the filter key it belongs to, so rows from another month or filter never show under this one.
+  const list = useRemote(() => Expenses.list({ month, categoryId: categoryId || undefined, paymentMode: paymentMode || undefined })
+    .then((res) => ({ ...res, data: { key, rows: res.data } })), [key]);
 
-  const days = useMemo(() => {
-    const groups = new Map();
-    for (const e of list.data || []) {
-      if (!groups.has(e.spentOn)) groups.set(e.spentOn, []);
-      groups.get(e.spentOn).push(e);
-    }
-    return [...groups.entries()];
-  }, [list.data]);
-  const total = (list.data || []).reduce((sum, e) => sum + Number(e.amount), 0);
+  const ready = !list.error && list.data?.key === key;
+  const items = ready ? list.data.rows : [];
+  const headingRef = useRef(null);
+  const rowRefs = useRef({});
+  const pendingFocus = useRef(null);
+  const [open, setOpen] = useState(null);
+  // Collapse the open row if its entry is gone after a reload or filter change.
+  useEffect(() => {
+    if (!ready) return;
+    setOpen((o) => (o != null && !list.data.rows.some((e) => e.id === o) ? null : o));
+  }, [ready, list.data]);
+
+  // After a delete, keyboard focus moves to the next row (or the heading) rather than being lost with the removed button.
+  useEffect(() => {
+    if (!ready || pendingFocus.current === null) return;
+    const id = pendingFocus.current;
+    pendingFocus.current = null;
+    (rowRefs.current[id] || headingRef.current)?.focus();
+  }, [ready, list.data]);
+
+  const total = items.reduce((sum, e) => sum + Number(e.amount), 0);
 
   const remove = async (e) => {
     if (!window.confirm(`Delete ${rupees(e.amount)} on ${e.category}?`)) return;
     try {
       await Expenses.remove(e.id);
-      toast('Entry torn out of the ledger.');
+      toast('Entry deleted.');
+      const i = items.findIndex((x) => x.id === e.id);
+      pendingFocus.current = (items[i + 1] || items[i - 1])?.id ?? 'heading';
+      setOpen(null);
       list.reload();
     } catch (err) {
       toast(err.message);
@@ -41,56 +59,57 @@ export default function History() {
   return (
     <>
       <div className="page-head">
-        <div className="kicker">History · {monthName(month)}</div>
-        <h1>The paper trail.</h1>
-        <p>{list.data ? `${list.data.length} entries, ${rupees(total)} in all.` : 'Every rupee, by the day.'}</p>
+        <h1 ref={headingRef} tabIndex={-1}>History</h1>
+        <p>{ready ? `${items.length} ${items.length === 1 ? 'entry' : 'entries'}, ${rupees(total)} in total.` : 'Everything you have logged.'}</p>
         <div className="ledger-toolbar">
-          <input type="month" className="field__input field__input--mono month-input" value={month} max={thisMonth()}
-            onChange={(e) => e.target.value && setMonth(e.target.value)} aria-label="Month" />
-          <select className="field__input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} aria-label="Category">
+          <MonthPicker value={month} max={thisMonth()} onChange={setMonth} />
+          <Field label="Category" as="select" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             <option value="">All categories</option>
             {(categories.data || []).map((c) => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
-          </select>
-          <select className="field__input" value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)} aria-label="Paid by">
+          </Field>
+          <Field label="Paid by" as="select" value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
             <option value="">Any payment</option>
             {Object.entries(MODE_LABELS).map(([m, label]) => <option key={m} value={m}>{label}</option>)}
-          </select>
+          </Field>
         </div>
       </div>
 
-      {list.loading && <Shimmer rows={6} />}
+      {!ready && !list.error && <Shimmer rows={6} />}
       {list.error && (
         <StateBlock error stamp="Press jam" title="Can't fetch your entries."
           action={<button className="btn" onClick={list.reload}>Try again</button>}>{list.error.message}</StateBlock>
       )}
-      {!list.loading && !list.error && days.length === 0 && (
+      {ready && items.length === 0 && (
         <StateBlock plain title="No entries match.">Try another month or clear the filters.</StateBlock>
       )}
 
-      {days.map(([day, entries]) => (
-        <section key={day} className="day">
-          <div className="day__head">
-            <span className="kicker">{longDate(day)}</span>
-            <span className="mono">{rupees(entries.reduce((s, e) => s + Number(e.amount), 0))}</span>
-          </div>
-          <ul className="entries">
-            {entries.map((e) => (
-              <li key={e.id}>
-                <span className="entries__icon" aria-hidden="true">{e.icon}</span>
-                <span className="entries__what">
-                  <b>{e.category}</b>
-                  <span className="muted">{[e.note, MODE_LABELS[e.paymentMode], e.source === 'SMS' ? 'from SMS' : null].filter(Boolean).join(' · ')}</span>
-                </span>
-                <span className="mono entries__amt">{rupees(e.amount)}</span>
-                <span className="entries__actions">
-                  <button className="btn btn--link" onClick={() => setEditing(e)}>Edit</button>
-                  <button className="btn btn--link" onClick={() => remove(e)}>Delete</button>
-                </span>
+      {items.length > 0 && (
+        <ul className="xrows">
+          {items.map((e) => {
+            const isOpen = open === e.id;
+            return (
+              <li key={e.id} className="xrow">
+                <button type="button" className="xrow__head" ref={(el) => { if (el) rowRefs.current[e.id] = el; else delete rowRefs.current[e.id]; }} aria-expanded={isOpen} aria-controls={isOpen ? `e-${e.id}` : undefined}
+                  onClick={() => setOpen(isOpen ? null : e.id)}>
+                  <span className="mono xrow__date"><span className="xrow__chev" aria-hidden="true">▸</span>{shortDate(e.spentOn)}</span>
+                  <span className="xrow__what"><span aria-hidden="true">{e.icon}</span> {e.category}</span>
+                  <span className="mono xrow__amt">{rupees(e.amount)}</span>
+                </button>
+                {isOpen && (
+                  <div className="xrow__body" id={`e-${e.id}`}>
+                    <dl className="xrow__fact"><dt>Note</dt><dd>{e.note || 'None'}</dd></dl>
+                    <dl className="xrow__fact"><dt>Paid by</dt><dd>{MODE_LABELS[e.paymentMode] || e.paymentMode}{e.source === 'SMS' ? ' (from SMS)' : ''}</dd></dl>
+                    <div className="xrow__acts">
+                      <button className="btn btn--ink" onClick={() => setEditing(e)}>Edit</button>
+                      <button className="btn btn--link" onClick={() => remove(e)}>Delete</button>
+                    </div>
+                  </div>
+                )}
               </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+            );
+          })}
+        </ul>
+      )}
 
       {editing && categories.data && (
         <QuickAdd categories={categories.data} initial={editing} onClose={() => setEditing(null)} onSaved={list.reload} />
