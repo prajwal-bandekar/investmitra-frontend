@@ -16,3 +16,4 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 
 ## 2026-10-12
 - ExpenseMitra: mode switch in AppShell, Overview, History, Budgets, QuickAdd, WishCard with sparkle and story share, `Expenses` API, `rupees`/`thisMonth`/`monthName`/`todayIso` in `format.js`.
+- Review fix: could-have-bought headline uses "an" before vowel-initial products ("an iPhone Pro Max").

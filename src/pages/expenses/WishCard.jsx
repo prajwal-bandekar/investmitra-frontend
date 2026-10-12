@@ -9,11 +9,14 @@ const BLOBS = [
   ['#D7C4FF', '#FFB8A8', '#B8F2D0'],
 ];
 
-/** One line of copy: "That's a PS5." / "That's 2× AirPods Pro." / "62% of a movie night." */
+/** "a PS5", "an iPhone Pro Max" */
+const withArticle = (name) => `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+
+/** One line of copy: "That's an iPhone Pro Max." / "That's 2× PS5." / "That's 62% of a movie night for two." */
 export function headline(card) {
   if (card.count > 1) return `That's ${card.count}× ${card.productName}.`;
-  if (card.count === 1) return `That's a ${card.productName}.`;
-  return `That's ${card.progressPercent}% of a ${card.productName}.`;
+  if (card.count === 1) return `That's ${withArticle(card.productName)}.`;
+  return `That's ${card.progressPercent}% of ${withArticle(card.productName)}.`;
 }
 
 /**
