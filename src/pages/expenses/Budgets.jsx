@@ -33,7 +33,7 @@ export default function Budgets() {
     for (const key of keys) {
       const text = (source[key] ?? '').trim();
       if (text !== '' && !(Number(text) >= 0)) { toast('Budgets are rupee amounts, e.g. 3000.'); return; }
-      items.push({ categoryId: key === 'all' ? null : key, limit: text === '' ? null : text });
+      items.push({ categoryId: key === 'all' ? null : key, limit: text === '' ? null : Number(text) });
     }
     setSaving(true);
     try {

@@ -42,7 +42,7 @@ export default function QuickAdd({ categories, topIds = [], initial, onClose, on
     if (!form.categoryId) { setError('Pick a category.'); return; }
     setBusy(true);
     setError(null);
-    const body = { ...form, amount: form.amount.trim(), note: form.note.trim() || null };
+    const body = { ...form, amount: Number(form.amount.trim()), note: form.note.trim() || null };
     try {
       if (initial) await Expenses.update(initial.id, body);
       else await Expenses.create(body);
