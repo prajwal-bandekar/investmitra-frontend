@@ -9,12 +9,44 @@ import { Stamp, Tape, useTheme } from '../ui';
 import TradeSlip from './TradeSlip';
 import './AppShell.css';
 
-const NAV = [
+const INVEST_NAV = [
   ['/app/markets', 'Markets', 'Markets', '01'],
   ['/app/book', 'My Book', 'Book', '02'],
   ['/app/watchlist', 'Watchlist', 'Watch', '03'],
   ['/app/desk', 'Price Desk', 'Desk', '04'],
 ];
+
+const EXPENSE_NAV = [
+  ['/app/expenses/overview', 'Daily Ledger', 'Ledger', '01'],
+  ['/app/expenses/history', 'History', 'History', '02'],
+  ['/app/expenses/budgets', 'Budgets', 'Budgets', '03'],
+];
+
+const LAST_PATH = { invest: 'im.lastInvestPath', expense: 'im.lastExpensePath' };
+
+const remember = (key, value) => { try { localStorage.setItem(key, value); } catch { /* storage blocked */ } };
+const recall = (key, fallback) => { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } };
+
+/** InvestMitra | ExpenseMitra switch. Each side reopens where the user left it. */
+function ModeSwitch({ mode, compact }) {
+  const navigate = useNavigate();
+  const go = (target) => {
+    if (target === mode) return;
+    navigate(target === 'expense'
+      ? recall(LAST_PATH.expense, '/app/expenses/overview')
+      : recall(LAST_PATH.invest, '/app/markets'));
+  };
+  return (
+    <div className={`modeswitch${compact ? ' modeswitch--compact' : ''}`} role="tablist" aria-label="Switch product">
+      <button role="tab" aria-selected={mode === 'invest'} className={mode === 'invest' ? 'is-on' : ''} onClick={() => go('invest')}>
+        {compact ? 'Invest' : 'InvestMitra'}
+      </button>
+      <button role="tab" aria-selected={mode === 'expense'} className={mode === 'expense' ? 'is-on' : ''} onClick={() => go('expense')}>
+        {compact ? 'Expense' : 'ExpenseMitra'}
+      </button>
+    </div>
+  );
+}
 
 const AppContext = createContext(null);
 
@@ -49,6 +81,12 @@ export default function AppShell() {
 
   useEffect(() => { refreshUser(); }, [refreshUser]);
 
+  const mode = location.pathname.startsWith('/app/expenses') ? 'expense' : 'invest';
+  const NAV = mode === 'expense' ? EXPENSE_NAV : INVEST_NAV;
+  const brand = mode === 'expense' ? 'ExpenseMitra' : 'InvestMitra';
+
+  useEffect(() => { remember(LAST_PATH[mode], location.pathname); }, [mode, location.pathname]);
+
   const latest = latestClose((tracked.data || []).map((s) => s.price));
   const ctx = useMemo(() => ({
     user,
@@ -68,9 +106,9 @@ export default function AppShell() {
 
   return (
     <AppContext.Provider value={ctx}>
-      <div className="shell">
+      <div className="shell" data-mode={mode}>
         <nav className="rail" aria-label="Main">
-          <NavLink to="/" className="display rail__brand">InvestMitra</NavLink>
+          <NavLink to="/" className="display rail__brand" key={brand}>{brand}</NavLink>
           <div className="mono rail__vol">Vol. 1 · {istShortDate()}</div>
           <div className="double-rule rail__rule" />
           <div className="rail__who">
@@ -78,9 +116,19 @@ export default function AppShell() {
             <Stamp>{roleStamp}</Stamp>
           </div>
           <div className="mono rail__id">Client ID {user.clientId}</div>
-          <div className="kicker rail__cash-label">Cash in hand</div>
-          <div className="mono rail__cash">{money(user.cashBalance)}</div>
-          <div className="mono rail__issued">of ₹10,00,000.00 issued</div>
+          <ModeSwitch mode={mode} />
+          {mode === 'invest' ? (
+            <>
+              <div className="kicker rail__cash-label">Cash in hand</div>
+              <div className="mono rail__cash">{money(user.cashBalance)}</div>
+              <div className="mono rail__issued">of ₹10,00,000.00 issued</div>
+            </>
+          ) : (
+            <>
+              <div className="kicker rail__cash-label">Real money desk</div>
+              <p className="rail__issued" style={{ fontSize: 15 }}>Your actual spending. Nothing here is pretend, and nothing here moves money.</p>
+            </>
+          )}
           <div className="rail__nav">
             {NAV.map(([to, label, , num]) => (
               <NavLink key={to} to={to}><span className="mono">{num}</span>{label}</NavLink>
@@ -95,33 +143,39 @@ export default function AppShell() {
         <div className="shell__main">
           <header className="topbar">
             <div style={{ minWidth: 0 }}>
-              <NavLink to="/" className="display topbar__brand">InvestMitra</NavLink>
+              <NavLink to="/" className="display topbar__brand" key={brand}>{brand}</NavLink>
               <div className="topbar__who">
                 <span>{user.name}</span>
                 <Stamp size="sm">{roleStamp}</Stamp>
               </div>
             </div>
             <div className="topbar__right">
-              <div style={{ textAlign: 'right' }}>
-                <div className="kicker" style={{ fontSize: 13 }}>Cash</div>
-                <div className="mono topbar__cash">{money(user.cashBalance)}</div>
-              </div>
               <button className="topbar__theme mono" aria-label={themeLabel} onClick={toggle}>{theme === 'dark' ? 'NEWS' : 'INK'}</button>
               <button className="topbar__theme mono" aria-label="Log out" onClick={logout}>OUT</button>
             </div>
           </header>
+          <div className="modestrip"><ModeSwitch mode={mode} compact /></div>
 
-          <div className="banner mono">
-            <span className="banner__state">{open ? 'MARKET OPEN' : 'MARKET CLOSED'}</span>
-            <span>
-              {open ? 'Dalal Street is trading. ' : 'Dalal Street is asleep. '}
-              {latest ? `Prices from the close of ${longDate(latest)}.` : 'No closes on file yet; run the morning wire from the Price Desk.'}
-            </span>
-          </div>
-          <Tape stocks={tracked.data} latest={latest} />
+          {mode === 'invest' ? (
+            <>
+              <div className="banner mono">
+                <span className="banner__state">{open ? 'MARKET OPEN' : 'MARKET CLOSED'}</span>
+                <span>
+                  {open ? 'Dalal Street is trading. ' : 'Dalal Street is asleep. '}
+                  {latest ? `Prices from the close of ${longDate(latest)}.` : 'No closes on file yet; run the morning wire from the Price Desk.'}
+                </span>
+              </div>
+              <Tape stocks={tracked.data} latest={latest} />
+            </>
+          ) : (
+            <div className="banner mono">
+              <span className="banner__state">EXPENSEMITRA</span>
+              <span>Every rupee has a story. Log it before you forget it.</span>
+            </div>
+          )}
 
           <main className="shell__content">
-            <div className="shell__page"><Outlet /></div>
+            <div className="shell__page" key={mode}><Outlet /></div>
           </main>
 
           <nav className="bottomnav" aria-label="Main">

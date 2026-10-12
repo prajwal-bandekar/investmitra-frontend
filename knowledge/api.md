@@ -33,3 +33,6 @@ All calls go through `src/api/client.js` (base `http://localhost:8080/api` or `R
 
 ## Error handling
 Interceptor turns failures into `Error(message)` where message is the server `message`, or "The server is not answering." when offline. `err.status` is used for 404 (Book unknown client, AppShell session reset), 409 (Desk run already in progress), 503 (Markets out of calls).
+
+## ExpenseMitra
+`Expenses` in `api/client.js`: `categories`, `createCategory`, `updateCategory`, `list(params)`, `create`, `update`, `remove`, `summary(month)`, `budgets(month)`, `saveBudgets(month, items)`. Overview uses `summary` + `categories`; History uses `list`, `categories`, `update`, `remove`; Budgets uses `budgets`, `saveBudgets`, `categories`.

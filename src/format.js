@@ -58,3 +58,19 @@ export const parseClientId = (s) => {
   const m = /^IM-(\d{1,9})$/i.exec(String(s || '').trim());
   return m ? Number(m[1]) : null;
 };
+
+/** Whole rupees, no paise: ₹1,49,900 */
+export const rupees = (v) => (isNum(v) ? (Number(v) < -E ? '−' : '') + '₹' + NI.format(Math.round(Math.abs(Number(v)))) : '-');
+
+/** Current month in IST as "2026-10". */
+export const thisMonth = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }).slice(0, 7);
+
+/** "2026-10" to "October 2026" */
+export const monthName = (ym) => {
+  if (!ym) return '-';
+  const [y, m] = String(ym).split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-IN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+};
+
+/** Today in IST as "2026-10-12". */
+export const todayIso = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });

@@ -9,4 +9,7 @@
 - `Stocks.get` in `api/client.js` is unused.
 - Fonts load from Google Fonts at runtime (offline dev shows fallback fonts).
 - No password reset flow (stated in Auth copy).
-- No git commits yet in this repo.
+- Repo now has commits; next ingest should switch `.ingest-state.json` to git mode.
+- ExpenseMitra not visually verified on a real device yet; story share uses `ctx.filter` blur (Safari may render blobs without blur).
+- ExpenseMitra recurring expenses, income, CSV export and SMS capture not built yet.
+- `public/index.html` loads a missing `/src/components/Scripts/script.js` (served as HTML, throws "Unexpected token '<'" in the console). Pre-existing; remove the tag.

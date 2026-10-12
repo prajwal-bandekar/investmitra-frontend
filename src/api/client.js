@@ -57,3 +57,18 @@ export const PriceDesk = {
   runs: () => api.get('/admin/price-job/runs'),
   quota: () => api.get('/admin/price-job/quota'),
 };
+
+// ---- ExpenseMitra ----
+
+export const Expenses = {
+  categories: () => api.get('/expense-categories'),
+  createCategory: (body) => api.post('/expense-categories', body),
+  updateCategory: (id, body) => api.put(`/expense-categories/${id}`, body),
+  list: (params) => api.get('/expenses', { params }),
+  create: (body) => api.post('/expenses', body),
+  update: (id, body) => api.put(`/expenses/${id}`, body),
+  remove: (id) => api.delete(`/expenses/${id}`),
+  summary: (month) => api.get('/expenses/summary', { params: { month } }),
+  budgets: (month) => api.get('/budgets', { params: { month } }),
+  saveBudgets: (month, items) => api.put('/budgets', { month, items }),
+};

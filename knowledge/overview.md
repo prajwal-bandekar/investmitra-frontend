@@ -18,10 +18,11 @@ React 18 (Create React App, `react-scripts` 5.0.1), react-router-dom v6, axios, 
 | `ui/` | Reusable components: Stamp, Tape, Shimmer, StateBlock, Field, Toast, Theme, Term, Glossary |
 | `pages/` | Landing, Auth, AppShell (layout + context), Markets, Book, Portfolio, WatchlistPage, Desk, TradeSlip |
 | `styles/` | `tokens.css` (design tokens, base, keyframes), `components.css` (shared classes) |
+| `pages/expenses/` | ExpenseMitra: Overview, History, Budgets, QuickAdd, WishCard, ProductArt (+ `expense.css`, `WishCard.css`) |
 | `pages/*.css` | Per-page styles (`AppShell.css`, `Auth.css`, `Landing.css`, `TradeSlip.css`, `pages.css`) |
 
 ## Routes
-`/` Landing, `/signup` and `/login` Auth, `/app` AppShell with children: `markets` (default), `book`, `book/:id`, `watchlist`, `desk`. Unknown paths redirect to `/`. `AppShell` redirects to `/login` when no stored user.
+`/` Landing, `/signup` and `/login` Auth, `/app` AppShell with children: `markets` (default), `book`, `book/:id`, `watchlist`, `desk`, and ExpenseMitra under `expenses/` (`overview` default, `history`, `budgets`). Unknown paths redirect to `/`. `AppShell` redirects to `/login` when no stored user.
 
 ## Build / run / test
 ```

@@ -50,3 +50,28 @@
 .banner { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; padding: 7px 16px;
   background: var(--ink); color: var(--paper); font-size: 13.5px; line-height: 1.45; }
 .banner__state { font-weight: 600; letter-spacing: .06em; }
+
+/* ---- InvestMitra | ExpenseMitra switch ---- */
+.shell[data-mode="expense"], .expense-scope { --accent: #FF6F59; --on-accent: #2A0530; }
+.shell[data-mode="expense"] .bottomnav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.modeswitch { display: grid; grid-template-columns: 1fr 1fr; margin-top: 18px; border: 1.5px solid var(--ink); }
+.modeswitch button { min-height: 40px; padding: 0 6px; border: 0; background: transparent; cursor: pointer;
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; }
+.modeswitch button + button { border-left: 1.5px solid var(--ink); }
+.modeswitch button.is-on { background: var(--ink); color: var(--paper); }
+.modeswitch button:not(.is-on):hover { background: var(--hover); }
+.modeswitch--compact { margin-top: 0; border-width: 0 0 1.5px; }
+.modeswitch--compact button { min-height: 40px; font-size: 12px; }
+.modestrip { display: none; }
+@media (max-width: 879px) { .modestrip { display: block; } }
+
+/* The masthead is "reprinted" when switching: brand and page ink in. */
+.rail__brand, .topbar__brand { animation: im-reprint .38s ease-out both; }
+.shell__page { animation: im-page-in .32s ease-out both; }
+@keyframes im-reprint { from { opacity: 0; transform: translateY(-6px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+/* Opacity only: a transform here would trap position:fixed children (the + button). */
+@keyframes im-page-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .rail__brand, .topbar__brand, .shell__page { animation: none; }
+}
