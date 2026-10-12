@@ -11,6 +11,9 @@ import Book from './pages/Book';
 import Portfolio from './pages/Portfolio';
 import WatchlistPage from './pages/WatchlistPage';
 import Desk from './pages/Desk';
+import Overview from './pages/expenses/Overview';
+import History from './pages/expenses/History';
+import Budgets from './pages/expenses/Budgets';
 
 export default function App() {
   return (
@@ -28,6 +31,12 @@ export default function App() {
               <Route path="book/:id" element={<Portfolio />} />
               <Route path="watchlist" element={<WatchlistPage />} />
               <Route path="desk" element={<Desk />} />
+              <Route path="expenses">
+                <Route index element={<Navigate to="overview" replace />} />
+                <Route path="overview" element={<Overview />} />
+                <Route path="history" element={<History />} />
+                <Route path="budgets" element={<Budgets />} />
+              </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

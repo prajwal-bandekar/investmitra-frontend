@@ -34,3 +34,12 @@ Paths relative to `investmitra-frontend/src/`.
 - **WatchlistPage.jsx**: watched stocks, editable target price, remove, Trade button, TARGET HIT stamp from `targetReached`.
 - **Desk.jsx**: Price Desk: quota meter (budget dots), "run now" button, last runs log with status and trigger labels.
 - **TradeSlip.jsx** (+`TradeSlip.css`): the order slip dialog, receipt, tear and file animations. Props: `stock`, `side`, `portfolioId`, `latest`, `cash`, `onClose`, `onDone`. Details in business-logic.md and ui-design.md.
+
+## ExpenseMitra (`pages/expenses/`)
+- **AppShell** mode switch: `ModeSwitch` (InvestMitra | ExpenseMitra) in the rail and the mobile top bar. Mode = path starts with `/app/expenses`. Each mode remembers its last path in `localStorage` (`im.lastInvestPath`, `im.lastExpensePath`). Expense mode swaps brand, nav (Daily Ledger, History, Budgets), banner, hides the tape and cash, and sets `data-mode="expense"` on `.shell` (coral accent).
+- **Overview.jsx**: month picker, headline total vs last month, overall budget meter (80% warn, OVER BUDGET stamp), could-have-bought cards, spend-by-category bars with budget markers, mobile floating + button.
+- **QuickAdd.jsx**: receipt-style dialog to log or edit; amount focused; category chips ordered by this month's most-used; date, payment mode, note; LOGGED stamp on save.
+- **History.jsx**: entries grouped by day, filters (month, category, payment mode), edit via QuickAdd, delete with confirm.
+- **Budgets.jsx**: per-category limits plus overall cap, "Copy last month".
+- **WishCard.jsx** (+`WishCard.css`): soft drifting blurred blobs, product illustration centred, sharp four-point sparkle that pops in, glints, progress bar when the spend covers less than one product, invest line, "Share as story" draws a 1080x1920 PNG (Web Share API, else download).
+- **ProductArt.jsx**: inline SVG illustrations keyed by `WishProduct.image` (phone, laptop, headphones, earbuds, console, sneaker, ticket, travel); literal colours so they serialise into the share image.

@@ -48,3 +48,6 @@ Newspaper metaphors ("the wire", "Dalal Street is asleep", "folio", "Price Desk"
 
 ## Accessibility notes
 Colour is always paired with a sign and arrow; dialog has `role="dialog"`, `aria-modal`; errors use `role="alert"`; receipt has an `sr-only` status; `:focus-visible` outline in accent; tooltips focusable.
+
+## ExpenseMitra
+Same newsprint system with a coral accent (`#FF6F59`) so users know which product they are in. Could-have-bought cards break from flat newsprint on purpose: pastel blurred layers, product in the middle, one white sparkle with glow, playful copy ("That's a PS5."). All motion is transform/opacity/filter and is disabled under `prefers-reduced-motion`. Mode switch "reprints" the masthead (brand fades and un-blurs) and the page slides in.

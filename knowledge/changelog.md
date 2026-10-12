@@ -13,3 +13,6 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 
 ## 2026-10-10
 - Knowledge base created; initial `.ingest-state.json` written with sha256 hashes (no git commits).
+
+## 2026-10-12
+- ExpenseMitra: mode switch in AppShell, Overview, History, Budgets, QuickAdd, WishCard with sparkle and story share, `Expenses` API, `rupees`/`thisMonth`/`monthName`/`todayIso` in `format.js`.

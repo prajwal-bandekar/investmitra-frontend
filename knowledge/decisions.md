@@ -39,3 +39,9 @@ Format: date, decision, why, alternatives rejected, status.
 - **Decision:** Store the whole user object in `localStorage` and send `X-User-Id`.
 - **Why:** Mirrors the backend placeholder auth.
 - **Status:** To be replaced when the backend issues tokens.
+
+## F08 ExpenseMitra as a mode of the same app (2026-10-12)
+- **Decision:** A two-way switch in the shell turns InvestMitra into ExpenseMitra under `/app/expenses`, same session and design system with a coral accent.
+- **Why:** One login and one app; users hop between spending and investing.
+- **Rejected:** A separate `/expenses` landing site; a separate app.
+- **Status:** Done (web). Phase 2 Android app with SMS auto-capture is in the PRD.
