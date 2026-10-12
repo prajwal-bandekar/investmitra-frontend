@@ -96,6 +96,8 @@ export const PriceDesk = {
   run: () => api.post('/admin/price-job/run'),
   runs: () => api.get('/admin/price-job/runs'),
   quota: () => api.get('/admin/price-job/quota'),
+  // Downloads and stores both exchanges' closing prices; the server is quick on a warm day but allow ~2 minutes.
+  runBhavcopy: () => api.post('/admin/bhavcopy/run', null, { timeout: 120000 }),
 };
 
 // ---- ExpenseMitra ----

@@ -35,3 +35,8 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 - Added `vercel.json` (SPA rewrite), `.env.example`, `knowledge/deploy.md`.
 - Access-key gate (`api/access.js`, `pages/AccessGate.jsx`, interceptor headers, Desk admin-key field) and Render cold-start banner with 70 s first-call timeout. `REACT_APP_API_URL` was already supported.
 - **Decision:** shared access key instead of JWT for now; the 401 handler tells access-key 401s apart from session 401s by message. Rejected: reusing the /login redirect for both. Key changes reload the page rather than re-running failed requests.
+
+## 2026-10-13
+- Price Desk: primary "Run BSE import" button (`PriceDesk.runBhavcopy` -> `POST /admin/bhavcopy/run`, 120 s timeout, no date so the server picks the last completed trading day) with a note about NSE and BSE closing prices and the 7:30 PM weekday run. Shows "Importing… this can take a minute" while running; toasts "Imported 5,017 prices for 12 Oct.", "An import is already running." on 409, shows the admin-key field on 403, reloads the log afterwards.
+- The Alpha Vantage button is now the secondary "Update 20 tracked stocks (Alpha Vantage)"; its note mentions the 25 calls/day free limit.
+- Log rows show their source (BSE import or Alpha Vantage; a missing `source` means Alpha Vantage) in the row and in the expanded details.

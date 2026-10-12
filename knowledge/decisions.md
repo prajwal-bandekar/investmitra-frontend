@@ -71,3 +71,6 @@ Format: date, decision, why, alternatives rejected, status.
 - Remembered paths are only list pages from the allowed nav (detail routes fall back to section root; desk only for advisors).
 - Month fields accept only `YYYY-MM`; browsers without `type=month` get a select of the last 24 months.
 - Data shown for a month/filter is tagged with its key; mismatches show Shimmer rather than stale rows.
+
+## 2026-10-13 Bhavcopy import is the primary Price Desk action
+- The BSE import loads every NSE and BSE stock in one run, so it is the primary button; Alpha Vantage (25 calls/day) is secondary. No date picker: the server defaults to the last completed trading day. Rejected: a date field (backfills are an API/admin task, not a beginner one).
