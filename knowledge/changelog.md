@@ -49,3 +49,17 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 - Mode switch spans the full width below 1280px (360px cap removed).
 - MonthPicker fallback select offers the next 12 months when there is no max (Budgets on browsers without a month input).
 - Removed unused History `.entries`/`.day` styles, `.receipt-form__row` and the duplicate `.month-input` width.
+
+## 2026-10-13 Free to spend (branch feat/free-to-spend)
+- New `Plan` client in `api/client.js` (`get`, `setSalary`, `commitments`, `createCommitment`, `updateCommitment`, `removeCommitment`, `extraIncome`, `addExtraIncome`, `removeExtraIncome`).
+- Expense nav is now Ledger, Plan, History, Budgets (`/app/expenses/plan`; restorable automatically since it comes from `EXPENSE_NAV`).
+- Ledger: money ring (`MoneyRing.jsx`, inline SVG donut) with "Free to spend" in the centre, legend, daily allowance, committed-percent and ending-soon lines, and a "Can I afford it?" field (client-side maths). Without a salary a card links to Plan.
+- New Plan page (`Plan.jsx`, `CommitmentDialog.jsx`, `plan.css`): salary with "since <month>", extra income list and form, commitments list with add/edit/delete dialog, month summary strip.
+- `format.js`: `shortMonth`, `nextMonth`.
+
+### Free to spend: review fixes
+- Ring centre never wraps (nowrap, 12% padding, smaller font for amounts of 8+ characters); hatch is a `stroke` attribute on the arc.
+- Plan: "Upcoming and ended" list (from `Plan.commitments()`) shows commitments not active in the viewed month, tappable to edit; reloads after save/delete. Adding one that starts later toasts "Added. It counts from <Mon YYYY>."
+- Commitment dialog: start defaults to max(viewed month, this month); format and order checks for months are separate messages.
+- Ledger: past month without salary says "No salary set for <Month>" (no button); a placeholder holds the ring's height while the plan loads; extra line when commitments exceed income; "Can I afford it?" uses QuickAdd-style amount cleaning and rounds a shortfall up to at least ₹1.
+- Extra-income add/delete has an in-flight guard; removed dead CSS.

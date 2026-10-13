@@ -74,3 +74,12 @@ export const monthName = (ym) => {
 
 /** Today in IST as "2026-10-12". */
 export const todayIso = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+
+/** "2027-03" to "Mar" */
+export const shortMonth = (ym) => (ym ? MONTHS[Number(String(ym).split('-')[1]) - 1] || '-' : '-');
+
+/** "2026-12" to "2027-01" */
+export const nextMonth = (ym) => {
+  const [y, m] = String(ym).split('-').map(Number);
+  return m === 12 ? `${y + 1}-01` : `${y}-${String(m + 1).padStart(2, '0')}`;
+};

@@ -19,6 +19,7 @@ const DESK = ['/app/desk', 'Price Desk'];
 
 const EXPENSE_NAV = [
   ['/app/expenses/overview', 'Ledger'],
+  ['/app/expenses/plan', 'Plan'],
   ['/app/expenses/history', 'History'],
   ['/app/expenses/budgets', 'Budgets'],
 ];

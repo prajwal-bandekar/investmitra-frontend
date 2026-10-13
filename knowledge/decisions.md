@@ -74,3 +74,11 @@ Format: date, decision, why, alternatives rejected, status.
 
 ## 2026-10-13 Bhavcopy import is the primary Price Desk action
 - The BSE import loads every NSE and BSE stock in one run, so it is the primary button; Alpha Vantage (25 calls/day) is secondary. No date picker: the server defaults to the last completed trading day. Rejected: a date field (backfills are an API/admin task, not a beginner one).
+
+## 2026-10-13 Free to spend UI
+- Ledger leads with one number, "Free to spend", drawn as a ring (inline SVG, no chart library) so the page stays dependency-free. Rejected: a bar split (harder to read at 360px), a chart library (new dependency for one donut).
+- A separate Plan tab holds salary, extra income and commitments instead of cluttering the Ledger. Rejected: editing inside the Ledger, a settings modal.
+- Commitment add/edit reuses the QuickAdd receipt dialog look (own component, same classes). Rejected: inline row editing (cramped on phones).
+- "Can I afford it?" is pure client maths on the loaded plan (no API call); hidden when no days are left in the month.
+- The plan failing to load never blocks the Ledger: the existing summary still renders.
+- Over-limit amber (>= 40% committed) uses the literal #E8A317 already used in expense.css; no new token.

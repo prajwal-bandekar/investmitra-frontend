@@ -51,3 +51,8 @@ Colour is always paired with a sign and arrow; dialog has `role="dialog"`, `aria
 
 ## ExpenseMitra
 Same newsprint system with a coral accent (`#FF6F59`) so users know which product they are in. Could-have-bought cards break from flat newsprint on purpose: pastel blurred layers, product in the middle, one white sparkle with glow, playful copy ("That's a PS5."). All motion is transform/opacity/filter and is disabled under `prefers-reduced-motion`. Pages follow the same simplification rules as the invest pages (plain headings matching tab labels, no kickers, labels above inputs, simple rows + expand for History); only empty/error states keep the wit. Mode switch "reprints" the masthead (brand fades and un-blurs) and the page slides in.
+
+### Free to spend (ExpenseMitra)
+- **Money ring** (`MoneyRing.jsx`, `plan.css`): SVG donut, up to 280px, stroke segments in order committed (`--ink2`), set aside (`--gain`), spent (`--accent`), left (hatched `--paper2`). Over-spent shows a full ring and a loss-coloured note. Centre: mono "Free to spend" figure and "of ₹income". Legend hides zero segments.
+- Lines under the ring (`.plan-lines`) use a left rule: amber at >= 40% committed, loss at >= 50%, gain for ending-soon. "Can I afford it?" is a dashed `.afford` box.
+- **Plan page**: mobile first single column (salary, extra income, commitments as `.plan-rows`, summary `.plan-sum` 2x2); from 720px the summary is one row of four. Commitment dialog is the QuickAdd receipt (`.scrim .slip .receipt-form`), kind as chip row.

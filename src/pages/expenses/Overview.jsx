@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Expenses } from '../../api/client';
-import { monthName, rupees, thisMonth } from '../../format';
+import { Expenses, Plan } from '../../api/client';
+import { monthName, nextMonth, rupees, shortMonth, thisMonth } from '../../format';
 import useRemote from '../../lib/useRemote';
 import { MonthPicker, Shimmer, Stamp, StateBlock } from '../../ui';
+import MoneyRing from './MoneyRing';
 import QuickAdd from './QuickAdd';
 import WishCard from './WishCard';
 import './expense.css';
 import './WishCard.css';
 import './simple-expenses.css';
+import './plan.css';
 
 /** ExpenseMitra front page: month headline, spend by category against budgets, could-have-bought cards. */
 export default function Overview() {
@@ -17,9 +19,12 @@ export default function Overview() {
   // The payload is tagged with the month it belongs to, so a previous month's numbers are never shown under a new month.
   const summary = useRemote(() => Expenses.summary(month).then((res) => ({ ...res, data: { month, body: res.data } })), [month]);
   const categories = useRemote(() => Expenses.categories(), []);
+  // The plan is optional for the page: if it fails, the rest of the Ledger still shows.
+  const planReq = useRemote(() => Plan.get(month).then((res) => ({ ...res, data: { month, body: res.data } })), [month]);
+  const plan = !planReq.error && planReq.data?.month === month ? planReq.data.body : null;
   const s = !summary.error && summary.data?.month === month ? summary.data.body : null;
 
-  const reload = () => { summary.reload(); };
+  const reload = () => { summary.reload(); planReq.reload(); };
   const topIds = s ? s.byCategory.filter((c) => c.count > 0).map((c) => c.categoryId) : [];
   const spent = s ? s.byCategory.filter((c) => Number(c.spent) > 0) : [];
   const max = Math.max(1, ...spent.map((c) => Math.max(Number(c.spent), Number(c.budget || 0))));
@@ -50,6 +55,8 @@ export default function Overview() {
           {summary.error.message}
         </StateBlock>
       )}
+
+      {plan ? <FreeToSpend plan={plan} month={month} /> : !planReq.error && <div className="ring-wrap ring-wrap--loading" aria-hidden="true" />}
 
       {s && (
         <>
@@ -125,5 +132,76 @@ export default function Overview() {
         <QuickAdd categories={categories.data} topIds={topIds} onClose={() => setAdding(false)} onSaved={reload} />
       )}
     </>
+  );
+}
+
+const cleanAmount = (text) => {
+  const t = text.replace(/[^\d.]/g, '');
+  const dot = t.indexOf('.');
+  if (dot === -1) return t.slice(0, 12);
+  return `${t.slice(0, dot).slice(0, 12)}.${t.slice(dot + 1).replace(/\./g, '').slice(0, 2)}`;
+};
+
+/** Top of the Ledger: the money ring and a few plain lines about it, or a nudge to set a salary. */
+function FreeToSpend({ plan, month }) {
+  if (plan.salary === null || plan.salary === undefined) {
+    if (month < thisMonth()) return <p className="plan-note ring-wrap">No salary set for {monthName(month)}.</p>;
+    return (
+      <div className="plan-card">
+        <p>Add your monthly salary to see what's free to spend.</p>
+        <Link to="/app/expenses/plan" className="btn btn--ink">Add salary</Link>
+      </div>
+    );
+  }
+  const daily = plan.dailyAllowance !== null && plan.dailyAllowance !== undefined ? Number(plan.dailyAllowance) : null;
+  const percent = plan.committedPercent;
+  const over = Number(plan.remaining) < 0;
+  return (
+    <section className="ring-wrap" aria-label="Free to spend">
+      <MoneyRing plan={plan} />
+      <ul className="plan-lines">
+        {Number(plan.freeToSpend) < 0 && <li className="is-loss">Your commitments are more than your income this month.</li>}
+        {over && <li className="is-loss">You're {rupees(-Number(plan.remaining))} past what was free this month. It resets next month.</li>}
+        {daily !== null && plan.daysLeft > 0 && (
+          <li>{rupees(daily)} a day for the next {plan.daysLeft} {plan.daysLeft === 1 ? 'day' : 'days'}</li>
+        )}
+        {percent !== null && percent !== undefined && Number(plan.committedTotal) > 0 && (
+          <li className={percent >= 50 ? 'is-loss' : percent >= 40 ? 'is-amber' : ''}>{percent}% of your income is committed</li>
+        )}
+        {(plan.endingSoon || []).map((e) => (
+          <li key={e.id} className="is-gain">
+            {e.name} ends in {shortMonth(e.endMonth)}: +{rupees(e.amount)} free from {shortMonth(nextMonth(e.endMonth))}
+          </li>
+        ))}
+      </ul>
+      {plan.daysLeft > 0 && <Afford plan={plan} />}
+    </section>
+  );
+}
+
+/** "Can I afford it?" Pure maths on the plan already loaded; nothing is sent anywhere. */
+function Afford({ plan }) {
+  const [text, setText] = useState('');
+  const amount = Number(text);
+  const remaining = Number(plan.remaining);
+  let result = null;
+  if (text !== '' && amount > 0) {
+    const after = remaining - amount;
+    if (after < 0) {
+      result = `Doesn't fit this month: it's ${rupees(Math.max(1, Math.ceil(amount - Math.max(remaining, 0))))} more than what's free.`;
+    } else {
+      const daily = Math.floor(after / plan.daysLeft);
+      result = `Fits. You'd have ${rupees(after)} left${daily > 0 ? `, about ${rupees(daily)} a day` : ''}.`;
+    }
+  }
+  return (
+    <div className="afford">
+      <label className="field">
+        <span className="field__label">Can I afford it?</span>
+        <input className="field__input field__input--mono" inputMode="decimal" placeholder="Amount in rupees" value={text}
+          onChange={(e) => setText(cleanAmount(e.target.value))} />
+      </label>
+      <p className="afford__result" aria-live="polite">{result}</p>
+    </div>
   );
 }
