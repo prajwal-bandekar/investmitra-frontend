@@ -56,7 +56,7 @@ export default function Overview() {
         </StateBlock>
       )}
 
-      {plan && <FreeToSpend plan={plan} />}
+      {plan ? <FreeToSpend plan={plan} month={month} /> : !planReq.error && <div className="ring-wrap ring-wrap--loading" aria-hidden="true" />}
 
       {s && (
         <>
@@ -135,9 +135,17 @@ export default function Overview() {
   );
 }
 
+const cleanAmount = (text) => {
+  const t = text.replace(/[^\d.]/g, '');
+  const dot = t.indexOf('.');
+  if (dot === -1) return t.slice(0, 12);
+  return `${t.slice(0, dot).slice(0, 12)}.${t.slice(dot + 1).replace(/\./g, '').slice(0, 2)}`;
+};
+
 /** Top of the Ledger: the money ring and a few plain lines about it, or a nudge to set a salary. */
-function FreeToSpend({ plan }) {
+function FreeToSpend({ plan, month }) {
   if (plan.salary === null || plan.salary === undefined) {
+    if (month < thisMonth()) return <p className="plan-note ring-wrap">No salary set for {monthName(month)}.</p>;
     return (
       <div className="plan-card">
         <p>Add your monthly salary to see what's free to spend.</p>
@@ -152,6 +160,7 @@ function FreeToSpend({ plan }) {
     <section className="ring-wrap" aria-label="Free to spend">
       <MoneyRing plan={plan} />
       <ul className="plan-lines">
+        {Number(plan.freeToSpend) < 0 && <li className="is-loss">Your commitments are more than your income this month.</li>}
         {over && <li className="is-loss">You're {rupees(-Number(plan.remaining))} past what was free this month. It resets next month.</li>}
         {daily !== null && plan.daysLeft > 0 && (
           <li>{rupees(daily)} a day for the next {plan.daysLeft} {plan.daysLeft === 1 ? 'day' : 'days'}</li>
@@ -179,7 +188,7 @@ function Afford({ plan }) {
   if (text !== '' && amount > 0) {
     const after = remaining - amount;
     if (after < 0) {
-      result = `Doesn't fit this month: it's ${rupees(amount - Math.max(remaining, 0))} more than what's free.`;
+      result = `Doesn't fit this month: it's ${rupees(Math.max(1, Math.ceil(amount - Math.max(remaining, 0))))} more than what's free.`;
     } else {
       const daily = Math.floor(after / plan.daysLeft);
       result = `Fits. You'd have ${rupees(after)} left${daily > 0 ? `, about ${rupees(daily)} a day` : ''}.`;
@@ -190,7 +199,7 @@ function Afford({ plan }) {
       <label className="field">
         <span className="field__label">Can I afford it?</span>
         <input className="field__input field__input--mono" inputMode="decimal" placeholder="Amount in rupees" value={text}
-          onChange={(e) => setText(e.target.value.replace(/[^\d.]/g, '').slice(0, 12))} />
+          onChange={(e) => setText(cleanAmount(e.target.value))} />
       </label>
       <p className="afford__result" aria-live="polite">{result}</p>
     </div>

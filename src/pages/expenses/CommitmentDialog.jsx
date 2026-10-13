@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Plan } from '../../api/client';
-import { thisMonth } from '../../format';
+import { monthName, thisMonth } from '../../format';
 import { Field, MONTH_RE, useToast } from '../../ui';
 
 // Mirrors the backend CommitmentKind enum.
@@ -31,7 +31,7 @@ export default function CommitmentDialog({ initial, month, onClose, onSaved }) {
     kind: initial?.kind ?? 'EMI',
     amount: initial ? String(Number(initial.amount)) : '',
     dueDay: initial ? String(initial.dueDay) : '1',
-    startMonth: initial?.startMonth ?? month ?? thisMonth(),
+    startMonth: initial?.startMonth ?? (month && month > thisMonth() ? month : thisMonth()),
     endMonth: initial?.endMonth ?? '',
   }));
   const [error, setError] = useState(null);
@@ -71,8 +71,9 @@ export default function CommitmentDialog({ initial, month, onClose, onSaved }) {
     if (!name) { setError('Give it a name, e.g. Bajaj EMI.'); return; }
     if (!/^\d{1,12}(\.\d{1,2})?$/.test(form.amount) || !(amount > 0)) { setError('Enter the monthly amount, above zero.'); return; }
     if (!Number.isInteger(dueDay) || dueDay < 1 || dueDay > 31) { setError('Due day is a date from 1 to 31.'); return; }
-    if (!MONTH_RE.test(form.startMonth)) { setError('Pick the month it starts.'); return; }
-    if (form.endMonth && (!MONTH_RE.test(form.endMonth) || form.endMonth < form.startMonth)) { setError('The end month can’t be before the start month.'); return; }
+    if (!MONTH_RE.test(form.startMonth)) { setError('Start month: use YYYY-MM, e.g. 2027-03.'); return; }
+    if (form.endMonth && !MONTH_RE.test(form.endMonth)) { setError('End month: use YYYY-MM, e.g. 2027-03.'); return; }
+    if (form.endMonth && form.endMonth < form.startMonth) { setError('The end month can’t be before the start month.'); return; }
     const body = { name, kind: form.kind, amount, dueDay, startMonth: form.startMonth, endMonth: form.endMonth || null };
     inFlight.current = true;
     setBusy(true);
@@ -80,7 +81,7 @@ export default function CommitmentDialog({ initial, month, onClose, onSaved }) {
     try {
       if (initial) await Plan.updateCommitment(initial.id, body);
       else await Plan.createCommitment(body);
-      onSaved(initial ? 'Commitment updated.' : 'Commitment added.');
+      onSaved(!initial && body.startMonth > (month || thisMonth()) ? `Added. It counts from ${monthName(body.startMonth)}.` : initial ? 'Commitment updated.' : 'Commitment added.');
       closeRef.current();
     } catch (err) {
       inFlight.current = false;

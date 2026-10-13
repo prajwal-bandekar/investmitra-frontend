@@ -8,12 +8,12 @@
 .ring__arc--committed { stroke: var(--ink2); }
 .ring__arc--savings { stroke: var(--gain); }
 .ring__arc--spent { stroke: var(--accent); }
-.ring__arc--left { stroke: url(#ring-hatch); }
 .ring__hatchbg { fill: var(--paper2); }
 .ring__hatchline { stroke: var(--ink2); stroke-width: 1.4; opacity: .55; }
-.ring__centre { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2px; text-align: center; padding: 0 22%; }
+.ring__centre { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2px; text-align: center; padding: 0 12%; }
 .ring__label { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
-.ring__big { font-size: clamp(26px, 8vw, 34px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; overflow-wrap: anywhere; }
+.ring__big { font-size: clamp(26px, 8vw, 34px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; white-space: nowrap; }
+.ring__big--long { font-size: clamp(20px, 6vw, 25px); }
 .ring__small { font-size: 13px; color: var(--ink2); }
 .ring__legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px 22px; width: 100%; max-width: 420px;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
@@ -58,9 +58,6 @@
 .plan-row__name { overflow-wrap: anywhere; }
 .plan-row__amt { text-align: right; white-space: nowrap; }
 .plan-row__meta { grid-column: 1 / -1; font-size: 13.5px; color: var(--ink2); }
-.plan-row--static { cursor: default; }
-.plan-row--static:hover { background: none; }
-.plan-row__del { grid-row: 1; grid-column: 3; }
 .plan-extra { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 12px; align-items: center; padding: 8px; min-height: 52px; }
 
 .plan-sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 30px; border: 1.5px solid var(--ink); }
@@ -80,3 +77,6 @@
 .cm-form__two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .cm-form__two .field { min-width: 0; }
 .cm-form__del { margin-right: auto; color: var(--loss); }
+
+.ring-wrap--loading { min-height: 420px; }
+.plan-sub { margin: 22px 0 0; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); font-weight: 400; }

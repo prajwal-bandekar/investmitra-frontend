@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Plan as PlanApi } from '../../api/client';
 import { monthName, rupees, shortMonth, thisMonth } from '../../format';
 import useRemote from '../../lib/useRemote';
@@ -32,7 +32,10 @@ export default function Plan() {
   const extraReq = useRemote(() => PlanApi.extraIncome(month).then((res) => ({ ...res, data: { month, body: res.data } })), [month]);
   const p = !planReq.error && planReq.data?.month === month ? planReq.data.body : null;
   const extras = !extraReq.error && extraReq.data?.month === month ? extraReq.data.body : null;
-  const reload = () => { planReq.reload(); extraReq.reload(); };
+  const allReq = useRemote(() => PlanApi.commitments(), []);
+  const inactive = (allReq.data || []).filter((c) => c.startMonth > month || (c.endMonth && c.endMonth < month));
+  const reload = () => { planReq.reload(); extraReq.reload(); allReq.reload(); };
+  const busyExtra = useRef(false);
 
   const saveSalary = async (e) => {
     e.preventDefault();
@@ -57,6 +60,8 @@ export default function Plan() {
     const text = extra.amount.trim();
     if (!label) { toast('Say what it was for, e.g. Bonus.'); return; }
     if (!AMOUNT_RE.test(text) || !(Number(text) > 0)) { toast('Enter the amount above zero, e.g. 5000.'); return; }
+    if (busyExtra.current) return;
+    busyExtra.current = true;
     setAddingExtra(true);
     try {
       await PlanApi.addExtraIncome({ month, amount: Number(text), label });
@@ -65,17 +70,22 @@ export default function Plan() {
     } catch (err) {
       toast(err.message);
     } finally {
+      busyExtra.current = false;
       setAddingExtra(false);
     }
   };
 
   const removeExtra = async (x) => {
     if (!window.confirm(`Delete ${x.label} (${rupees(x.amount)})?`)) return;
+    if (busyExtra.current) return;
+    busyExtra.current = true;
     try {
       await PlanApi.removeExtraIncome(x.id);
       reload();
     } catch (err) {
       toast(err.message);
+    } finally {
+      busyExtra.current = false;
     }
   };
 
@@ -169,6 +179,24 @@ export default function Plan() {
                   </li>
                 ))}
               </ul>
+            )}
+            {inactive.length > 0 && (
+              <>
+                <h3 className="plan-sub">Upcoming and ended</h3>
+                <ul className="plan-rows">
+                  {inactive.map((c) => (
+                    <li key={c.id}>
+                      <button className="plan-row" onClick={() => setEditing(c)} aria-label={`Edit ${c.name}`}>
+                        <span className="plan-row__name">{c.name}</span>
+                        <span className="plan-row__amt mono">{rupees(c.amount)}</span>
+                        <span className="plan-row__meta">
+                          {KIND_LABELS[c.kind] || c.kind} · {c.startMonth > month ? `starts ${monthYear(c.startMonth)}` : `ended ${monthYear(c.endMonth)}`}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </section>
 

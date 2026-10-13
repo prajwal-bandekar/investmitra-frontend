@@ -16,6 +16,7 @@ export default function MoneyRing({ plan }) {
   const spent = Math.max(0, Math.min(Number(plan.spent), free));
   const left = Math.max(remaining, 0);
   const over = remaining < 0;
+  const bigText = rupees(remaining);
 
   const segs = [
     { key: 'committed', label: 'Committed', value: committed },
@@ -50,13 +51,14 @@ export default function MoneyRing({ plan }) {
           <g transform="rotate(-90 60 60)">
             {arcs.map((a) => (
               <circle key={a.key} cx="60" cy="60" r={R} className={`ring__arc ring__arc--${a.key}`}
+                stroke={a.key === 'left' ? 'url(#ring-hatch)' : undefined}
                 strokeDasharray={a.dash} strokeDashoffset={a.offset} />
             ))}
           </g>
         </svg>
         <div className="ring__centre">
           <span className="ring__label">Free to spend</span>
-          <span className={`ring__big mono${over ? ' loss' : ''}`}>{rupees(remaining)}</span>
+          <span className={`ring__big mono${over ? ' loss' : ''}${bigText.length >= 8 ? ' ring__big--long' : ''}`}>{bigText}</span>
           <span className="ring__small mono">of {rupees(income)}</span>
         </div>
       </div>
