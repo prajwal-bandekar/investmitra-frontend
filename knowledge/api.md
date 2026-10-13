@@ -36,3 +36,6 @@ Interceptor turns failures into `Error(message)` where message is the server `me
 
 ## ExpenseMitra
 `Expenses` in `api/client.js`: `categories`, `createCategory`, `updateCategory`, `list(params)`, `create`, `update`, `remove`, `summary(month)`, `budgets(month)`, `saveBudgets(month, items)`. Overview uses `summary` + `categories`; History uses `list`, `categories`, `update`, `remove`; Budgets uses `budgets`, `saveBudgets`, `categories`.
+
+## Free to spend
+`Plan` in `api/client.js` (amounts sent as numbers): `get(month)` GET `/plan`, `setSalary(month, amount)` PUT `/plan/salary`, `commitments()` GET `/commitments`, `createCommitment(body)` POST, `updateCommitment(id, body)` PUT `/commitments/{id}`, `removeCommitment(id)` DELETE, `extraIncome(month)` GET `/extra-income`, `addExtraIncome({month, amount, label})` POST, `removeExtraIncome(id)` DELETE. Overview uses `get`; Plan page uses `get`, `setSalary`, `extraIncome`, `addExtraIncome`, `removeExtraIncome`, `createCommitment`, `updateCommitment`, `removeCommitment`. PlanView fields read: `salary`, `salaryFromMonth`, `totalIncome`, `committedTotal`, `savingsTotal`, `freeToSpend`, `spent`, `remaining`, `daysLeft`, `dailyAllowance`, `committedPercent`, `commitments[]`, `endingSoon[]`.

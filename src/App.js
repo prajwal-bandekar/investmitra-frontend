@@ -12,6 +12,7 @@ import Portfolio from './pages/Portfolio';
 import WatchlistPage from './pages/WatchlistPage';
 import Desk from './pages/Desk';
 import Overview from './pages/expenses/Overview';
+import Plan from './pages/expenses/Plan';
 import History from './pages/expenses/History';
 import Budgets from './pages/expenses/Budgets';
 import AccessGate from './pages/AccessGate';
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="expenses">
                 <Route index element={<Navigate to="overview" replace />} />
                 <Route path="overview" element={<Overview />} />
+                <Route path="plan" element={<Plan />} />
                 <Route path="history" element={<History />} />
                 <Route path="budgets" element={<Budgets />} />
               </Route>

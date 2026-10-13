@@ -49,3 +49,10 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 - Mode switch spans the full width below 1280px (360px cap removed).
 - MonthPicker fallback select offers the next 12 months when there is no max (Budgets on browsers without a month input).
 - Removed unused History `.entries`/`.day` styles, `.receipt-form__row` and the duplicate `.month-input` width.
+
+## 2026-10-13 Free to spend (branch feat/free-to-spend)
+- New `Plan` client in `api/client.js` (`get`, `setSalary`, `commitments`, `createCommitment`, `updateCommitment`, `removeCommitment`, `extraIncome`, `addExtraIncome`, `removeExtraIncome`).
+- Expense nav is now Ledger, Plan, History, Budgets (`/app/expenses/plan`; restorable automatically since it comes from `EXPENSE_NAV`).
+- Ledger: money ring (`MoneyRing.jsx`, inline SVG donut) with "Free to spend" in the centre, legend, daily allowance, committed-percent and ending-soon lines, and a "Can I afford it?" field (client-side maths). Without a salary a card links to Plan.
+- New Plan page (`Plan.jsx`, `CommitmentDialog.jsx`, `plan.css`): salary with "since <month>", extra income list and form, commitments list with add/edit/delete dialog, month summary strip.
+- `format.js`: `shortMonth`, `nextMonth`.

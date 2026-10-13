@@ -114,3 +114,16 @@ export const Expenses = {
   budgets: (month) => api.get('/budgets', { params: { month } }),
   saveBudgets: (month, items) => api.put('/budgets', { month, items }),
 };
+
+// Free to spend: salary, fixed commitments and extra income. Amounts are sent as numbers.
+export const Plan = {
+  get: (month) => api.get('/plan', { params: { month } }),
+  setSalary: (month, amount) => api.put('/plan/salary', { month, amount: Number(amount) }),
+  commitments: () => api.get('/commitments'),
+  createCommitment: (body) => api.post('/commitments', body),
+  updateCommitment: (id, body) => api.put(`/commitments/${id}`, body),
+  removeCommitment: (id) => api.delete(`/commitments/${id}`),
+  extraIncome: (month) => api.get('/extra-income', { params: { month } }),
+  addExtraIncome: (body) => api.post('/extra-income', body),
+  removeExtraIncome: (id) => api.delete(`/extra-income/${id}`),
+};
