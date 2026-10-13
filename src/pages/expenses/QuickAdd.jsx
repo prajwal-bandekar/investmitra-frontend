@@ -33,10 +33,16 @@ const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), select:not([di
 export default function QuickAdd({ categories, topIds = [], initial, onClose, onSaved }) {
   const toast = useToast();
   const amountRef = useRef(null);
-  const ordered = [...categories].sort((a, b) => rank(a.id, topIds) - rank(b.id, topIds));
+  const sorted = [...categories].sort((a, b) => rank(a.id, topIds) - rank(b.id, topIds));
+  // An edited expense may sit in a category archived since; show it as a chip so the form isn't blank.
+  const keepArchived = initial && !categories.some((c) => c.id === initial.categoryId);
+  const ordered = keepArchived
+    ? [...sorted, { id: initial.categoryId, name: `${initial.category} (archived)`, icon: initial.icon }]
+    : sorted;
   const [form, setForm] = useState(() => ({
     amount: initial ? String(Number(initial.amount)) : '',
-    categoryId: initial?.categoryId ?? ordered[0]?.id ?? null,
+    // No preselected category on a new expense, so a quick save never lands in the wrong one.
+    categoryId: initial?.categoryId ?? null,
     spentOn: initial?.spentOn ?? todayIso(),
     paymentMode: initial?.paymentMode ?? lastMode(),
     note: initial?.note ?? '',
@@ -88,6 +94,7 @@ export default function QuickAdd({ categories, topIds = [], initial, onClose, on
     const amount = Number(text);
     if (!(amount > 0)) { setError('The amount must be above zero.'); return; }
     if (!form.categoryId) { setError('Pick a category.'); return; }
+    if (!form.spentOn) { setError('Pick a date.'); return; }
     inFlight.current = true;
     setBusy(true);
     setError(null);

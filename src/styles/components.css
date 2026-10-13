@@ -165,7 +165,8 @@ select.field__input { cursor: pointer; }
   display: flex; justify-content: center; pointer-events: none; }
 .toast { max-width: 520px; padding: 12px 16px; background: var(--ink); color: var(--paper);
   font-family: var(--mono); font-size: 13px; line-height: 1.45; box-shadow: 4px 4px 0 var(--accent); }
-@media (max-width: 879px) { .toast-wrap--app { bottom: 76px; } }
+/* Lift toasts above the bottom tab bar, which shows up to 1279px (AppShell.css). */
+@media (max-width: 1279px) { .toast-wrap--app { bottom: 76px; } }
 
 /* ---------- Dialog (order slip) ---------- */
 .scrim { position: fixed; inset: 0; z-index: 25; background: var(--scrim);
