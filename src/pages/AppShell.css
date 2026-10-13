@@ -46,7 +46,6 @@
   .topbar__nav { display: none; }
   .topbar__mode + .topbar__right { margin-left: auto; }
   .topbar__mode { order: 3; flex: 1 0 100%; margin-left: 0; }
-  .topbar__mode .modeswitch { max-width: 360px; }
   .bottomnav { display: grid; }
 }
 @media (max-width: 480px) {

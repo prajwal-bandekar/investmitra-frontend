@@ -103,7 +103,7 @@ export default function Overview() {
                       </div>
                       <div className={`bar${over ? ' bar--over' : warn ? ' bar--warn' : ''}`}>
                         <span style={{ width: `${(value * 100) / max}%` }} />
-                        {budget && <i style={{ left: `${(budget * 100) / max}%` }} title="Budget" />}
+                        {budget && <i style={{ left: `min(${(budget * 100) / max}%, calc(100% - 2px))` }} title="Budget" />}
                       </div>
                       <div className="spend-list__meta mono">
                         {c.count} {c.count === 1 ? 'entry' : 'entries'}

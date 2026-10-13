@@ -40,3 +40,12 @@ Newest at the bottom. Append one `## YYYY-MM-DD` section per ingest.
 - Price Desk: primary "Run BSE import" button (`PriceDesk.runBhavcopy` -> `POST /admin/bhavcopy/run`, 120 s timeout, no date so the server picks the last completed trading day) with a note about NSE and BSE closing prices and the 7:30 PM weekday run. Shows "Importing… this can take a minute" while running; toasts "Imported 5,017 prices for 12 Oct.", "An import is already running." on 409, shows the admin-key field on 403, reloads the log afterwards.
 - The Alpha Vantage button is now the secondary "Update 20 tracked stocks (Alpha Vantage)"; its note mentions the 25 calls/day free limit.
 - Log rows show their source (BSE import or Alpha Vantage; a missing `source` means Alpha Vantage) in the row and in the expanded details.
+
+## 2026-10-13 (ExpenseMitra review fixes, branch fix/expensemitra-review)
+- QuickAdd: empty date is rejected ("Pick a date.") instead of saving as today; new expenses start with no category selected; editing an expense in an archived category shows it as a "(archived)" chip.
+- Breakpoints aligned with the 1279px bottom tab bar: app toasts sit above it, the + button shows wherever the tab bar does, and expense pages get 96px bottom padding so the button never covers the last row.
+- Overview: "Over budget" stamp sits in the flow (no longer overlaps the amount on phones); category name and amount wrap on narrow screens; budget marker clamped inside the bar.
+- Budgets: all rows share the same 10px side padding so labels and inputs line up with "Whole month".
+- Mode switch spans the full width below 1280px (360px cap removed).
+- MonthPicker fallback select offers the next 12 months when there is no max (Budgets on browsers without a month input).
+- Removed unused History `.entries`/`.day` styles, `.receipt-form__row` and the duplicate `.month-input` width.
